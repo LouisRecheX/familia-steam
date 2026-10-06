@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Família Steam · Parcelas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0b0d;--card:#1b1b1f;--card2:#27272c;--line:rgba(255,255,255,.08);--tx:#f4f4f6;--mut:#9c9ca5;--ow:#ff6b6b;--pd:#4ade80;--btn:#f4f4f6;--btnt:#0b0b0d;--sh:none;--hd:'Inter',system-ui,sans-serif;--bd:'Inter',system-ui,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#eef0f4;--card:#fff;--card2:#f1f2f6;--line:rgba(0,0,0,.07);--tx:#111114;--mut:#6c6f7b;--ow:#e0343a;--pd:#12873f;--btn:#111114;--btnt:#fff;--sh:0 2px 14px rgba(0,0,0,.05);color-scheme:light}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--tx);font:400 15px/1.5 var(--bd);min-height:100vh}
+[hidden]{display:none!important}
+.wrap{max-width:780px;margin:0 auto;padding:24px 16px 72px}
+h1,h2,h3{font-family:var(--hd);margin:0;font-weight:700}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin:22px 4px 18px}
+h1{font-size:34px;letter-spacing:-.8px;line-height:1.1}
+header p{margin:4px 0 0;color:var(--mut)}
+.pillb{background:var(--card);border:0;color:var(--tx);border-radius:999px;padding:10px 18px;font:600 14px var(--bd);cursor:pointer;box-shadow:var(--sh)}
+.panel,.stat,.m,.game,.fc,.wc,.bdg,.lgc{background:var(--card);border-radius:28px;box-shadow:var(--sh)}
+.panel{padding:20px;margin-bottom:16px}
+.panel h2,.finw h2{font-size:20px;margin-bottom:12px;letter-spacing:-.3px}
+.bdg{padding:18px 20px;margin-bottom:14px}
+.bdg .rw{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.bdg small,.stat small,.fl,.mt{color:var(--mut);font-size:13px}
+.bdg b.big{display:block;font:700 30px var(--hd);letter-spacing:-.6px}
+.bi{display:flex;align-items:center;gap:6px;background:var(--card2);border-radius:16px;padding:6px 12px}
+.bi input{width:90px;background:none;border:0;color:var(--tx);font:600 18px var(--bd);padding:4px}
+.bn{margin-top:8px;font-size:13px;color:var(--mut)}
+.bar{height:10px;background:var(--card2);border-radius:99px;margin:12px 0 6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--pd);border-radius:99px;transition:width .3s}
+.tabs{display:flex;gap:4px;background:var(--card);border-radius:999px;padding:5px;margin:0 0 16px;box-shadow:var(--sh)}
+.tabs button{flex:1;border:0;background:none;color:var(--mut);padding:11px 8px;border-radius:999px;font:600 14px var(--bd);cursor:pointer;transition:.2s}
+.tabs button.on{background:var(--btn);color:var(--btnt)}
+.top{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.stat{padding:14px 16px}
+.stat b{font:700 22px var(--hd);letter-spacing:-.4px}
+.stat.hot b,.ow{color:var(--ow)}
+.pd{color:var(--pd)}
+label{display:block;color:var(--mut);font-size:13px;margin:14px 0 6px}
+input[type=text],input[type=number],input[type=date],input[type=password],select{width:100%;background:var(--card2);border:0;color:var(--tx);border-radius:16px;padding:13px 14px;font:inherit}
+input[type=file]{width:100%;color:var(--mut);font-size:13px}
+input:focus-visible,button:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--tx);outline-offset:2px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{cursor:pointer;user-select:none;margin:0}
+.chip input{position:absolute;opacity:0}
+.chip span{display:inline-flex;align-items:center;gap:6px;padding:7px 14px 7px 9px;border-radius:999px;background:var(--card2);color:var(--mut);transition:.15s}
+.chip input:checked+span{background:var(--btn);color:var(--btnt)}
+.chip input:focus-visible+span{outline:2px solid var(--tx)}
+.hm{flex:none;display:block}
+.links{margin-top:8px;font-size:13px}
+.links button{background:none;border:0;color:var(--mut);cursor:pointer;padding:0 12px 0 0;font:inherit;text-decoration:underline}
+.preview{margin-top:14px;background:var(--card2);border-radius:18px;padding:12px 14px;color:var(--mut);font-size:14px;min-height:46px}
+.preview b{color:var(--pd)}
+.add{width:100%;margin-top:16px;background:var(--btn);color:var(--btnt);border:0;border-radius:999px;padding:14px;font:700 15px var(--bd);cursor:pointer}
+.add:hover{opacity:.88}
+.err{color:var(--ow);font-size:13px;min-height:18px;margin-top:8px}
+.members{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.m{padding:14px 16px}
+.mh{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.m h3{font-size:16px}.m small{color:var(--mut);font-size:12px}
+.m b.fp{display:block;font:700 21px var(--hd);letter-spacing:-.4px}
+u{text-decoration:none}
+.game{padding:18px;margin-bottom:14px}
+.gh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.gh h3{font-size:19px;letter-spacing:-.3px}
+.gh .tot{font:700 18px var(--hd);text-align:right}
+.gh .tot small{display:block;font:400 12px var(--bd);color:var(--mut)}
+.gl{display:flex;align-items:center;gap:12px}
+.th{width:88px;height:50px;object-fit:cover;border-radius:14px}
+.pr{display:flex;justify-content:space-between;color:var(--mut);font-size:13px;flex-wrap:wrap;gap:8px;align-items:center}
+.btns button,.btns2 button,.mact button,.sch button{background:var(--card2);border:0;color:var(--tx);border-radius:999px;padding:8px 14px;cursor:pointer;font:600 13px var(--bd);margin-left:6px}
+.btns button:hover,.btns2 button:hover{filter:brightness(1.15)}
+.btns .del:hover,.del{color:var(--ow)}
+.done .gh h3:after{content:" · quitado";color:var(--pd);font:400 13px var(--bd)}
+.empty{background:var(--card);border-radius:28px;padding:34px;text-align:center;color:var(--mut)}
+.sch{margin-top:10px;color:var(--mut);font-size:13px}
+.sch b{color:var(--tx)}.sch.late b.nx{color:var(--ow)}
+.sch input{width:auto;padding:6px 10px;margin-left:6px;border-radius:12px}
+.cal{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
+.cp{background:var(--card2);border-radius:999px;padding:4px 10px;font-size:12px;color:var(--mut)}
+.cp b{color:var(--tx)}.cp.ok{color:var(--pd)}.cp.ok b{color:var(--pd)}
+.pay{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
+.pay summary,.imp summary{cursor:pointer;font-weight:600;font-size:14px}
+.pm{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;background:var(--card2);border-radius:20px;padding:10px 14px;margin-top:8px;font-size:13px;color:var(--mut)}
+.pm>b{display:flex;align-items:center;gap:8px;color:var(--tx);min-width:110px;font-size:14px}
+.pm>span:nth-child(2){flex:1;min-width:180px}
+.side{display:block}
+.cr{display:grid;grid-template-columns:100px 1fr auto;gap:10px;align-items:center;margin-top:12px;font-size:14px}
+.cr span{display:flex;align-items:center;gap:7px}
+.cb{height:8px;background:var(--card2);border-radius:99px;overflow:hidden}
+.cb i{display:block;height:100%;background:var(--pd);border-radius:99px;transition:width .3s}
+.cr b{color:var(--pd);font-weight:600}
+.cs{display:flex;justify-content:space-between;border-top:1px solid var(--line);margin-top:16px;padding-top:12px;font-weight:600}
+.cs b{color:var(--pd);font-size:19px}
+.ch{color:var(--mut);font-size:12px;margin:10px 0 0}
+#cy{width:auto;display:inline-block;padding:3px 10px;border-radius:12px;font:inherit}
+.finw{margin-top:24px}
+.stage{position:relative;height:400px;perspective:1100px;overflow:hidden}
+.fc{position:absolute;left:50%;top:14px;width:260px;overflow:hidden;cursor:pointer;transition:transform .55s cubic-bezier(.22,.8,.3,1),opacity .55s,filter .55s}
+.fc:not(.on){filter:brightness(.75)}
+.ph{height:146px;background:var(--card2)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.noph{height:100%;display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:13px}
+.fi{padding:14px}.fi h3{font-size:17px}
+.fd{color:var(--mut);font-size:13px;margin-top:2px}
+.fv{margin-top:8px;font:700 15px var(--hd);color:var(--pd)}
+.fi .btns,.wc .btns{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+.fi .btns button,.wc .btns button{margin:0}
+.nav{display:flex;justify-content:center;align-items:center;gap:16px;margin-top:4px;color:var(--mut);font-size:13px}
+.nav button{width:44px;height:44px;border-radius:50%;background:var(--card);border:0;color:var(--tx);font-size:22px;cursor:pointer;box-shadow:var(--sh)}
+.nav button:disabled{opacity:.35}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:12px}
+.wgrid .empty{grid-column:1/-1}
+.wc .ph{height:118px}
+.wby{display:flex;align-items:center;gap:6px}
+.wpr{margin-top:6px;font:700 15px var(--hd)}
+.vv{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.vp{display:inline-flex;align-items:center;gap:6px;background:var(--card2);border-radius:999px;padding:5px 12px 5px 8px;font-size:13px;color:var(--mut)}
+.vp i{font-style:normal;font-size:11px}
+.vp.y{color:var(--pd)}.vp.n{opacity:.55}
+.btns2{display:flex;gap:8px;margin-top:12px}
+.btns2 button{margin:0;flex:1;padding:11px}
+.btns2 button.sel{background:var(--btn);color:var(--btnt)}
+.imp{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
+.nn{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
+.nn span{background:var(--card2);border-radius:999px;padding:4px 10px;font-size:12px;color:var(--mut)}
+.nn b{color:var(--tx)}
+.sc{display:flex;justify-content:space-between;gap:10px;align-items:center;background:var(--card2);border-radius:20px;padding:10px 14px;margin-top:8px;font-size:14px}
+.sc small{display:block;color:var(--mut);font-size:12px}
+.sc .r{text-align:right}.sc .r small.ow{color:var(--ow)}
+.adm2{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.adm2 input{width:auto;padding:8px 12px}.adm2 button{margin:0}
+.wf{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;align-items:center}
+.wf .add{margin:0}
+#lg{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--bg);z-index:30}
+.lgc{width:100%;max-width:380px;padding:30px 26px}
+.lgc h1{font-size:30px;margin-bottom:6px}
+#md{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:10;overflow:auto}
+.mbox{background:var(--card);border-radius:28px;padding:18px;width:100%;max-width:760px;max-height:100%;overflow:auto}
+.mact{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.mact button{margin:0;padding:10px 16px}.mact button.pri{background:var(--btn);color:var(--btnt)}
+#rn{color:var(--ow);font-size:13px}
+#tt{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--btn);color:var(--btnt);padding:12px 20px;border-radius:999px;z-index:40;max-width:92%;font-size:14px;font-weight:500}
+body.member [data-a="photo"],body.member [data-a="rmphoto"],body.member [data-a="del"],body.member [data-a="delyes"],body.member [data-a="delno"],body.member [data-a="reopen"],body.member [data-a="all"],body.member .pm .btns,body.member .sd,body.member #f{display:none!important}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+</head>
+<body>
+<div id="lg"><form class="lgc" id="lf" autocomplete="on">
+<h1>Família Steam</h1><p class="mt">Entre com seu usuário e senha.</p>
+<label for="lu">Usuário</label><input type="text" id="lu" autocomplete="username" autocapitalize="none" placeholder="ex.: luiz">
+<label for="lp">Senha</label><input type="password" id="lp" autocomplete="current-password">
+<div class="err" id="le" role="alert"></div>
+<button class="add" type="submit">Entrar</button></form></div>
+
+<div class="wrap" id="app" hidden>
+<header><div><h1>Família Steam</h1><p id="who"></p></div><button class="pillb" id="out">Sair</button></header>
+<section class="bdg" id="bd"></section>
+<nav class="tabs"><button class="on" data-t="jg">Jogos</button><button data-t="vt">Votação</button><button data-t="wl">Wishlist</button></nav>
+
+<div id="t-jg" class="tab">
+<section class="top" id="top"></section>
+<section class="members" id="members"></section>
+<form class="panel" id="f" autocomplete="off">
+<h2>Adicionar jogo</h2>
+<label for="n">Nome do jogo</label>
+<input type="text" id="n" placeholder="Ex.: Elden Ring" maxlength="60">
+<div class="row">
+<div><label for="v">Valor total (R$)</label><input type="number" id="v" min="0" step="0.01" inputmode="decimal" placeholder="199,90"></div>
+<div><label for="p">Parcelas</label><input type="number" id="p" min="1" max="48" step="1" value="1" inputmode="numeric"></div>
+</div>
+<label for="d">Data da 1ª parcela</label>
+<input type="date" id="d">
+<label for="ph">Foto do jogo (opcional)</label>
+<input type="file" id="ph" accept="image/*">
+<label>Quem participou</label>
+<div class="chips" id="chips"></div>
+<div class="links"><button type="button" id="all">Todos</button><button type="button" id="none">Limpar</button></div>
+<div class="preview" id="pv">Preencha valor, parcelas e participantes para ver a divisão.</div>
+<div class="err" id="err" role="alert"></div>
+<button class="add" type="submit">Adicionar jogo</button>
+</form>
+<section class="panel" id="ct"></section>
+<div id="list"></div>
+<section class="finw" id="finw" hidden><h2>Jogos finalizados</h2><div id="fin"></div></section>
+</div>
+
+<div id="t-vt" class="tab" hidden>
+<form class="panel" id="vf" autocomplete="off"><h2>Propor um jogo para votação</h2>
+<label for="vn">Nome do jogo</label><input type="text" id="vn" maxlength="60" placeholder="Nome do jogo">
+<div class="row"><div><label for="vp">Preço total (R$)</label><input type="number" id="vp" min="0" step="0.01" inputmode="decimal"></div>
+<div><label for="vq">Parcelas</label><input type="number" id="vq" min="1" max="48" value="1" inputmode="numeric"></div></div>
+<label for="vi">Foto (opcional)</label><input type="file" id="vi" accept="image/*">
+<button class="add" type="submit">Abrir votação</button></form>
+<div id="vl"></div>
+</div>
+
+<div id="t-wl" class="tab" hidden>
+<form class="panel wf" id="wf" autocomplete="off">
+<input type="text" id="wn" placeholder="Nome do jogo" maxlength="60" aria-label="Nome do jogo">
+<input type="number" id="wp" min="0" step="0.01" inputmode="decimal" placeholder="Preço (opcional)" aria-label="Preço">
+<input type="file" id="wi" accept="image/*" aria-label="Foto do jogo">
+<button class="add" type="submit">Adicionar à wishlist</button>
+</form><div class="wgrid" id="wl"></div>
+</div>
+</div>
+
+<div id="tt" hidden role="alert"></div>
+<input type="file" id="fp" accept="image/*" hidden>
+<div id="md" hidden role="dialog" aria-modal="true" aria-label="Relatório do jogo"><div class="mbox"><div id="rc"></div>
+<div class="mact"><button class="pri" id="rpng">Salvar imagem (PNG)</button><button class="pri" id="rpdf">Salvar PDF</button><button id="rclose">Fechar</button><span id="rn" role="alert"></span></div></div></div>
+<script>
+const MEMBERS=[["Marllon","#f5c518","Amarelo"],["Keren","#f472b6","Rosa"],["Borges","#1c1d22","Preto"],["Jonathan","#e5383b","Vermelho"],["Gilney","#2fbf71","Verde"],["Luiz","#3b82f6","Azul"]];
+const HP=["M16 3C9 3 5 8 5 15v9c0 2 1 4 3 4h16c2 0 3-2 3-4v-9C27 8 23 3 16 3z","M8 13h16c1 0 1.5 1 1.2 2.2C24.5 17.5 21 19 16 19s-8.5-1.5-9.2-3.8C6.5 14 7 13 8 13z"];
+function helmet(c,sz){return `<svg class="hm" viewBox="0 0 32 32" width="${sz}" height="${sz}" aria-hidden="true"><path d="${HP[0]}" fill="${c}" stroke="rgba(255,255,255,.45)"/><path d="${HP[1]}" fill="#0b0c10" stroke="rgba(255,255,255,.25)" stroke-width=".8"/></svg>`}
+function drawHelmet(x,c,px,py,sz){x.save();x.translate(px,py);x.scale(sz/32,sz/32);x.fillStyle=c;x.fill(new Path2D(HP[0]));x.strokeStyle="rgba(255,255,255,.45)";x.lineWidth=1;x.stroke(new Path2D(HP[0]));x.fillStyle="#0b0c10";x.fill(new Path2D(HP[1]));x.strokeStyle="rgba(255,255,255,.25)";x.lineWidth=.8;x.stroke(new Path2D(HP[1]));x.restore()}
+const SUPABASE_URL="https://viawxlfqhjqgglqrqjdd.supabase.co/rest/v1/",SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpYXd4bGZxaGpxZ2dscXJxamRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzMjA2OTAsImV4cCI6MjEwNjg5NjY5MH0.n2Iz2vQoJdpw6sS9d14vTUYgWgN_jUMAZ4NrxjToQg0";
+const EMAIL_DOMAIN="familiasteam.app";
+const CONFIGURED=/^https?:/.test(SUPABASE_URL);
+const sb=CONFIGURED?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;
+let games=[],props=[],wish=[],budgets={},me=null;
+const isAdmin=()=>!!me&&me.role==="admin";
+const mi=n=>MEMBERS.findIndex(m=>m[0]===n);
+const snap=new Map();
+async function loadAll(){
+  const [g,w,p,pr]=await Promise.all([
+    sb.from("games").select("*,participants(member,paid)").order("created_at",{ascending:false}),
+    sb.from("wishlist").select("*").order("created_at",{ascending:false}),
+    sb.from("proposals").select("*,votes(member,accept)").order("created_at",{ascending:false}),
+    sb.from("profiles").select("name,role,monthly_budget")]);
+  const er=g.error||w.error||p.error||pr.error;
+  if(er){toast("Erro ao carregar os dados: "+er.message);return}
+  games=g.data.map(r=>{const ps=r.participants.slice().sort((a,b)=>mi(a.member)-mi(b.member));
+    return{id:r.id,name:r.name,total:+r.total,parcelas:r.parcelas,start:r.start_date||undefined,year:r.year||+(r.start_date||"").slice(0,4)||new Date().getFullYear(),img:r.img||undefined,members:ps.map(x=>x.member),pay:Object.fromEntries(ps.map(x=>[x.member,x.paid]))}});
+  snap.clear();games.forEach(x=>snap.set(x.id,JSON.stringify(x)));
+  wish=w.data;props=p.data;budgets={};pr.data.forEach(x=>{budgets[x.name]=x.monthly_budget});
+  render();wishRender();voteRender();
+}
+function save(){if(!isAdmin())return;save.p=(save.p||Promise.resolve()).then(syncGames)}
+async function syncGames(){
+  try{
+    for(const g of games){const s=JSON.stringify(g);if(snap.get(g.id)===s)continue;
+      let r=await sb.from("games").upsert({id:g.id,name:g.name,total:g.total,parcelas:g.parcelas,start_date:g.start||null,year:g.year,img:g.img||null});if(r.error)throw r.error;
+      r=await sb.from("participants").upsert(g.members.map(m=>({game_id:g.id,member:m,paid:g.pay[m]||0})));if(r.error)throw r.error;
+      snap.set(g.id,s)}
+    const ids=new Set(games.map(g=>g.id));
+    for(const id of [...snap.keys()])if(!ids.has(id)){const r=await sb.from("games").delete().eq("id",id);if(r.error)throw r.error;snap.delete(id)}
+  }catch(e){toast("Não foi possível salvar: "+(e.message||e))}
+}
+const $=id=>document.getElementById(id);
+const brl=n=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const color=name=>(MEMBERS.find(m=>m[0]===name)||[0,"#8f96c9"])[1];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+$("chips").innerHTML=MEMBERS.map(([n,c])=>`<label class="chip"><input type="checkbox" value="${n}" checked><span>${helmet(c,20)}${n}</span></label>`).join("");
+const checked=()=>[...document.querySelectorAll("#chips input:checked")].map(i=>i.value);
+const setAll=v=>{document.querySelectorAll("#chips input").forEach(i=>i.checked=v);preview()};
+
+function preview(){
+  const v=parseFloat($("v").value),p=parseInt($("p").value),ps=checked();
+  if(!(v>0)||!(p>=1)||!ps.length){$("pv").textContent="Preencha valor, parcelas e participantes para ver a divisão.";return}
+  const each=v/ps.length;
+  $("pv").innerHTML=`Cada um paga <b>${brl(each)}</b> no total, em <b>${p}x de ${brl(each/p)}</b>. Parcela do jogo: ${brl(v/p)}.${$("d").value?` Última parcela em <b>${fmt(due({start:$("d").value},p-1))}</b>.`:""}`;
+}
+["v","p","d"].forEach(i=>$(i).addEventListener("input",preview));
+$("chips").addEventListener("change",preview);
+$("all").onclick=()=>setAll(true);
+$("none").onclick=()=>setAll(false);
+
+$("f").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const name=$("n").value.trim(),v=parseFloat($("v").value),p=parseInt($("p").value),ps=checked(),start=$("d").value;
+  const err=m=>{$("err").textContent=m};
+  if(!name)return err("Informe o nome do jogo.");
+  if(!(v>0))return err("Informe um valor total maior que zero.");
+  if(!(p>=1&&p<=48))return err("Parcelas devem ser entre 1 e 48.");
+  if(!start)return err("Informe a data da primeira parcela.");
+  if(!ps.length)return err("Selecione pelo menos um participante.");
+  err("");
+  let img=formImg||undefined;const fl=$("ph").files[0];
+  if(fl){try{img=await readImg(fl)}catch(_){toast("Não foi possível ler a foto; jogo adicionado sem foto.")}}
+  games.unshift({id:Date.now(),name,total:v,parcelas:p,members:ps,pay:{},start,img,year:new Date().getFullYear()});
+  formImg=null;
+  save();$("n").value="";$("ph").value="";$("v").value="";$("p").value=1;$("d").value=today();setAll(true);render();
+});
+
+games.forEach(g=>{if(!g.pay){g.pay={};g.members.forEach(m=>g.pay[m]=Math.min(g.paid||0,g.parcelas))}});
+const pg=(g,m)=>g.pay[m]||0;
+games.forEach(g=>{if(!g.year)g.year=g.start?+g.start.slice(0,4):new Date().getFullYear()});
+const openSet=new Set();
+let pendingDel=null;
+function today(){return new Date().toLocaleDateString("sv-SE")}
+function fmt(dt){return dt.toLocaleDateString("pt-BR")}
+function due(g,k){const [y,m,d]=g.start.split("-").map(Number);const t=m-1+k,ly=y+Math.floor(t/12),lm=t%12;return new Date(ly,lm,Math.min(d,new Date(ly,lm+1,0).getDate()))}
+function schedLine(g){
+  if(!g.start)return `<div class="sch">Sem data da 1ª parcela. Definir: <input type="date" class="sd" data-id="${g.id}" aria-label="Data da primeira parcela"></div>`;
+  const ks=g.members.map(m=>pg(g,m)).filter(p=>p<g.parcelas);
+  if(!ks.length)return `<div class="sch">Todas as parcelas pagas · última em <b>${fmt(due(g,g.parcelas-1))}</b></div>`;
+  const k=Math.min(...ks),d=due(g,k),t=new Date();t.setHours(0,0,0,0);
+  return `<div class="sch ${d<t?"late":""}">Próxima: <b class="nx">${fmt(d)}</b> (${k+1}ª de ${g.parcelas}${d<t?", vencida":""}) · 1ª ${fmt(due(g,0))} · última ${fmt(due(g,g.parcelas-1))}</div>`;
+}
+function calendar(g){
+  if(!g.start)return "";
+  return `<div class="cal">${Array.from({length:g.parcelas},(_,k)=>`<span class="cp ${g.members.every(m=>pg(g,m)>k)?"ok":""}"><b>${k+1}ª</b> ${fmt(due(g,k))}</span>`).join("")}</div>`;
+}
+const slug=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"jogo";
+
+function render(){
+  const mt={},mr={},mm={};MEMBERS.forEach(([n])=>{mt[n]=0;mr[n]=0;mm[n]=0});
+  let rest=0,total=0,month=0,open=0;
+  games.forEach(g=>{
+    const share=g.total/g.members.length,per=share/g.parcelas;let go=false;
+    total+=g.total;
+    g.members.forEach(m=>{
+      const p=pg(g,m);mt[m]+=share;mr[m]+=per*(g.parcelas-p);rest+=per*(g.parcelas-p);
+      if(p<g.parcelas){mm[m]+=per;month+=per;go=true}
+    });
+    if(go)open++;
+  });
+  $("top").innerHTML=`<div class="stat"><small>Jogos</small><b>${games.length}</b></div>
+  <div class="stat"><small>Total comprado</small><b>${brl(total)}</b></div>
+  <div class="stat hot"><small>Falta pagar</small><b>${brl(rest)}</b></div>
+  <div class="stat"><small>Parcelas deste mês</small><b>${brl(month)}</b></div>
+  <div class="stat"><small>Jogos em aberto</small><b>${open}</b></div>`;
+  $("members").innerHTML=MEMBERS.map(([n,c,r])=>`<div class="m"><div class="mh">${helmet(c,36)}<div><h3>${n}</h3><small>Ranger ${r}</small></div></div><div class="fl">Falta pagar</div><b class="fp ${mr[n]>0.004?"ow":"pd"}">${brl(mr[n])}</b></div>`).join("");
+  const act=games.filter(g=>!isDone(g));
+  $("list").innerHTML=act.length?act.map(g=>{
+    const share=g.total/g.members.length,per=share/g.parcelas;
+    const paidN=g.members.reduce((s,m)=>s+pg(g,m),0),all=g.parcelas*g.members.length,done=paidN>=all;
+    return `<article class="game ${done?"done":""}">
+    <div class="gh"><div class="gl">${g.img?`<img class="th" src="${g.img}" alt="">`:""}<h3>${esc(g.name)}</h3></div><div class="tot">${brl(g.total)}<small>${g.parcelas}x de ${brl(g.total/g.parcelas)}</small></div></div>
+    ${schedLine(g)}<div class="bar"><i style="width:${paidN/all*100}%"></i></div>
+    <div class="pr"><span>${Math.round(paidN/all*100)}% pago · falta <u class="ow">${brl(g.members.reduce((s,m)=>s+per*(g.parcelas-pg(g,m)),0))}</u></span><span class="btns">
+    <button data-a="all" data-id="${g.id}">Virou o mês: +1 parcela p/ todos</button>
+    <button data-a="photo" data-id="${g.id}">${g.img?"Trocar foto":"Anexar foto"}</button>${g.img?`<button data-a="rmphoto" data-id="${g.id}">Remover foto</button>`:""}
+    <button data-a="rep" data-id="${g.id}">Relatório</button>
+    ${pendingDel===g.id?`<button class="del" data-a="delyes" data-id="${g.id}">Confirmar exclusão</button><button data-a="delno" data-id="${g.id}">Cancelar</button>`:`<button class="del" data-a="del" data-id="${g.id}">Excluir</button>`}</span></div>
+    <details class="pay" data-id="${g.id}" ${openSet.has(g.id)?"open":""}><summary>Registrar pagamentos por pessoa</summary>${calendar(g)}
+    ${g.members.map(m=>{const p=pg(g,m);return `<div class="pm"><b>${helmet(color(m),22)}${esc(m)}</b>
+    <span>${p}/${g.parcelas} pagas · pago <u class="pd">${brl(per*p)}</u> · falta <u class="ow">${brl(per*(g.parcelas-p))}</u></span>
+    <span class="btns"><button data-a="dec" data-id="${g.id}" data-m="${esc(m)}" aria-label="Desfazer parcela de ${esc(m)}">−</button>
+    <button data-a="inc" data-id="${g.id}" data-m="${esc(m)}" aria-label="Pagar parcela de ${esc(m)}">+1</button>
+    <button data-a="full" data-id="${g.id}" data-m="${esc(m)}">${p>=g.parcelas?"Quitado":"Quitar restante"}</button></span></div>`}).join("")}
+    </details></article>`}).join(""):`<div class="empty">${games.length?"Nenhum jogo em aberto. Veja os finalizados abaixo.":"Nenhum jogo ainda. Adicione o primeiro ao lado."}</div>`;
+  contribRender();finRender();if(me){budgetRender();voteRender()}
+}
+let photoId=null,ci=0,formImg=null,fromWish=null,pendW=null;
+let pendV=null;const openV=new Set();let vImg=null;
+function tab(t){document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x.dataset.t===t));["jg","vt","wl"].forEach(k=>{$("t-"+k).hidden=k!==t})}
+document.querySelector(".tabs").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(b)tab(b.dataset.t)});
+function myMonthly(){return games.reduce((s,g)=>g.members.includes(me.name)&&pg(g,me.name)<g.parcelas?s+g.total/g.members.length/g.parcelas:s,0)}
+function budgetRender(){
+  const M=myMonthly(),B=budgets[me.name]||0,over=B>0&&M>B;
+  $("bd").innerHTML=`<div class="rw"><div><small>Seu total por mês</small><b class="big ${over?"ow":""}">${brl(M)}</b></div>
+  <div><small>Seu orçamento mensal</small><div class="bi"><span>R$</span><input type="number" id="bgt" min="0" step="1" inputmode="decimal" value="${B||""}" placeholder="definir" aria-label="Orçamento mensal"></div></div></div>
+  ${B>0?`<div class="bar"><i style="width:${Math.min(100,M/B*100)}%;background:${over?"var(--ow)":"var(--pd)"}"></i></div><div class="bn ${over?"ow":""}">${over?`Passou ${brl(M-B)} do orçamento`:`Sobram ${brl(B-M)} no mês`}</div>`:""}`;
+}
+$("bd").addEventListener("change",async e=>{
+  if(e.target.id!=="bgt")return;
+  const v=parseFloat(e.target.value),val=v>=0?v:null;
+  const r=await sb.from("profiles").update({monthly_budget:val}).eq("id",me.id);
+  if(r.error){toast("Não foi possível salvar o orçamento.");return}
+  budgets[me.name]=val;budgetRender();voteRender();
+});
+function wishRender(){
+  if(!me)return;
+  $("wl").innerHTML=wish.length?wish.map(w=>`<article class="wc"><div class="ph">${w.img?`<img src="${w.img}" alt="${esc(w.name)}">`:`<div class="noph">Sem foto</div>`}</div>
+  <div class="fi"><h3>${esc(w.name)}</h3><div class="fd wby">${helmet(color(w.by_name),16)}${esc(w.by_name)}</div>${w.price?`<div class="wpr">${brl(+w.price)}</div>`:""}
+  <div class="btns"><button data-w="prop" data-id="${w.id}">Propor votação</button>${(w.created_by===me.id||isAdmin())?(pendW===w.id?`<button class="del" data-w="rmy" data-id="${w.id}">Confirmar</button><button data-w="rmn" data-id="${w.id}">Cancelar</button>`:`<button class="del" data-w="rm" data-id="${w.id}">Remover</button>`):""}</div></div></article>`).join(""):`<div class="empty">Nenhum jogo na wishlist ainda.</div>`;
+}
+$("wf").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const name=$("wn").value.trim(),price=parseFloat($("wp").value),fl=$("wi").files[0];
+  if(!name){toast("Informe o nome do jogo.");return}
+  let img;if(fl){try{img=await readImg(fl)}catch(_){toast("Não foi possível ler a foto; adicionado sem foto.")}}
+  const r=await sb.from("wishlist").insert({name,price:price>0?price:null,img:img||null,by_name:me.name}).select("*").single();
+  if(r.error){toast("Não foi possível adicionar: "+r.error.message);return}
+  wish.unshift(r.data);$("wn").value="";$("wp").value="";$("wi").value="";wishRender();
+});
+$("wl").addEventListener("click",async e=>{
+  const b=e.target.closest("button[data-w]");if(!b)return;
+  const w=wish.find(x=>x.id==b.dataset.id);if(!w)return;
+  const a=b.dataset.w;
+  if(a==="prop"){$("vn").value=w.name;$("vp").value=w.price||"";vImg=w.img||null;tab("vt");$("vf").scrollIntoView({behavior:"smooth",block:"start"});toast("Defina as parcelas e abra a votação.",true);return}
+  if(a==="rm"){pendW=w.id}
+  else if(a==="rmn"){pendW=null}
+  else if(a==="rmy"){pendW=null;const r=await sb.from("wishlist").delete().eq("id",w.id);if(r.error){toast("Não foi possível remover.");return}wish=wish.filter(x=>x!==w)}
+  wishRender();
+});
+function voteRender(){
+  if(!me)return;
+  const M=myMonthly(),B=budgets[me.name]||0,N=MEMBERS.length;
+  const imp=(label,n,price,parc,inc=true)=>{const mo=price/n/parc,after=M+mo,over=B>0&&inc&&after>B;
+    return `<div class="sc"><div><b>${label}</b><small>${n} ${n>1?"pessoas":"pessoa"} · ${brl(price/n)} cada no total</small></div><div class="r"><b>${brl(mo)}/mês</b><small class="${over?"ow":""}">${!inc?"não inclui você":over?`⚠ passa ${brl(after-B)} do orçamento`:`seu mês: ${brl(after)}`}</small></div></div>`};
+  $("vl").innerHTML=props.length?props.map(p=>{
+    const price=+p.price,vt=Object.fromEntries(p.votes.map(v=>[v.member,v.accept]));
+    const yes=MEMBERS.filter(([n])=>vt[n]===true).length,mine=vt[me.name],nowN=mine===true?yes:yes+1;
+    const warn=B>0&&M+price/nowN/p.parcelas>B;
+    return `<article class="game"><div class="gh"><div class="gl">${p.img?`<img class="th" src="${p.img}" alt="">`:""}<div><h3>${esc(p.name)}</h3><span class="mt">Proposto por ${esc(p.by_name)}</span></div></div><div class="tot">${brl(price)}<small>${p.parcelas}x de ${brl(price/p.parcelas)}</small></div></div>
+    <div class="vv">${MEMBERS.map(([n,c])=>`<span class="vp ${vt[n]===true?"y":vt[n]===false?"n":""}">${helmet(c,16)}${n}<i>${vt[n]===true?"participa":vt[n]===false?"não":"…"}</i></span>`).join("")}</div>
+    <div class="btns2"><button class="${mine===true?"sel":""}" data-v="yes" data-id="${p.id}">Participo</button><button class="${mine===false?"sel":""}" data-v="no" data-id="${p.id}">Não participo</button></div>
+    <details class="imp" data-id="${p.id}" ${openV.has(p.id)?"open":""}><summary>Ver impacto no meu mês ${warn?`<span class="ow">⚠</span>`:""}</summary>
+    <div class="nn">${[...Array(N)].map((_,i)=>`<span><b>${i+1}</b> ${brl(price/(i+1)/p.parcelas)}</span>`).join("")}</div><span class="mt">Mensal por pessoa conforme quantas participarem</span>
+    ${yes>0?imp(`Hoje (${yes} aceitaram)`,yes,price,p.parcelas,mine===true):`<div class="sc"><b>Ninguém aceitou ainda</b></div>`}
+    ${imp(mine===true?"Você já participa":"Se você participar",nowN,price,p.parcelas)}
+    ${imp("Se todos aceitarem",N,price,p.parcelas)}
+    ${B>0?"":`<p class="mt">Defina seu orçamento mensal no topo para receber alertas.</p>`}</details>
+    <div class="adm2">${isAdmin()&&yes>0?`<input type="date" id="cd-${p.id}" value="${today()}" aria-label="Data da 1ª parcela"><button class="pillb" data-v="conv" data-id="${p.id}">Virar jogo (${yes})</button>`:""}${(p.created_by===me.id||isAdmin())?(pendV===p.id?`<button class="pillb del" data-v="rmy" data-id="${p.id}">Confirmar</button><button class="pillb" data-v="rmn" data-id="${p.id}">Cancelar</button>`:`<button class="pillb del" data-v="rm" data-id="${p.id}">Remover</button>`):""}</div></article>`}).join(""):`<div class="empty">Nenhuma votação aberta. Proponha um jogo acima.</div>`;
+}
+$("vl").addEventListener("toggle",e=>{const d=e.target;if(d.classList&&d.classList.contains("imp")){const id=+d.dataset.id;d.open?openV.add(id):openV.delete(id)}},true);
+$("vl").addEventListener("click",async e=>{
+  const b=e.target.closest("button[data-v]");if(!b)return;
+  const id=+b.dataset.id,p=props.find(x=>x.id===id),a=b.dataset.v;if(!p)return;
+  if(a==="yes"||a==="no"){
+    const acc=a==="yes",r=await sb.from("votes").upsert({proposal_id:id,member:me.name,accept:acc});
+    if(r.error){toast("Não foi possível votar: "+r.error.message);return}
+    p.votes=p.votes.filter(v=>v.member!==me.name).concat({member:me.name,accept:acc});voteRender();return}
+  if(a==="rm"){pendV=id;voteRender();return}
+  if(a==="rmn"){pendV=null;voteRender();return}
+  if(a==="rmy"){pendV=null;const r=await sb.from("proposals").delete().eq("id",id);if(r.error){toast("Não foi possível remover.");return}props=props.filter(x=>x!==p);voteRender();return}
+  if(a==="conv"){
+    const d=$("cd-"+id).value;if(!d){toast("Escolha a data da 1ª parcela.");return}
+    const ms=MEMBERS.map(m=>m[0]).filter(n=>p.votes.some(v=>v.member===n&&v.accept));
+    games.unshift({id:Date.now(),name:p.name,total:+p.price,parcelas:p.parcelas,start:d,year:new Date().getFullYear(),img:p.img||undefined,members:ms,pay:Object.fromEntries(ms.map(n=>[n,0]))});
+    save();
+    const r=await sb.from("proposals").delete().eq("id",id);if(!r.error)props=props.filter(x=>x!==p);
+    render();tab("jg");toast("Jogo criado na aba Jogos.",true)}
+});
+$("vf").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const name=$("vn").value.trim(),price=parseFloat($("vp").value),parc=parseInt($("vq").value),fl=$("vi").files[0];
+  if(!name||!(price>0)||!(parc>=1&&parc<=48)){toast("Informe nome, preço e parcelas (1 a 48).");return}
+  let img=vImg||undefined;if(fl){try{img=await readImg(fl)}catch(_){toast("Não foi possível ler a foto.")}}
+  const r=await sb.from("proposals").insert({name,price,parcelas:parc,img:img||null,by_name:me.name}).select("*,votes(member,accept)").single();
+  if(r.error){toast("Não foi possível abrir a votação: "+r.error.message);return}
+  props.unshift(r.data);vImg=null;$("vn").value="";$("vp").value="";$("vq").value=1;$("vi").value="";voteRender();
+});
+
+function toast(m,ok){const t=$("tt");t.textContent=m;t.style.background=ok?"var(--btn)":"var(--ow)";t.style.color=ok?"var(--btnt)":"#fff";t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>{t.hidden=true},5000)}
+function readImg(file){return new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;r.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{const sc=Math.min(1,640/im.width),c=document.createElement("canvas");c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);c.getContext("2d").drawImage(im,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",.82))};im.src=r.result};r.readAsDataURL(file)})}
+$("fp").addEventListener("change",async e=>{const f=e.target.files[0];e.target.value="";const g=games.find(x=>x.id===photoId);if(!f||!g)return;try{g.img=await readImg(f);save();render()}catch(_){toast("Não foi possível ler a foto.")}});
+function isDone(g){return g.members.every(m=>pg(g,m)>=g.parcelas)}
+function lastTs(g){return g.start?due(g,g.parcelas-1).getTime():0}
+function finRender(){
+  const fin=games.filter(isDone).sort((a,b)=>lastTs(b)-lastTs(a));
+  $("finw").hidden=!fin.length;
+  if(!fin.length){$("fin").innerHTML="";return}
+  $("fin").innerHTML=`<div class="stage">${fin.map((g,i)=>`<article class="fc" data-ci="${i}"><div class="ph">${g.img?`<img src="${g.img}" alt="${esc(g.name)}">`:`<div class="noph">Sem foto</div>`}</div>
+  <div class="fi"><h3>${esc(g.name)}</h3><div class="fd">${g.start?"Última parcela em "+fmt(due(g,g.parcelas-1)):"Sem data"}</div><div class="fv">${brl(g.total)} · ${g.parcelas}x</div>
+  <div class="btns"><button data-a="photo" data-id="${g.id}">${g.img?"Trocar foto":"Anexar foto"}</button><button data-a="rep" data-id="${g.id}">Relatório</button><button data-a="reopen" data-id="${g.id}">Reabrir</button>
+  ${pendingDel===g.id?`<button class="del" data-a="delyes" data-id="${g.id}">Confirmar exclusão</button><button data-a="delno" data-id="${g.id}">Cancelar</button>`:`<button class="del" data-a="del" data-id="${g.id}">Excluir</button>`}</div></div></article>`).join("")}</div>
+  <div class="nav"><button data-nav="-1" id="np" aria-label="Anterior">‹</button><span id="fcnt"></span><button data-nav="1" id="nn" aria-label="Próximo">›</button></div>`;
+  ci=Math.min(ci,fin.length-1);place();
+}
+function place(){
+  const cs=$("fin").querySelectorAll(".fc"),n=cs.length;
+  cs.forEach((el,i)=>{let o=((i-ci)%n+n)%n;if(o>n/2)o-=n;const a=Math.abs(o);
+    el.style.transform=`translateX(${-50+o*62}%) translateZ(${-a*90}px) rotateY(${-o*16}deg) scale(${1-Math.min(a,3)*.08})`;
+    el.style.opacity=a>2?0:1-a*.25;el.style.zIndex=10-Math.round(a);el.style.pointerEvents=a>2?"none":"auto";el.classList.toggle("on",o===0)});
+  $("fcnt").textContent=`${ci+1} / ${n}`;$("np").disabled=$("nn").disabled=n<2;
+}
+function go(i){const n=$("fin").querySelectorAll(".fc").length;if(!n)return;ci=((i%n)+n)%n;place()}
+let sx=null;
+$("fin").addEventListener("touchstart",e=>{sx=e.touches[0].clientX},{passive:true});
+$("fin").addEventListener("touchend",e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(dx)>40)go(ci+(dx<0?1:-1))});
+function navClick(e){
+  const n=e.target.closest("[data-nav]");
+  if(n){go(ci+ +n.dataset.nav);e.stopImmediatePropagation();return}
+  const c=e.target.closest(".fc");
+  if(c&&!c.classList.contains("on")){go(+c.dataset.ci);e.stopImmediatePropagation()}
+}
+let cy=new Date().getFullYear();
+function contribRender(){
+  const now=new Date().getFullYear(),yrs=new Set([now]);
+  games.forEach(g=>yrs.add(g.year));
+  if(!yrs.has(cy))cy=now;
+  const tot={};MEMBERS.forEach(([n])=>tot[n]=0);
+  games.forEach(g=>{if(g.year!==cy)return;const per=g.total/g.members.length/g.parcelas;g.members.forEach(m=>{tot[m]+=per*Math.min(pg(g,m),g.parcelas)})});
+  const sum=Object.values(tot).reduce((a,b)=>a+b,0),mx=Math.max(...Object.values(tot),0.01);
+  $("ct").innerHTML=`<h2>Contribuído em <select id="cy" aria-label="Ano">${[...yrs].sort().map(y=>`<option ${y===cy?"selected":""}>${y}</option>`).join("")}</select></h2>
+  ${MEMBERS.map(([n,c])=>`<div class="cr"><span>${helmet(c,18)}${n}</span><div class="cb"><i style="width:${tot[n]/mx*100}%"></i></div><b>${brl(tot[n])}</b></div>`).join("")}
+  <div class="cs"><span>Total do ano</span><b>${brl(sum)}</b></div>
+  <p class="ch">Soma do que já foi pago dos jogos adicionados em ${cy}.</p>`;
+}
+$("ct").addEventListener("change",e=>{if(e.target.id==="cy"){cy=+e.target.value;contribRender()}});
+$("list").addEventListener("toggle",e=>{const d=e.target;if(d.classList&&d.classList.contains("pay")){const id=+d.dataset.id;d.open?openSet.add(id):openSet.delete(id)}},true);
+function onAct(e){
+  const b=e.target.closest("button[data-a]");if(!b)return;
+  const g=games.find(x=>x.id==b.dataset.id);if(!g)return;
+  const a=b.dataset.a,m=b.dataset.m;
+  if(a==="inc"&&pg(g,m)<g.parcelas)g.pay[m]=pg(g,m)+1;
+  else if(a==="dec"&&pg(g,m)>0)g.pay[m]=pg(g,m)-1;
+  else if(a==="full")g.pay[m]=g.parcelas;
+  else if(a==="all")g.members.forEach(x=>{if(pg(g,x)<g.parcelas)g.pay[x]=pg(g,x)+1});
+  else if(a==="photo"){photoId=g.id;$("fp").click();return}
+  else if(a==="rmphoto"){delete g.img}
+  else if(a==="reopen"){g.members.forEach(x=>{g.pay[x]=Math.max(0,pg(g,x)-1)})}
+  else if(a==="rep"){openReport(g);return}
+  else if(a==="del"){pendingDel=g.id;render();return}
+  else if(a==="delno"){pendingDel=null;render();return}
+  else if(a==="delyes"){pendingDel=null;games=games.filter(x=>x!==g)}
+  save();render();
+}
+$("fin").addEventListener("click",navClick);
+$("fin").addEventListener("click",onAct);
+$("list").addEventListener("click",onAct);
+
+$("list").addEventListener("change",e=>{const i=e.target;if(i.classList&&i.classList.contains("sd")&&i.value){const g=games.find(x=>x.id==i.dataset.id);if(g){g.start=i.value;save();render()}}});
+/* ---------- Relatório ---------- */
+let cur=null;
+function fit(x,t,w){while(t.length>3&&x.measureText(t).width>w)t=t.slice(0,-2);return t}
+function drawReport(g){
+  const W=900,S=2,n=g.members.length,RH=58;
+  const F=(w,s)=>`${w} ${s}px 'Space Grotesk','Segoe UI',Arial,sans-serif`;
+  const share=g.total/n,per=share/g.parcelas;
+  const items=g.start?Array.from({length:g.parcelas},(_,k)=>`${k+1}ª ${fmt(due(g,k))}`):[];
+  const mc=document.createElement("canvas").getContext("2d");mc.font=F(400,14);
+  const lines=[];let ln="";
+  items.forEach(t=>{const nx=ln?ln+"   ·   "+t:t;if(mc.measureText(nx).width>820&&ln){lines.push(ln);ln=t}else ln=nx});
+  if(ln)lines.push(ln);
+  const H=215+n*RH+190+(lines.length?lines.length*24+56:0);
+  const c=document.createElement("canvas");c.width=W*S;c.height=H*S;
+  const x=c.getContext("2d");x.scale(S,S);
+  x.fillStyle="#0d0e12";x.fillRect(0,0,W,H);
+  x.fillStyle="#2a2c33";x.fillRect(0,0,W,2);
+  x.fillStyle="#9a9ea9";x.font=F(500,16);x.fillText("Família Steam · Relatório de pagamentos",40,50);
+  x.fillStyle="#f2f3f5";x.font=F(700,34);x.fillText(fit(x,g.name,820),40,98);
+  x.fillStyle="#9a9ea9";x.font=F(400,16);
+  x.fillText(`Total ${brl(g.total)}  ·  ${g.parcelas}x de ${brl(g.total/g.parcelas)}  ·  ${n} participante(s)  ·  gerado em ${new Date().toLocaleDateString("pt-BR")}`,40,132);
+  if(g.start)x.fillText(`1ª parcela em ${fmt(due(g,0))}  ·  última em ${fmt(due(g,g.parcelas-1))}`,40,158);
+  let y=198;
+  x.font=F(500,14);x.fillStyle="#9a9ea9";
+  x.fillText("Membro",98,y);x.textAlign="right";
+  x.fillText("Parcelas",430,y);x.fillText("Já pagou",590,y);x.fillText("Falta pagar",740,y);x.fillText("Situação",860,y);x.textAlign="left";
+  y+=14;let tp=0,tf=0;
+  g.members.forEach((m,i)=>{
+    const p=pg(g,m),paid=per*p,left=per*(g.parcelas-p);tp+=paid;tf+=left;
+    x.fillStyle=i%2?"#15161b":"#1a1b21";x.fillRect(40,y,820,RH-4);
+    drawHelmet(x,color(m),52,y+9,34);
+    x.fillStyle="#f2f3f5";x.font=F(700,19);x.fillText(m,98,y+27);
+    if(g.start){x.fillStyle="#9a9ea9";x.font=F(400,12);x.fillText(p<g.parcelas?`próx. vencimento ${fmt(due(g,p))} (${p+1}ª)`:"todas as parcelas pagas",98,y+44)}
+    x.font=F(500,17);x.textAlign="right";
+    x.fillStyle="#f2f3f5";x.fillText(`${p}/${g.parcelas}`,430,y+33);
+    x.fillStyle="#4ade80";x.fillText(brl(paid),590,y+33);
+    x.fillStyle=left>0.004?"#ff7a7a":"#4ade80";x.font=F(700,18);x.fillText(brl(left),740,y+33);
+    x.fillStyle=left>0.004?"#9a9ea9":"#4ade80";x.font=F(500,15);x.fillText(left>0.004?"Em aberto":"Quitado",860,y+33);
+    x.textAlign="left";y+=RH;
+  });
+  y+=10;x.fillStyle="#2a2c33";x.fillRect(40,y,820,2);y+=36;
+  x.fillStyle="#9a9ea9";x.font=F(500,16);x.fillText("Valor de cada um no total",40,y);
+  x.textAlign="right";x.fillStyle="#f2f3f5";x.font=F(700,18);x.fillText(`${brl(share)}  (${g.parcelas}x de ${brl(per)})`,860,y);x.textAlign="left";
+  y+=34;x.fillStyle="#9a9ea9";x.font=F(500,16);x.fillText("Total já pago",40,y);
+  x.textAlign="right";x.fillStyle="#4ade80";x.font=F(700,20);x.fillText(brl(tp),860,y);x.textAlign="left";
+  y+=34;x.fillStyle="#9a9ea9";x.font=F(500,16);x.fillText("Total que falta",40,y);
+  x.textAlign="right";x.fillStyle=tf>0.004?"#ff7a7a":"#4ade80";x.font=F(700,20);x.fillText(brl(tf),860,y);x.textAlign="left";
+  if(lines.length){
+    y+=46;x.fillStyle="#f2f3f5";x.font=F(700,16);x.fillText("Calendário das parcelas",40,y);
+    x.fillStyle="#9a9ea9";x.font=F(400,14);
+    lines.forEach(l=>{y+=24;x.fillText(l,40,y)});
+  }
+  return c;
+}
+function pdfFrom(c){
+  const jpg=Uint8Array.from(atob(c.toDataURL("image/jpeg",.92).split(",")[1]),ch=>ch.charCodeAt(0));
+  const w=c.width/2,h=c.height/2,enc=new TextEncoder(),parts=[],offs=[];let len=0;
+  const add=d=>{const b=typeof d==="string"?enc.encode(d):d;parts.push(b);len+=b.length};
+  const obj=(k,body)=>{offs[k]=len;add(`${k} 0 obj\n${body}\nendobj\n`)};
+  add("%PDF-1.4\n");
+  obj(1,"<</Type/Catalog/Pages 2 0 R>>");
+  obj(2,"<</Type/Pages/Kids[3 0 R]/Count 1>>");
+  obj(3,`<</Type/Page/Parent 2 0 R/MediaBox[0 0 ${w} ${h}]/Resources<</XObject<</Im0 4 0 R>>>>/Contents 5 0 R>>`);
+  offs[4]=len;add(`4 0 obj\n<</Type/XObject/Subtype/Image/Width ${c.width}/Height ${c.height}/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length ${jpg.length}>>\nstream\n`);add(jpg);add("\nendstream\nendobj\n");
+  const cs=`q ${w} 0 0 ${h} 0 0 cm /Im0 Do Q`;
+  obj(5,`<</Length ${cs.length}>>\nstream\n${cs}\nendstream`);
+  const xr=len;
+  add("xref\n0 6\n0000000000 65535 f \n"+[1,2,3,4,5].map(k=>String(offs[k]).padStart(10,"0")+" 00000 n \n").join(""));
+  add(`trailer\n<</Size 6/Root 1 0 R>>\nstartxref\n${xr}\n%%EOF`);
+  return new Blob(parts,{type:"application/pdf"});
+}
+function note(t){$("rn").textContent=t}
+function openReport(g){
+  cur={g,c:drawReport(g)};
+  $("rc").innerHTML="";cur.c.style.cssText="width:100%;height:auto;border-radius:8px;display:block";$("rc").appendChild(cur.c);
+  note("");$("md").hidden=false;$("rclose").focus();
+}
+function showImg(){
+  if(!cur)return;
+  const im=new Image();im.alt="Relatório do jogo";im.src=cur.c.toDataURL("image/png");
+  im.style.cssText="width:100%;height:auto;border-radius:8px;display:block";
+  $("rc").innerHTML="";$("rc").appendChild(im);
+}
+const MSG={extension_not_enabled:"Este formato está desativado nesta visualização.",too_large:"Arquivo grande demais.",rate_limited:"Aguarde um instante e tente de novo.",rejected_extension:"Formato de arquivo não aceito."};
+function saveFile(name,data){const u=URL.createObjectURL(data),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);note("")}
+$("rpng").onclick=()=>{if(!cur)return;cur.c.toBlob(b=>{if(!b){note("Não foi possível gerar a imagem.");return}saveFile(`relatorio-${slug(cur.g.name)}.png`,b)},"image/png")};
+$("rpdf").onclick=()=>{if(!cur)return;let b;try{b=pdfFrom(cur.c)}catch(e){note("Não foi possível gerar o PDF ("+(e&&e.message||"erro")+").");return}saveFile(`relatorio-${slug(cur.g.name)}.pdf`,b)};
+$("rclose").onclick=()=>{$("md").hidden=true};
+$("md").addEventListener("click",e=>{if(e.target===$("md"))$("md").hidden=true});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("md").hidden=true});
+$("d").value=today();
+async function enter(session){
+  const {data,error}=await sb.from("profiles").select("*").eq("id",session.user.id).single();
+  if(error||!data){await sb.auth.signOut();$("le").textContent="Perfil não encontrado. Fale com o administrador.";return}
+  me=data;document.body.classList.toggle("member",!isAdmin());
+  $("lg").hidden=true;$("app").hidden=false;
+  $("who").textContent=`${me.name} · ${isAdmin()?"administrador":"membro"}`;
+  await loadAll();
+}
+$("lf").addEventListener("submit",async e=>{
+  e.preventDefault();$("le").textContent="";
+  if(!sb){$("le").textContent="Falta configurar a URL e a chave do Supabase no início do index.html.";return}
+  const u=$("lu").value.trim().toLowerCase();
+  const {data,error}=await sb.auth.signInWithPassword({email:`${u}@${EMAIL_DOMAIN}`,password:$("lp").value});
+  if(error){$("le").textContent="Usuário ou senha incorretos.";return}
+  await enter(data.session);
+});
+$("out").onclick=async()=>{await sb.auth.signOut();location.reload()};
+if(sb)sb.auth.getSession().then(({data})=>{if(data.session)enter(data.session)});
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&me&&!$("md").hidden===false)loadAll()});
+</script>
+</body>
+</html>
