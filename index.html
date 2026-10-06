@@ -146,6 +146,11 @@ u{text-decoration:none}
 #rn{color:var(--ow);font-size:13px}
 #tt{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--btn);color:var(--btnt);padding:12px 20px;border-radius:999px;z-index:40;max-width:92%;font-size:14px;font-weight:500}
 body.member [data-a="photo"],body.member [data-a="rmphoto"],body.member [data-a="del"],body.member [data-a="delyes"],body.member [data-a="delno"],body.member [data-a="reopen"],body.member [data-a="all"],body.member .pm .btns,body.member .sd,body.member #f{display:none!important}
+.top{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.stat small,.bdg small,.fl{display:block}
+.stat b{display:block;font-size:20px;overflow-wrap:anywhere}
+.bi{display:inline-flex}
+.bi input[type=number]{width:96px;background:none;padding:4px;border-radius:0}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 </head>
@@ -345,7 +350,7 @@ function render(){
     <span class="btns"><button data-a="dec" data-id="${g.id}" data-m="${esc(m)}" aria-label="Desfazer parcela de ${esc(m)}">−</button>
     <button data-a="inc" data-id="${g.id}" data-m="${esc(m)}" aria-label="Pagar parcela de ${esc(m)}">+1</button>
     <button data-a="full" data-id="${g.id}" data-m="${esc(m)}">${p>=g.parcelas?"Quitado":"Quitar restante"}</button></span></div>`}).join("")}
-    </details></article>`}).join(""):`<div class="empty">${games.length?"Nenhum jogo em aberto. Veja os finalizados abaixo.":"Nenhum jogo ainda. Adicione o primeiro ao lado."}</div>`;
+    </details></article>`}).join(""):`<div class="empty">${games.length?"Nenhum jogo em aberto. Veja os finalizados abaixo.":"Nenhum jogo cadastrado ainda."}</div>`;
   contribRender();finRender();if(me){budgetRender();voteRender()}
 }
 let photoId=null,ci=0,formImg=null,fromWish=null,pendW=null;
