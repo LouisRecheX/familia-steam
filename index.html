@@ -218,7 +218,7 @@ const MEMBERS=[["Marllon","#f5c518","Amarelo"],["Keren","#f472b6","Rosa"],["Borg
 const HP=["M16 3C9 3 5 8 5 15v9c0 2 1 4 3 4h16c2 0 3-2 3-4v-9C27 8 23 3 16 3z","M8 13h16c1 0 1.5 1 1.2 2.2C24.5 17.5 21 19 16 19s-8.5-1.5-9.2-3.8C6.5 14 7 13 8 13z"];
 function helmet(c,sz){return `<svg class="hm" viewBox="0 0 32 32" width="${sz}" height="${sz}" aria-hidden="true"><path d="${HP[0]}" fill="${c}" stroke="rgba(255,255,255,.45)"/><path d="${HP[1]}" fill="#0b0c10" stroke="rgba(255,255,255,.25)" stroke-width=".8"/></svg>`}
 function drawHelmet(x,c,px,py,sz){x.save();x.translate(px,py);x.scale(sz/32,sz/32);x.fillStyle=c;x.fill(new Path2D(HP[0]));x.strokeStyle="rgba(255,255,255,.45)";x.lineWidth=1;x.stroke(new Path2D(HP[0]));x.fillStyle="#0b0c10";x.fill(new Path2D(HP[1]));x.strokeStyle="rgba(255,255,255,.25)";x.lineWidth=.8;x.stroke(new Path2D(HP[1]));x.restore()}
-const SUPABASE_URL="https://viawxlfqhjqgglqrqjdd.supabase.co/rest/v1/",SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpYXd4bGZxaGpxZ2dscXJxamRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzMjA2OTAsImV4cCI6MjEwNjg5NjY5MH0.n2Iz2vQoJdpw6sS9d14vTUYgWgN_jUMAZ4NrxjToQg0";
+const SUPABASE_URL="https://viawxlfqhjqgglqrqjdd.supabase.co",SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpYXd4bGZxaGpxZ2dscXJxamRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzMjA2OTAsImV4cCI6MjEwNjg5NjY5MH0.n2Iz2vQoJdpw6sS9d14vTUYgWgN_jUMAZ4NrxjToQg0";
 const EMAIL_DOMAIN="familiasteam.app";
 const CONFIGURED=/^https?:/.test(SUPABASE_URL);
 const sb=CONFIGURED?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;
