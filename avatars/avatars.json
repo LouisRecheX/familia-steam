@@ -1,0 +1,14 @@
+[
+  { "file": "geralt.png", "name": "Geralt", "game": "The Witcher 3" },
+  { "file": "yennefer.png", "name": "Yennefer", "game": "The Witcher 3" },
+  { "file": "ciri.png", "name": "Ciri", "game": "The Witcher 3" },
+  { "file": "triss.png", "name": "Triss", "game": "The Witcher 3" },
+  { "file": "dandelion.png", "name": "Jaskier (Dandelion)", "game": "The Witcher 3" },
+  { "file": "joel.png", "name": "Joel", "game": "The Last of Us" },
+  { "file": "ellie.png", "name": "Ellie", "game": "The Last of Us" },
+  { "file": "kratos.png", "name": "Kratos", "game": "God of War" },
+  { "file": "atreus.png", "name": "Atreus", "game": "God of War" },
+  { "file": "spider-man.png", "name": "Spider-Man", "game": "Marvel's Spider-Man" },
+  { "file": "miles-morales.png", "name": "Miles Morales", "game": "Marvel's Spider-Man" },
+  { "file": "aloy.png", "name": "Aloy", "game": "Horizon Zero Dawn" }
+]
