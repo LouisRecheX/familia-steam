@@ -153,6 +153,10 @@ input,select{font-size:16px}
 .bdg b.big{font-size:26px}
 }
 @media(max-width:640px){.gc{grid-template-columns:1fr}.cv{aspect-ratio:16/9;min-height:0}.members{grid-template-columns:1fr 1fr}}
+.pix{margin-top:8px;font-size:13px;color:var(--mut);display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.pix b{color:var(--tx)}.pix b.pk{color:var(--ac);word-break:break-all}
+.cpy{background:var(--card2);border:1px solid var(--line);color:var(--tx);border-radius:var(--r);padding:3px 10px;cursor:pointer;font:600 12px var(--bd)}
+.psel{width:auto!important;padding:4px 8px!important;font-size:13px!important}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 </head>
@@ -184,6 +188,7 @@ input,select{font-size:16px}
 <div><label for="p">Parcelas</label><input type="number" id="p" min="1" max="48" step="1" value="1" inputmode="numeric"></div></div>
 <label for="d">Data da 1ª parcela</label><input type="date" id="d">
 <label for="ph">Foto do jogo (opcional)</label><input type="file" id="ph" accept="image/*">
+<label for="gpay">Quem paga o jogo (pagador)</label><select id="gpay"></select>
 <label>Quem participou</label><div class="chips" id="chips"></div>
 <div class="links2"><button type="button" id="all">Todos</button><button type="button" id="none">Limpar</button></div>
 <div class="preview" id="pv">Preencha valor, parcelas e participantes para ver a divisão.</div>
@@ -226,7 +231,10 @@ input,select{font-size:16px}
 <div id="tt" hidden role="alert"></div>
 <input type="file" id="fp" accept="image/*" hidden>
 <div id="av" hidden role="dialog" aria-modal="true" aria-label="Escolher avatar"><div class="mbox">
-<h2>Escolha seu avatar</h2>
+<h2>Meu perfil</h2>
+<label for="mpix">Minha chave Pix (e-mail, CPF, telefone ou chave aleatória)</label>
+<div style="display:flex;gap:8px;margin-bottom:18px"><input type="text" id="mpix" placeholder="Ex.: seuemail@gmail.com" autocomplete="off"><button class="pillb" id="spix">Salvar Pix</button></div>
+<small class="mt">Escolha seu avatar</small>
 <small class="mt">Jogos</small><div class="avg" id="avj"></div><p class="mt" id="avh">Nenhum avatar de jogo encontrado. Veja no LEIA-ME como montar a pasta avatars.</p>
 <small class="mt">Clássicos</small><div class="avg" id="avg"></div>
 <div class="mact"><button id="avx">Fechar</button><button class="del" id="out">Sair da conta</button></div></div></div>
@@ -274,13 +282,13 @@ async function loadAll(){
     q("games","*,participants(member,paid)").order("created_at",{ascending:false}),
     q("wishlist","*").order("created_at",{ascending:false}),
     q("proposals","*,votes(member,accept)").order("created_at",{ascending:false}),
-    q("profiles","id,name,role,avatar"),q("budgets","user_id,monthly"),q("wish_votes","*"),
+    q("profiles","id,name,role,avatar,pix"),q("budgets","user_id,monthly"),q("wish_votes","*"),
     q("notifications","*").order("created_at",{ascending:false}).limit(30)]);
   const bad=R.find(x=>x.error);if(bad){toast("Erro ao carregar os dados: "+bad.error.message);return}
   const [g,w,p,pr,bg,v,nt]=R;
   profs=pr.data;me=profs.find(x=>x.id===me.id)||me;
   games=g.data.map(r=>{const ps=r.participants.slice().sort((a,b)=>mi(a.member)-mi(b.member));
-    return{id:r.id,name:r.name,total:+r.total,parcelas:r.parcelas,n:r.n||ps.length,start:r.start_date||undefined,year:r.year||+(r.start_date||"").slice(0,4)||new Date().getFullYear(),img:r.img||undefined,members:ps.map(x=>x.member),pay:Object.fromEntries(ps.map(x=>[x.member,x.paid]))}});
+    return{id:r.id,name:r.name,total:+r.total,parcelas:r.parcelas,n:r.n||ps.length,start:r.start_date||undefined,year:r.year||+(r.start_date||"").slice(0,4)||new Date().getFullYear(),img:r.img||undefined,payer:r.payer||undefined,members:ps.map(x=>x.member),pay:Object.fromEntries(ps.map(x=>[x.member,x.paid]))}});
   snap.clear();games.forEach(x=>snap.set(x.id,JSON.stringify(x)));
   wish=w.data;props=p.data;wv=v.data;notifs=nt.data;budgets={};
   bg.data.forEach(x=>{const u=profs.find(y=>y.id===x.user_id);if(u)budgets[u.name]=x.monthly});
@@ -291,7 +299,7 @@ function save(){if(!isAdmin())return;pend++;save.p=(save.p||Promise.resolve()).t
 async function syncGames(){
   try{
     for(const g of games){const s=JSON.stringify(g);if(snap.get(g.id)===s)continue;
-      let r=await sb.from("games").upsert({id:g.id,name:g.name,total:g.total,parcelas:g.parcelas,n:nOf(g),start_date:g.start||null,year:g.year,img:g.img||null});if(r.error)throw r.error;
+      let r=await sb.from("games").upsert({id:g.id,name:g.name,total:g.total,parcelas:g.parcelas,n:nOf(g),start_date:g.start||null,year:g.year,payer:g.payer||null,img:g.img||null});if(r.error)throw r.error;
       r=await sb.from("participants").upsert(g.members.map(m=>({game_id:g.id,member:m,paid:g.pay[m]||0})));if(r.error)throw r.error;
       snap.set(g.id,s)}
     const ids=new Set(games.map(g=>g.id));
@@ -353,11 +361,18 @@ function schedLine(g){
 }
 function calendar(g){if(!g.start)return"";return `<div class="cal">${Array.from({length:g.parcelas},(_,k)=>`<span class="cp ${g.members.length&&g.members.every(m=>pg(g,m)>k)?"ok":""}"><b>${k+1}ª</b> ${fmt(due(g,k))}</span>`).join("")}</div>`}
 const delBtns=g=>pendingDel===g.id?`<button class="del" data-a="delyes" data-id="${g.id}">Confirmar exclusão</button><button data-a="delno" data-id="${g.id}">Cancelar</button>`:`<button class="del" data-a="del" data-id="${g.id}">Excluir</button>`;
+const payerSel=g=>`<select class="psel" data-id="${g.id}" aria-label="Pagador">${g.payer?"":`<option value="" selected>—</option>`}${MEMBERS.map(n=>`<option ${n===g.payer?"selected":""}>${n}</option>`).join("")}</select>`;
+function payHtml(g){
+  if(!g.payer)return isAdmin()?`<div class="pix">Pagador não definido: ${payerSel(g)}</div>`:"";
+  const p=prof(g.payer)||{},mine=g.payer===me.name;
+  const body=mine?`Você é o pagador deste jogo. Os outros enviam as parcelas para você.`:`Pague a parcela para <b>${esc(g.payer)}</b> · ${p.pix?`Pix: <b class="pk">${esc(p.pix)}</b> <button class="cpy" data-pix="${esc(p.pix)}">Copiar</button>`:`<span class="ow">Pix ainda não cadastrado</span>`}`;
+  return `<div class="pix">${isDone(g)?"":body+" "}${isAdmin()?`<span class="mt">Pagador: ${payerSel(g)}</span>`:""}</div>`;
+}
 function cardHtml(g){
   const p=per(g),all=g.parcelas*g.members.length,paidN=g.members.reduce((s,m)=>s+pg(g,m),0),rest=g.members.reduce((s,m)=>s+p*(g.parcelas-pg(g,m)),0),done=isDone(g);
   return `<article class="gc"><div class="cv">${g.img?`<img src="${g.img}" alt="${esc(g.name)}">`:`<div class="noph">Sem foto</div>`}${done?`<span class="bdgq">QUITADO</span>`:""}</div>
   <div class="gb"><h3>${esc(g.name)}</h3><div class="mt">${brl(g.total)} · ${g.parcelas}x de ${brl(g.total/g.parcelas)}</div>
-  ${schedLine(g)}<div class="bar"><i style="width:${all?paidN/all*100:0}%"></i></div>
+  ${schedLine(g)}${payHtml(g)}<div class="bar"><i style="width:${all?paidN/all*100:0}%"></i></div>
   <div class="pr">${all?Math.round(paidN/all*100):0}% pago · ${isAdmin()?"falta":"falta pagar"} <u class="ow">${brl(rest)}</u></div>
   <div class="btns"><button data-a="all" data-id="${g.id}">Virou o mês: +1 parcela p/ todos</button>
   <button data-a="photo" data-id="${g.id}">${g.img?"Trocar foto":"Anexar foto"}</button>${g.img?`<button data-a="rmphoto" data-id="${g.id}">Remover foto</button>`:""}
@@ -416,6 +431,8 @@ function onAct(e){
   save();renderAll();
 }
 $("fin").addEventListener("click",navClick);$("fin").addEventListener("click",onAct);$("gg").addEventListener("click",onAct);
+$("gg").addEventListener("click",async e=>{const b=e.target.closest(".cpy");if(!b)return;try{await navigator.clipboard.writeText(b.dataset.pix);toast("Chave Pix copiada.",true)}catch(_){toast("Copie manualmente: "+b.dataset.pix,true)}});
+$("gg").addEventListener("change",e=>{const i=e.target;if(i.classList&&i.classList.contains("psel")&&isAdmin()){const g=games.find(x=>x.id==i.dataset.id);if(g){g.payer=i.value||undefined;save();renderAll()}}});
 $("gg").addEventListener("toggle",e=>{const d=e.target;if(d.classList&&d.classList.contains("pay")){const id=+d.dataset.id;d.open?openSet.add(id):openSet.delete(id)}},true);
 $("gg").addEventListener("change",e=>{const i=e.target;if(i.classList&&i.classList.contains("sd")&&i.value){const g=games.find(x=>x.id==i.dataset.id);if(g){g.start=i.value;save();renderAll()}}});
 $("fp").addEventListener("change",async e=>{const f=e.target.files[0];e.target.value="";const g=games.find(x=>x.id===photoId);if(!f||!g)return;try{g.img=await readImg(f);save();renderAll()}catch(_){toast("Não foi possível ler a foto.")}});
@@ -429,6 +446,7 @@ $("bd").addEventListener("change",async e=>{
 });
 
 /* ---------- formulário de novo jogo ---------- */
+$("gpay").innerHTML=MEMBERS.map(n=>`<option>${n}</option>`).join("");
 $("chips").innerHTML=MEMBERS.map(n=>`<label class="chip"><input type="checkbox" value="${n}" checked><span>${n}</span></label>`).join("");
 const checked=()=>[...document.querySelectorAll("#chips input:checked")].map(i=>i.value);
 function preview(){
@@ -447,8 +465,8 @@ $("f").addEventListener("submit",async e=>{
   if(!(p>=1&&p<=48))return err("Parcelas devem ser entre 1 e 48.");if(!start)return err("Informe a data da primeira parcela.");
   if(!ps.length)return err("Selecione pelo menos um participante.");err("");
   let img;const fl=$("ph").files[0];if(fl){try{img=await readImg(fl)}catch(_){toast("Não foi possível ler a foto; jogo adicionado sem foto.")}}
-  games.unshift({id:Date.now(),name,total:v,parcelas:p,n:ps.length,members:ps,pay:Object.fromEntries(ps.map(m=>[m,0])),start,img,year:new Date().getFullYear()});
-  save();$("n").value="";$("ph").value="";$("v").value="";$("p").value=1;$("d").value=today();setAll(true);renderAll();
+  games.unshift({id:Date.now(),name,total:v,parcelas:p,n:ps.length,members:ps,pay:Object.fromEntries(ps.map(m=>[m,0])),start,img,payer:$("gpay").value,year:new Date().getFullYear()});
+  save();$("gpay").value=me.name;$("n").value="";$("ph").value="";$("v").value="";$("p").value=1;$("d").value=today();setAll(true);renderAll();
 });
 
 /* ---------- votação ---------- */
@@ -467,7 +485,7 @@ function voteRender(){
     ${yes>0?imp(`Hoje (${yes} aceitaram)`,yes,price,p.parcelas,mine===true):`<div class="sc"><b>Ninguém aceitou ainda</b></div>`}
     ${imp(mine===true?"Você já participa":"Se você participar",nowN,price,p.parcelas)}${imp("Se todos aceitarem",N,price,p.parcelas)}
     ${B>0?"":`<p class="mt">Defina seu orçamento mensal para receber alertas.</p>`}</details>
-    <div class="adm2">${isAdmin()&&yes>0?`<input type="date" id="cd-${p.id}" value="${today()}" aria-label="Data da 1ª parcela"><button class="pillb" data-v="conv" data-id="${p.id}">Virar jogo (${yes})</button>`:""}${(p.created_by===me.id||isAdmin())?(pendV===p.id?`<button class="pillb del" data-v="rmy" data-id="${p.id}">Confirmar</button><button class="pillb" data-v="rmn" data-id="${p.id}">Cancelar</button>`:`<button class="pillb del" data-v="rm" data-id="${p.id}">Remover</button>`):""}</div></article>`}).join(""):`<div class="empty" style="margin-top:14px">Nenhuma votação aberta. Proponha um jogo acima.</div>`;
+    <div class="adm2">${isAdmin()&&yes>0?`<input type="date" id="cd-${p.id}" value="${today()}" aria-label="Data da 1ª parcela"><select id="cp-${p.id}" aria-label="Pagador" style="width:auto;padding:7px 10px">${MEMBERS.map(n=>`<option ${n===me.name?"selected":""}>${n}</option>`).join("")}</select><button class="pillb" data-v="conv" data-id="${p.id}">Virar jogo (${yes})</button>`:""}${(p.created_by===me.id||isAdmin())?(pendV===p.id?`<button class="pillb del" data-v="rmy" data-id="${p.id}">Confirmar</button><button class="pillb" data-v="rmn" data-id="${p.id}">Cancelar</button>`:`<button class="pillb del" data-v="rm" data-id="${p.id}">Remover</button>`):""}</div></article>`}).join(""):`<div class="empty" style="margin-top:14px">Nenhuma votação aberta. Proponha um jogo acima.</div>`;
 }
 $("vl").addEventListener("toggle",e=>{const d=e.target;if(d.classList&&d.classList.contains("imp")){const id=+d.dataset.id;d.open?openV.add(id):openV.delete(id)}},true);
 $("vl").addEventListener("click",async e=>{
@@ -481,7 +499,7 @@ $("vl").addEventListener("click",async e=>{
   if(a==="conv"){
     const d=$("cd-"+id).value;if(!d){toast("Escolha a data da 1ª parcela.");return}
     const ms=MEMBERS.filter(n=>p.votes.some(v=>v.member===n&&v.accept));
-    games.unshift({id:Date.now(),name:p.name,total:+p.price,parcelas:p.parcelas,n:ms.length,start:d,year:new Date().getFullYear(),img:p.img||undefined,members:ms,pay:Object.fromEntries(ms.map(n=>[n,0]))});
+    games.unshift({id:Date.now(),name:p.name,total:+p.price,parcelas:p.parcelas,n:ms.length,start:d,payer:$("cp-"+id).value,year:new Date().getFullYear(),img:p.img||undefined,members:ms,pay:Object.fromEntries(ms.map(n=>[n,0]))});
     save();const r=await sb.from("proposals").delete().eq("id",id);if(!r.error)props=props.filter(x=>x!==p);
     renderAll();tab("jg");toast("Jogo criado na aba Jogos.",true)}
 });
@@ -548,13 +566,19 @@ document.querySelector(".links").addEventListener("click",e=>{const b=e.target.c
 $("th").onclick=()=>{const n=document.documentElement.dataset.theme==="light"?"dark":"light";document.documentElement.dataset.theme=n;try{localStorage.setItem("tema",n)}catch(_){}};
 function chkAv(img){const b=img.closest("button"),c=b.parentNode;b.remove();if(!c.querySelector("button"))c.parentNode.remove();$("avh").hidden=!!$("avj").querySelector("button")}
 async function openAvatar(){
-  $("av").hidden=false;
+  $("av").hidden=false;$("mpix").value=me.pix||"";
   $("avg").innerHTML=EMO.map(([e,c])=>`<button class="avb" data-a="emo:${e}:${c}" aria-label="Avatar ${e}"><span class="av" style="width:72px;height:72px;background:${c};font-size:40px">${e}</span></button>`).join("");
   let list=[];try{const r=await fetch("avatars/avatars.json",{cache:"no-store"});if(r.ok)list=await r.json()}catch(_){}
   const by={};list.forEach(x=>{const g=x.game||"Outros";(by[g]=by[g]||[]).push(x)});
   $("avj").innerHTML=Object.keys(by).map(g=>`<div class="grp" style="width:100%"><div class="mt">${esc(g)}</div><div class="avg" style="margin:8px 0 0">`+by[g].map(x=>`<button class="avb" data-a="img:${esc(x.file)}" aria-label="${esc(x.name||x.file)}" title="${esc(x.name||x.file)}"><img class="av" style="width:72px;height:72px" src="avatars/${esc(x.file)}" alt="${esc(x.name||x.file)}" onerror="chkAv(this)"></button>`).join("")+`</div></div>`).join("");
   $("avh").hidden=!!list.length;
 }
+$("spix").onclick=async()=>{
+  const v=$("mpix").value.trim(),r=await sb.from("profiles").update({pix:v||null}).eq("id",me.id).select("id,pix");
+  if(r.error){toast("Não foi possível salvar o Pix: "+r.error.message);return}
+  if(!r.data||!r.data.length){toast("O banco não aceitou a alteração (permissão). Rode o atualizacao-pix.sql.");return}
+  me.pix=v||null;const pf=prof(me.name);if(pf)pf.pix=me.pix;renderAll();toast(v?"Chave Pix salva.":"Chave Pix removida.",true);
+};
 $("meb").onclick=openAvatar;$("avx").onclick=()=>{$("av").hidden=true};
 $("av").addEventListener("click",async e=>{
   if(e.target===$("av")){$("av").hidden=true;return}
@@ -628,7 +652,7 @@ async function enter(session){
   const {data,error}=await sb.from("profiles").select("*").eq("id",session.user.id).single();
   if(error||!data){await sb.auth.signOut();$("le").textContent="Perfil não encontrado. Fale com o administrador.";return}
   me=data;document.body.classList.toggle("member",!isAdmin());$("lg").hidden=true;$("app").hidden=false;
-  await loadAll();if(!me.avatar)openAvatar();
+  await loadAll();$("gpay").value=me.name;if(!me.avatar)openAvatar();
 }
 $("lf").addEventListener("submit",async e=>{
   e.preventDefault();$("le").textContent="";
