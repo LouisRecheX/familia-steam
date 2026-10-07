@@ -243,6 +243,7 @@ input,select{font-size:16px}
 <script>
 const SUPABASE_URL="https://viawxlfqhjqgglqrqjdd.supabase.co",SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpYXd4bGZxaGpxZ2dscXJxamRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzMjA2OTAsImV4cCI6MjEwNjg5NjY5MH0.n2Iz2vQoJdpw6sS9d14vTUYgWgN_jUMAZ4NrxjToQg0";
 const EMAIL_DOMAIN="familiasteam.app";
+const BUDGET_MAX=1000;
 const MEMBERS=["Marllon","Keren","Borges","Jonathan","Gilney","Luiz"];
 const EMO=[["🎮","#6d28d9"],["🗡️","#b45309"],["🛡️","#1d4ed8"],["👾","#047857"],["🐺","#475569"],["🚀","#be123c"],["👑","#a16207"],["🔥","#c2410c"]];
 const sb=/^https?:/.test(SUPABASE_URL)?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;
@@ -335,8 +336,8 @@ function statsRender(){const s=stats();
 function budgetRender(){
   const M=calc(me.name).mon,B=budgets[me.name]||0,over=B>0&&M>B;
   $("bd").innerHTML=`<div class="rw"><div><small>Seu total por mês</small><b class="big ${over?"ow":""}">${brl(M)}</b></div>
-  <div><small>Seu orçamento mensal</small><div class="bi"><span>R$</span><input type="number" id="bgt" min="0" step="1" inputmode="decimal" value="${B||""}" placeholder="definir" aria-label="Orçamento mensal"></div></div></div>
-  ${B>0?`<div class="bar"><i style="width:${Math.min(100,M/B*100)}%;background:${over?"var(--ow)":"var(--ac)"}"></i></div><div class="bn ${over?"ow":""}">${over?`Passou ${brl(M-B)} do orçamento`:`Sobram ${brl(B-M)} no mês`}</div>`:`<div class="bn">Defina o máximo que você pode gastar por mês.</div>`}`;
+  <div><small>Seu orçamento mensal</small><div class="bi"><span>R$</span><input type="number" id="bgt" min="0" max="${BUDGET_MAX}" step="1" inputmode="decimal" value="${B||""}" placeholder="definir" aria-label="Orçamento mensal"></div></div></div>
+  ${B>0?`<div class="bar"><i style="width:${Math.min(100,M/B*100)}%;background:${over?"var(--ow)":"var(--ac)"}"></i></div><div class="bn ${over?"ow":""}">${over?`Passou ${brl(M-B)} do orçamento`:`Sobram ${brl(B-M)} no mês`}</div>`:`<div class="bn">Defina o máximo que você pode gastar por mês (até R$ 1.000).</div>`}`;
 }
 function summaryRender(){
   const adm=isAdmin();
@@ -440,7 +441,9 @@ $("fch").addEventListener("click",e=>{const b=e.target.closest("button[data-f]")
 $("gs").addEventListener("input",e=>{gq=e.target.value.trim().toLowerCase();gridRender()});
 $("ct").addEventListener("change",e=>{if(e.target.id==="cy"){cy=+e.target.value;contribRender()}});
 $("bd").addEventListener("change",async e=>{
-  if(e.target.id!=="bgt")return;const v=parseFloat(e.target.value),val=v>=0?v:null;
+  if(e.target.id!=="bgt")return;const v=parseFloat(e.target.value);
+  if(v>BUDGET_MAX){toast(`O orçamento máximo é ${brl(BUDGET_MAX)} por mês.`);budgetRender();return}
+  const val=v>=0?v:null;
   const r=await sb.from("budgets").upsert({user_id:me.id,monthly:val});if(r.error){toast("Não foi possível salvar o orçamento.");return}
   budgets[me.name]=val;budgetRender();summaryRender();voteRender();
 });
