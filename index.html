@@ -119,6 +119,17 @@ details.addg>summary{cursor:pointer;font:700 18px var(--hd)}
 .avg{display:flex;flex-wrap:wrap;gap:14px;margin:10px 0 18px}.avb{background:none;border:3px solid transparent;border-radius:50%;padding:0;cursor:pointer}.avb:hover,.avb:focus-visible{border-color:var(--ac)}
 #tt{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ac);color:var(--act);padding:12px 20px;border-radius:var(--r);z-index:60;max-width:92%;font-size:14px;font-weight:600}
 body.member [data-a="photo"],body.member [data-a="rmphoto"],body.member [data-a="del"],body.member [data-a="delyes"],body.member [data-a="delno"],body.member [data-a="reopen"],body.member [data-a="all"],body.member .pm .btns,body.member .sd,body.member #addg{display:none!important}
+.jg{display:grid;grid-template-columns:330px 1fr;gap:16px;align-items:start}
+.jg main{min-width:0}
+.side .panel,.side .bdg{margin-bottom:14px}.side .panel:last-child{margin-bottom:0}
+.members{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:4px}
+.mc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.mh{display:flex;align-items:center;gap:10px;margin-bottom:10px}.mc h3{font-size:16px}
+.mc b.fp{display:block;font:700 22px var(--hd)}
+.gg{display:block}
+.gc{display:grid;grid-template-columns:230px 1fr;margin-bottom:14px}
+.cv{aspect-ratio:auto;min-height:150px}
+@media(max-width:900px){.jg{grid-template-columns:1fr}}
 @media(max-width:640px){
 .wrap{padding:0 14px 64px}
 .tn{flex-wrap:wrap;gap:8px 10px;padding:12px 0}
@@ -141,6 +152,7 @@ input,select{font-size:16px}
 .wgrid{grid-template-columns:1fr 1fr;gap:10px}
 .bdg b.big{font-size:26px}
 }
+@media(max-width:640px){.gc{grid-template-columns:1fr}.cv{aspect-ratio:16/9;min-height:0}.members{grid-template-columns:1fr 1fr}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 </head>
@@ -161,16 +173,11 @@ input,select{font-size:16px}
 <button class="ic" id="meb" aria-label="Meu avatar"></button></div></nav>
 
 <div id="t-jg" class="tab">
-<section class="hero" id="hero"></section>
-<section class="stats" id="top"></section>
-<div class="two"><section class="bdg" id="bd"></section><section class="panel" id="sm"></section></div>
-<section class="finw" id="finw" hidden><div class="sec"><h2>Jogos finalizados</h2></div><div id="fin"></div></section>
-<div class="sec"><h2>Jogos</h2>
-<div class="fch" id="fch"><button data-f="open" class="on">Em aberto</button><button data-f="all">Todos</button><button data-f="done">Finalizados</button></div>
-<input type="text" id="gs" placeholder="Buscar jogo" style="max-width:220px" aria-label="Buscar jogo"></div>
-<div class="gg" id="gg"></div>
-<section class="panel" id="ct" style="margin-top:14px"></section>
-<details class="panel addg" id="addg"><summary>＋ Adicionar jogo</summary>
+<section class="stats" id="top" style="margin-top:6px"></section>
+<div class="jg">
+<aside class="side">
+<section class="bdg" id="bd"></section>
+<section class="panel" id="addg"><h2>Adicionar jogo</h2>
 <form id="f" autocomplete="off">
 <label for="n">Nome do jogo</label><input type="text" id="n" placeholder="Ex.: Elden Ring" maxlength="60">
 <div class="row"><div><label for="v">Valor total (R$)</label><input type="number" id="v" min="0" step="0.01" inputmode="decimal" placeholder="199,90"></div>
@@ -181,7 +188,18 @@ input,select{font-size:16px}
 <div class="links2"><button type="button" id="all">Todos</button><button type="button" id="none">Limpar</button></div>
 <div class="preview" id="pv">Preencha valor, parcelas e participantes para ver a divisão.</div>
 <div class="err" id="err" role="alert"></div>
-<button class="add" type="submit">Adicionar jogo</button></form></details>
+<button class="add" type="submit">Adicionar jogo</button></form></section>
+<section class="panel" id="ct"></section>
+</aside>
+<main>
+<section class="members" id="sm"></section>
+<div class="sec"><h2>Jogos</h2>
+<div class="fch" id="fch"><button data-f="open" class="on">Em aberto</button><button data-f="all">Todos</button><button data-f="done">Finalizados</button></div>
+<input type="text" id="gs" placeholder="Buscar jogo" style="max-width:200px" aria-label="Buscar jogo"></div>
+<div class="gg" id="gg"></div>
+<section class="finw" id="finw" hidden><div class="sec"><h2>Jogos finalizados</h2></div><div id="fin"></div></section>
+</main>
+</div>
 </div>
 
 <div id="t-vt" class="tab" hidden>
@@ -292,7 +310,7 @@ const visNames=()=>isAdmin()?MEMBERS:[me.name];
 /* ---------- renderização ---------- */
 function renderAll(){
   $("meb").innerHTML=av(me.name,30);
-  heroRender();statsRender();budgetRender();summaryRender();contribRender();finRender();gridRender();voteRender();wishRender();notifRender();
+  statsRender();budgetRender();summaryRender();contribRender();finRender();gridRender();voteRender();wishRender();notifRender();
 }
 function heroRender(){
   const L=games.filter(g=>!isDone(g)&&g.members.length&&g.start).map(g=>{const k=nextK(g);return{g,k,d:due(g,k)}}).sort((a,b)=>a.d-b.d),f=L[0];
@@ -314,9 +332,9 @@ function budgetRender(){
 }
 function summaryRender(){
   const adm=isAdmin();
-  $("sm").innerHTML=`<h2>${adm?"Resumo por membro":"Meu resumo"}</h2><div class="sr h"><span>Membro</span><span>Falta pagar</span><span>Por mês</span><span>Orçamento</span></div>`+
-  visNames().map(n=>{const c=calc(n),b=budgets[n]||0,over=b>0&&c.mon>b;
-    return `<div class="sr"><span>${av(n,26)}${n}</span><span class="${c.rest>0.004?"ow":"pd"}">${brl(c.rest)}</span><span>${brl(c.mon)}</span><span>${b>0?`${brl(b)}${over?` <i class="tag w">acima</i>`:""}`:`<i class="tag ${adm?"w":""}">não definido</i>`}</span></div>`}).join("");
+  $("sm").innerHTML=visNames().map(n=>{const c=calc(n),b=budgets[n]||0,over=b>0&&c.mon>b;
+    return `<div class="mc"><div class="mh">${av(n,40)}<div><h3>${n}</h3>${adm?(b>0?`<small class="mt">orçamento ${brl(b)}${over?" · <i class='tag w'>acima</i>":""}</small>`:`<i class="tag w">sem orçamento</i>`):""}</div></div>
+    <div class="fl">Falta pagar</div><b class="fp ${c.rest>0.004?"ow":"pd"}">${brl(c.rest)}</b><div class="mt">Por mês: ${brl(c.mon)}</div></div>`}).join("");
 }
 function contribRender(){
   const now=new Date().getFullYear(),yrs=new Set([now]);games.forEach(g=>yrs.add(g.year));if(!yrs.has(cy))cy=now;
