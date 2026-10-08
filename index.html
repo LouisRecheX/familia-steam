@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Família Steam</title>
+<link rel="icon" href="img/steam.png">
 <script>try{document.documentElement.dataset.theme=localStorage.getItem("tema")||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -158,20 +159,24 @@ input,select{font-size:16px}
 .cpy{background:var(--card2);border:1px solid var(--line);color:var(--tx);border-radius:var(--r);padding:3px 10px;cursor:pointer;font:600 12px var(--bd)}
 .psel{width:auto!important;padding:4px 8px!important;font-size:13px!important}
 #pxc{width:100%;background:var(--card2);border:1px solid var(--line);color:var(--tx);border-radius:var(--r);padding:10px;font:12px/1.4 monospace;resize:none}
+.logo{width:28px;height:28px;object-fit:contain;display:inline-block;vertical-align:middle}
+.logo.big{width:38px;height:38px;margin-right:10px}
+.pxlogo{height:38px;max-width:140px;object-fit:contain;margin-bottom:8px}
+.pxi{height:14px;width:auto;vertical-align:-2px;margin-right:5px}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 </head>
 <body>
 <div id="lg"><form class="lgc" id="lf" autocomplete="on">
-<h1>Família Steam</h1><p class="mt">Entre com seu usuário e senha.</p>
+<h1><img class="logo big" src="img/steam.png" alt="" onerror="this.remove()">Família Steam</h1><p class="mt">Entre com seu usuário e senha.</p>
 <label for="lu">Usuário</label><input type="text" id="lu" autocomplete="username" autocapitalize="none" placeholder="ex.: luiz">
 <label for="lp">Senha</label><input type="password" id="lp" autocomplete="current-password">
 <div class="err" id="le" role="alert"></div>
 <button class="add" type="submit">Entrar</button></form></div>
 
 <div class="wrap" id="app" hidden>
-<nav class="tn"><div class="brand"><i></i>Família Steam</div>
+<nav class="tn"><div class="brand"><img class="logo" src="img/steam.png" alt="" onerror="this.outerHTML='<i></i>'">Família Steam</div>
 <div class="links"><button class="on" data-t="jg">Jogos</button><button data-t="vt">Votação</button><button data-t="wl">Wishlist</button></div>
 <div class="nr"><button class="ic" id="th" aria-label="Alternar tema claro e escuro">◐</button>
 <button class="ic" id="bell" aria-label="Notificações">🔔<span id="bc" hidden></span></button>
@@ -238,9 +243,9 @@ input,select{font-size:16px}
 <div style="display:flex;gap:8px;margin-bottom:18px"><input type="text" id="mpix" placeholder="Ex.: seuemail@gmail.com" autocomplete="off"><button class="pillb" id="spix">Salvar Pix</button></div>
 <small class="mt">Escolha seu avatar</small>
 <small class="mt">Jogos</small><div class="avg" id="avj"></div><p class="mt" id="avh">Nenhum avatar de jogo encontrado. Veja no LEIA-ME como montar a pasta avatars.</p>
-<small class="mt">Clássicos</small><div class="avg" id="avg"></div>
 <div class="mact"><button id="avx">Fechar</button><button class="del" id="out">Sair da conta</button></div></div></div>
 <div id="pxm" hidden role="dialog" aria-modal="true" aria-label="Pagar parcela"><div class="mbox" style="max-width:420px;text-align:center">
+<img class="pxlogo" src="img/pix.png" alt="Pix" onerror="this.remove()">
 <h2 id="pxt">Pagar parcela</h2><p class="mt" id="pxs"></p>
 <div id="pxq" style="margin:14px auto;background:#fff;padding:10px;border-radius:8px;width:fit-content;min-height:60px"></div>
 <textarea id="pxc" readonly rows="4" aria-label="Código Pix copia e cola"></textarea>
@@ -253,7 +258,6 @@ const SUPABASE_URL="https://viawxlfqhjqgglqrqjdd.supabase.co",SUPABASE_KEY="eyJh
 const EMAIL_DOMAIN="familiasteam.app";
 const BUDGET_MAX=1000;
 const MEMBERS=["Marllon","Keren","Borges","Jonathan","Gilney","Luiz"];
-const EMO=[["🎮","#6d28d9"],["🗡️","#b45309"],["🛡️","#1d4ed8"],["👾","#047857"],["🐺","#475569"],["🚀","#be123c"],["👑","#a16207"],["🔥","#c2410c"]];
 const sb=/^https?:/.test(SUPABASE_URL)?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;
 const $=id=>document.getElementById(id);
 const brl=n=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
@@ -280,7 +284,6 @@ const prof=n=>profs.find(p=>p.name===n);
 function av(name,sz){
   const a=(prof(name)||{}).avatar||"",st=`width:${sz}px;height:${sz}px`;
   if(a.startsWith("img:"))return `<img class="av" style="${st}" src="avatars/${esc(a.slice(4))}" alt="${esc(name)}">`;
-  if(a.startsWith("emo:")){const [,e,c]=a.split(":");return `<span class="av" style="${st};background:${c};font-size:${Math.round(sz*.55)}px">${e}</span>`}
   return `<span class="av" style="${st};font-size:${Math.round(sz*.45)}px">${esc((name||"?")[0])}</span>`;
 }
 
@@ -374,7 +377,7 @@ const payerSel=g=>`<select class="psel" data-id="${g.id}" aria-label="Pagador">$
 function payHtml(g){
   if(!g.payer)return isAdmin()?`<div class="pix">Pagador não definido: ${payerSel(g)}</div>`:"";
   const p=prof(g.payer)||{},mine=g.payer===me.name;
-  const body=mine?`Você é o pagador deste jogo. Os outros enviam as parcelas para você.`:`Pague a parcela para <b>${esc(g.payer)}</b> · ${p.pix?`Pix: <b class="pk">${esc(p.pix)}</b> <button class="cpy" data-pix="${esc(p.pix)}">Copiar</button> <button class="cpy" data-pay="${g.id}">Pagar parcela</button>`:`<span class="ow">Pix ainda não cadastrado</span>`}`;
+  const body=mine?`Você é o pagador deste jogo. Os outros enviam as parcelas para você.`:`Pague a parcela para <b>${esc(g.payer)}</b> · ${p.pix?`Pix: <b class="pk">${esc(p.pix)}</b> <button class="cpy" data-pix="${esc(p.pix)}">Copiar</button> <button class="cpy" data-pay="${g.id}"><img class="pxi" src="img/pix.png" alt="" onerror="this.remove()">Pagar parcela</button>`:`<span class="ow">Pix ainda não cadastrado</span>`}`;
   return `<div class="pix">${isDone(g)?"":body+" "}${isAdmin()?`<span class="mt">Pagador: ${payerSel(g)}</span>`:""}</div>`;
 }
 function cardHtml(g){
@@ -578,7 +581,6 @@ $("th").onclick=()=>{const n=document.documentElement.dataset.theme==="light"?"d
 function chkAv(img){const b=img.closest("button"),c=b.parentNode;b.remove();if(!c.querySelector("button"))c.parentNode.remove();$("avh").hidden=!!$("avj").querySelector("button")}
 async function openAvatar(){
   $("av").hidden=false;$("mpix").value=me.pix||"";
-  $("avg").innerHTML=EMO.map(([e,c])=>`<button class="avb" data-a="emo:${e}:${c}" aria-label="Avatar ${e}"><span class="av" style="width:72px;height:72px;background:${c};font-size:40px">${e}</span></button>`).join("");
   let list=[];try{const r=await fetch("avatars/avatars.json",{cache:"no-store"});if(r.ok)list=await r.json()}catch(_){}
   const by={};list.forEach(x=>{const g=x.game||"Outros";(by[g]=by[g]||[]).push(x)});
   $("avj").innerHTML=Object.keys(by).map(g=>`<div class="grp" style="width:100%"><div class="mt">${esc(g)}</div><div class="avg" style="margin:8px 0 0">`+by[g].map(x=>`<button class="avb" data-a="img:${esc(x.file)}" aria-label="${esc(x.name||x.file)}" title="${esc(x.name||x.file)}"><img class="av" style="width:72px;height:72px" src="avatars/${esc(x.file)}" alt="${esc(x.name||x.file)}" onerror="chkAv(this)"></button>`).join("")+`</div></div>`).join("");
@@ -684,7 +686,7 @@ async function enter(session){
   const {data,error}=await sb.from("profiles").select("*").eq("id",session.user.id).single();
   if(error||!data){await sb.auth.signOut();$("le").textContent="Perfil não encontrado. Fale com o administrador.";return}
   me=data;document.body.classList.toggle("member",!isAdmin());$("lg").hidden=true;$("app").hidden=false;
-  await loadAll();$("gpay").value=me.name;if(!me.avatar)openAvatar();
+  await loadAll();$("gpay").value=me.name;if(!me.avatar||me.avatar.startsWith("emo:"))openAvatar();
 }
 $("lf").addEventListener("submit",async e=>{
   e.preventDefault();$("le").textContent="";
