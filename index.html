@@ -292,6 +292,17 @@ body :is(button:disabled,.frb:disabled){opacity:.45;cursor:not-allowed;transform
 .sw,.dub{transition:transform .15s,box-shadow .15s}.sw:hover,.dub:hover{transform:scale(1.12);box-shadow:0 4px 14px rgba(0,0,0,.35)}
 @media(prefers-reduced-motion:reduce){body :is(button,.chip span){transition:none!important;transform:none!important}}
 @media(max-width:560px){.prvw{max-height:34vh}.pcard.mini .gts{display:none}.pcard.mini .pch{height:44px}.pcard.mini .pcav{margin-top:-30px}}
+.pcw{position:relative;container-type:inline-size}
+.pch.hasb{background-size:cover;background-position:center}
+.orn{--ow:min(42cqw,200px);position:absolute;width:var(--ow);height:var(--ow);pointer-events:none;z-index:3}
+.orn.tl{left:calc(var(--ow)*-.1875);top:calc(var(--ow)*-.1875)}
+.orn.tr{right:calc(var(--ow)*-.1875);top:calc(var(--ow)*-.1875);transform:scaleX(-1)}
+.orn.bl{left:calc(var(--ow)*-.1875);bottom:calc(var(--ow)*-.1875);transform:scaleY(-1)}
+.orn.br{right:calc(var(--ow)*-.1875);bottom:calc(var(--ow)*-.1875);transform:scale(-1,-1)}
+.pgrid{padding-top:18px;gap:22px 18px}
+.prvw{padding:20px 16px 10px}
+.thb{width:132px;height:33px;object-fit:cover;border-radius:6px;background:var(--card)}
+.tho{width:56px;height:56px;object-fit:contain;background:var(--card);border-radius:8px}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -388,6 +399,10 @@ body :is(button:disabled,.frb:disabled){opacity:.45;cursor:not-allowed;transform
 <div class="pal" id="mpal"></div>
 <label>Moldura do avatar</label>
 <div class="frs" id="mfr"></div>
+<label>Banner do cartão (imagem do topo)</label>
+<div class="frs" id="mbn"></div>
+<label>Ornamento do cartão (cantos decorados)</label>
+<div class="frs" id="mor"></div>
 <button class="add" id="spix" type="button" style="margin:14px 0 20px">Salvar perfil</button>
 <label>Escolha seu avatar</label>
 <div class="avg" id="avj"></div><p class="mt" id="avh">Nenhum avatar de jogo encontrado. Veja no LEIA-ME como montar a pasta avatars.</p>
@@ -421,7 +436,7 @@ function readImg(file){return new Promise((res,rej)=>{const r=new FileReader();r
 
 /* ---------- estado ---------- */
 let games=[],props=[],wish=[],wv=[],notifs=[],profs=[],budgets={},me=null;
-let FRAMES=[],topMember=null,selPal="#22d3ee",selPal2=null,selFrame=null;
+let FRAMES=[],BANNERS=[],ORNS=[],selBanner=null,selOrn=null,topMember=null,selPal="#22d3ee",selPal2=null,selFrame=null;
 let gf="open",gq="",wfm="all",ci=0,pendingDel=null,pendV=null,pendW=null,photoId=null,vImg=null,cy=new Date().getFullYear(),pend=0,curRep=null;
 const openSet=new Set(),openV=new Set();
 const isAdmin=()=>!!me&&me.role==="admin";
@@ -445,7 +460,7 @@ async function loadAll(){
     q("games","*,participants(member,paid)").order("created_at",{ascending:false}),
     q("wishlist","*").order("created_at",{ascending:false}),
     q("proposals","*,votes(member,accept)").order("created_at",{ascending:false}),
-    q("profiles","id,name,role,avatar,pix,tags,palette,palette2,frame"),q("budgets","user_id,monthly"),q("wish_votes","*"),
+    q("profiles","id,name,role,avatar,pix,tags,palette,palette2,frame,banner,ornament"),q("budgets","user_id,monthly"),q("wish_votes","*"),
     q("notifications","*").order("created_at",{ascending:false}).limit(30)]);
   const bad=R.find(x=>x.error);if(bad){toast("Erro ao carregar os dados: "+bad.error.message);return}
   const [g,w,p,pr,bg,v,nt]=R;
@@ -753,7 +768,11 @@ function chkAv(img){const b=img.closest("button"),c=b.parentNode;b.remove();if(!
 const PLAT=[["steam","Steam","steam"],["epic","Epic Games","epicgames"],["xbox","Xbox","xbox"],["riot","Riot Games","riotgames"],["battlenet","Battle.net","battlenet"],["origin","Origin","origin"],["ubisoft","Ubisoft Connect","ubisoft"],["playstation","PlayStation","playstation"]];
 const PALS=["#22d3ee","#8b5cf6","#ec4899","#34d399","#f97316","#ef4444","#3b82f6","#facc15"];
 const hexOk=c=>/^#[0-9a-fA-F]{6}$/.test(c||"");
-async function loadFrames(){try{const r=await fetch("frames/frames.json",{cache:"no-store"});if(r.ok)FRAMES=(await r.json()).filter(f=>f&&/^[a-z0-9-]{1,40}$/.test(f.id)&&/^[a-z0-9._-]+$/i.test(f.file))}catch(_){FRAMES=[]}}
+async function loadList(url){try{const r=await fetch(url,{cache:"no-store"});if(r.ok)return (await r.json()).filter(f=>f&&/^[a-z0-9-]{1,40}$/.test(f.id)&&/^[a-z0-9._-]+$/i.test(f.file))}catch(_){}return[]}
+async function loadFrames(){[FRAMES,BANNERS,ORNS]=await Promise.all([loadList("frames/frames.json"),loadList("banners/banners.json"),loadList("ornaments/ornaments.json")])}
+const unlockOk=(d,name)=>!d||d.unlock!=="top"||topMember===name;
+const assetOf=(list,id,name)=>{const d=id?list.find(x=>x.id===id):null;return d&&unlockOk(d,name)?d:null};
+const eligible=(list,id)=>assetOf(list,id,me.name)?id:null;
 function frameSrc(name,fid){const f=fid!==undefined?fid:((prof(name)||{}).frame),d=FRAMES.find(x=>x.id===f);if(!d)return"";if(d.unlock==="top"&&topMember!==name)return"";return "frames/"+d.file}
 function avf(name,sz,fid){const fr=frameSrc(name,fid);if(!fr)return av(name,sz);return `<span class="avf" style="width:${sz}px;height:${sz}px"><span class="avi">${av(name,Math.round(sz*.72))}</span><img class="frm" src="${esc(fr)}" alt="" onerror="this.remove()"></span>`}
 $("mtags").innerHTML=PLAT.map(([k,l,f])=>`<label class="tg"><img class="pi" src="img/${f}.png" alt="" onerror="this.remove()"><input type="text" id="tg-${k}" placeholder="${l}" maxlength="40" autocomplete="off" aria-label="${l}"></label>`).join("");
@@ -784,8 +803,16 @@ $("pixchg").onclick=()=>{pixUnlock=true;pixRender();$("mpix").focus();prvRender(
 function draft(){
   const tags={};PLAT.forEach(([k])=>{const v=($("tg-"+k).value||"").trim();if(v)tags[k]=v});
   const fd=FRAMES.find(x=>x.id===selFrame),fr=fd&&frOk(fd)?selFrame:null;
-  return Object.assign({},me,{tags,palette:selPal,palette2:selPal2,frame:fr,pix:pixLocked()?me.pix:(($("mpix").value||"").trim()||null)});
+  return Object.assign({},me,{tags,palette:selPal,palette2:selPal2,frame:fr,banner:eligible(BANNERS,selBanner),ornament:eligible(ORNS,selOrn),pix:pixLocked()?me.pix:(($("mpix").value||"").trim()||null)});
 }
+function pickRender(el,list,sel,dir,cls){
+  el.innerHTML=`<button type="button" class="frb ${!sel?"on":""}" data-f="">Nenhum</button>`+list.map(f=>{const ok=unlockOk(f,me.name);return `<button type="button" class="frb ${sel===f.id?"on":""}" data-f="${esc(f.id)}" ${ok?"":"disabled"} title="${ok?esc(f.name):"Exclusivo de quem mais contribuiu no ano"}"><img class="${cls}" src="${dir}/${esc(f.file)}" alt="" onerror="this.closest('button').remove()"><small>${esc(f.name)}${ok?"":" 🔒"}</small></button>`}).join("");
+  prvRender();
+}
+const bnRender=()=>pickRender($("mbn"),BANNERS,selBanner,"banners","thb");
+const orRender=()=>pickRender($("mor"),ORNS,selOrn,"ornaments","tho");
+$("mbn").addEventListener("click",e=>{const b=e.target.closest(".frb");if(b&&!b.disabled){selBanner=b.dataset.f||null;bnRender()}});
+$("mor").addEventListener("click",e=>{const b=e.target.closest(".frb");if(b&&!b.disabled){selOrn=b.dataset.f||null;orRender()}});
 function prvRender(){$("mprv").innerHTML=pcard(me.name,draft(),true,true)}
 $("av").addEventListener("input",e=>{if(e.target.matches&&e.target.matches("input"))prvRender()});
 const frOk=f=>f.unlock!=="top"||topMember===me.name;
@@ -799,9 +826,11 @@ function pcard(n,p,own,mini){
   const tags=PLAT.filter(([k])=>tg[k]).map(([k,l,f])=>`<div class="gt"><img class="pi" src="img/${f}.png" alt="${l}" title="${l}" onerror="this.outerHTML='<b>${l}</b>'"><span>${esc(tg[k])}</span></div>`).join("")||`<div class="mt">Nenhuma gametag cadastrada.</div>`;
   const pix=p.pix?(mini?`<small class="mt">Chave Pix</small><b class="pk">${esc(p.pix)}</b>`:`<small class="mt">Chave Pix</small><div class="pxr"><b class="pk">${esc(p.pix)}</b><button class="cpy" data-pix="${esc(p.pix)}">Copiar</button></div>`):`<small class="mt">Pix ainda não cadastrado</small>`;
   const act=mini?"":`<div class="pcx"><button class="pillb" data-exp="${esc(n)}">Baixar imagem</button><label class="ipx"><input type="checkbox"> incluir Pix</label>${own?`<button class="pillb" data-edit="1">Editar meu perfil</button>`:""}</div>`;
-  return `<article class="pcard${mini?" mini":""}" style="--pc:${c};--pc2:${c2}"><div class="pch"></div><div class="pcb"><div class="pcav">${avf(n,mini?72:96,p.frame)}</div>
+  const bn=assetOf(BANNERS,p.banner,n),od=assetOf(ORNS,p.ornament,n);
+  const orn=od?["tl","tr"].concat(od.corners==="all"?["bl","br"]:[]).map(k=>`<img class="orn ${k}" src="ornaments/${esc(od.file)}" alt="" onerror="this.remove()">`).join(""):"";
+  return `<div class="pcw"><article class="pcard${mini?" mini":""}" style="--pc:${c};--pc2:${c2}"><div class="pch${bn?" hasb":""}"${bn?` style="background-image:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.35)),url(banners/${esc(bn.file)}),linear-gradient(135deg,var(--pc),var(--pc2))"`:""}></div><div class="pcb"><div class="pcav">${avf(n,mini?72:96,p.frame)}</div>
   <div class="pcn"><h3>${esc(n)}</h3>${topMember===n?`<span class="pill gold">★ Premium Member</span>`:""}${own&&!mini?`<span class="mt">(você)</span>`:""}</div>
-  <div class="gts">${tags}</div><div class="pcp">${pix}</div>${act}</div></article>`;
+  <div class="gts">${tags}</div><div class="pcp">${pix}</div>${act}</div></article>${orn}</div>`;
 }
 function pfRender(){$("pfg").innerHTML=MEMBERS.map(n=>pcard(n,prof(n)||{},n===me.name,false)).join("")}
 $("pfg").addEventListener("click",async e=>{
@@ -817,11 +846,14 @@ async function exportCard(name,withPix){
   const p=prof(name)||{},c1=hexOk(p.palette)?p.palette:"#22d3ee",c2=hexOk(p.palette2)?p.palette2:shade(c1,.4),tg=p.tags||{};
   const tags=PLAT.filter(([k])=>tg[k]),showPix=!!(withPix&&p.pix),fs=frameSrc(name);
   const W=720,S=2,RH=48,top=284,H=top+Math.max(1,tags.length)*RH+(showPix?92:30)+34;
-  const [avImg,frImg,...icons]=await Promise.all([(p.avatar||"").startsWith("img:")?loadImg("avatars/"+p.avatar.slice(4)):null,fs?loadImg(fs):null,...tags.map(([k,l,f])=>loadImg("img/"+f+".png"))]);
-  const c=document.createElement("canvas");c.width=W*S;c.height=H*S;const x=c.getContext("2d");x.scale(S,S);
+  const bn=assetOf(BANNERS,p.banner,name),od=assetOf(ORNS,p.ornament,name),M=od?76:0;
+  const [avImg,frImg,bnImg,orImg,...icons]=await Promise.all([(p.avatar||"").startsWith("img:")?loadImg("avatars/"+p.avatar.slice(4)):null,fs?loadImg(fs):null,bn?loadImg("banners/"+bn.file):null,od?loadImg("ornaments/"+od.file):null,...tags.map(([k,l,f])=>loadImg("img/"+f+".png"))]);
+  const c=document.createElement("canvas");c.width=(W+2*M)*S;c.height=(H+2*M)*S;const x=c.getContext("2d");x.scale(S,S);x.translate(M,M);
   const F=(w,s)=>`${w} ${s}px 'Segoe UI',Roboto,Arial,sans-serif`;
   x.save();rr(x,0,0,W,H,26);x.clip();x.fillStyle="#0f1a2e";x.fillRect(0,0,W,H);
-  const g=x.createLinearGradient(0,0,W,160);g.addColorStop(0,c1);g.addColorStop(1,c2);x.fillStyle=g;x.fillRect(0,0,W,150);x.restore();
+  const g=x.createLinearGradient(0,0,W,160);g.addColorStop(0,c1);g.addColorStop(1,c2);x.fillStyle=g;x.fillRect(0,0,W,150);
+  if(bnImg){const k=Math.max(W/bnImg.width,150/bnImg.height),w=bnImg.width*k,h=bnImg.height*k;x.drawImage(bnImg,(W-w)/2,(150-h)/2,w,h);const sh=x.createLinearGradient(0,60,0,150);sh.addColorStop(0,"rgba(0,0,0,0)");sh.addColorStop(1,"rgba(0,0,0,.35)");x.fillStyle=sh;x.fillRect(0,0,W,150)}
+  x.restore();
   rr(x,1,1,W-2,H-2,26);x.strokeStyle=c1;x.globalAlpha=.55;x.lineWidth=2;x.stroke();x.globalAlpha=1;
   const cx=104,cy=152,R=62;
   x.fillStyle="#0f1a2e";x.beginPath();x.arc(cx,cy,R+6,0,Math.PI*2);x.fill();
@@ -839,13 +871,14 @@ async function exportCard(name,withPix){
     x.fillStyle="#e8eefb";x.font=F(600,17);x.fillText(tg[k],tx,y+26);
     x.fillStyle="#93a4c3";x.font=F(400,13);x.textAlign="right";x.fillText(l,W-52,y+25);x.textAlign="left";y+=RH});
   if(showPix){y+=10;x.fillStyle="#93a4c3";x.font=F(400,13);x.fillText("Chave Pix",36,y+14);x.fillStyle="#e8eefb";x.font=F(700,18);x.fillText(p.pix,36,y+40)}
-  x.fillStyle="#93a4c3";x.font=F(400,12);x.textAlign="right";x.fillText("Família Steam",W-36,H-16);
+  x.fillStyle="#93a4c3";x.font=F(400,12);x.textAlign="right";x.fillText("Família Steam",W-36,H-16);x.textAlign="left";
+  if(orImg){const z=Math.min(.42*W,260),o=.1875*z,cr=(sx,sy,px,py)=>{x.save();x.translate(px,py);x.scale(sx,sy);x.drawImage(orImg,-o,-o,z,z);x.restore()};cr(1,1,0,0);cr(-1,1,W,0);if(od.corners==="all"){cr(1,-1,0,H);cr(-1,-1,W,H)}}
   await new Promise(res=>c.toBlob(b=>{if(b)saveFile(`perfil-${slug(name)}.png`,b);res()},"image/png"));
 }
 async function openAvatar(){
   $("av").hidden=false;$("mpix").value=me.pix||"";
   PLAT.forEach(([k])=>{$("tg-"+k).value=(me.tags||{})[k]||""});
-  selPal=hexOk(me.palette)?me.palette:"#22d3ee";selPal2=hexOk(me.palette2)?me.palette2:null;selFrame=me.frame||null;pixUnlock=false;pixRender();palRender();frRender();prvRender();
+  selPal=hexOk(me.palette)?me.palette:"#22d3ee";selPal2=hexOk(me.palette2)?me.palette2:null;selFrame=me.frame||null;selBanner=me.banner||null;selOrn=me.ornament||null;pixUnlock=false;pixRender();palRender();frRender();bnRender();orRender();prvRender();
   let list=[];try{const r=await fetch("avatars/avatars.json",{cache:"no-store"});if(r.ok)list=await r.json()}catch(_){}
   const by={};list.forEach(x=>{const g=x.game||"Outros";(by[g]=by[g]||[]).push(x)});
   $("avj").innerHTML=Object.keys(by).map(g=>`<div class="grp" style="width:100%"><div class="mt">${esc(g)}</div><div class="avg" style="margin:8px 0 0">`+by[g].map(x=>{const ne=!/\.(png|jpe?g|webp|gif)$/i.test(x.file),f=esc(x.file)+(ne?".png":"");return `<button class="avb" data-a="img:${f}" aria-label="${esc(x.name||x.file)}" title="${esc(x.name||x.file)}"><img class="av" style="width:72px;height:72px" src="avatars/${f}" ${ne?`data-b="${esc(x.file)}" data-n="0"`:""} alt="${esc(x.name||x.file)}" onerror="nextExt(this)"></button>`}).join("")+`</div></div>`).join("");
@@ -854,8 +887,8 @@ async function openAvatar(){
 $("spix").onclick=async()=>{
   const tags={};PLAT.forEach(([k])=>{const v=($("tg-"+k).value||"").trim().slice(0,40);if(v)tags[k]=v});
   const fd=FRAMES.find(x=>x.id===selFrame);let frame=selFrame||null;if(fd&&!frOk(fd))frame=null;
-  const upd={pix:pixLocked()?me.pix:($("mpix").value.trim()||null),tags,palette:hexOk(selPal)?selPal:null,palette2:hexOk(selPal2)?selPal2:null,frame};
-  const r=await sb.from("profiles").update(upd).eq("id",me.id).select("id,pix,tags,palette,palette2,frame");
+  const upd={pix:pixLocked()?me.pix:($("mpix").value.trim()||null),tags,palette:hexOk(selPal)?selPal:null,palette2:hexOk(selPal2)?selPal2:null,frame,banner:eligible(BANNERS,selBanner),ornament:eligible(ORNS,selOrn)};
+  const r=await sb.from("profiles").update(upd).eq("id",me.id).select("id,pix,tags,palette,palette2,frame,banner,ornament");
   if(r.error){toast("Não foi possível salvar o perfil: "+r.error.message);return}
   if(!r.data||!r.data.length){toast("O banco não aceitou a alteração (permissão).");return}
   Object.assign(me,r.data[0]);const pf=prof(me.name);if(pf)Object.assign(pf,r.data[0]);
