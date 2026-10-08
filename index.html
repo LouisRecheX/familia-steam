@@ -6,8 +6,6 @@
 <title>Família Steam</title>
 <link rel="icon" href="img/steam.png">
 <script>try{document.documentElement.dataset.theme=localStorage.getItem("tema")||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0d0e0d;--card:#181918;--card2:#242524;--line:rgba(255,255,255,.09);--tx:#f3f5ef;--mut:#99a094;--ac:#8bd400;--act:#0b1200;--pd:#8bd400;--ow:#ff6b5e;--glow:rgba(139,212,0,.11);--hd:'Space Grotesk','Inter',system-ui,sans-serif;--bd:'Inter',system-ui,sans-serif;--r:8px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
 :root[data-theme="light"]{--bg:#f1f3ee;--card:#fff;--card2:#eceee8;--line:rgba(0,0,0,.09);--tx:#12140f;--mut:#636a5e;--ac:#5f9f00;--act:#fff;--pd:#3f8a00;--ow:#d63a2e;--glow:rgba(95,159,0,.12);color-scheme:light}
@@ -133,9 +131,6 @@ body.member [data-a="photo"],body.member [data-a="rmphoto"],body.member [data-a=
 @media(max-width:900px){.jg{grid-template-columns:1fr}}
 @media(max-width:640px){
 .wrap{padding:0 14px 64px}
-.tn{flex-wrap:wrap;gap:8px 10px;padding:12px 0}
-.brand{order:1;flex:1;font-size:16px}.nr{order:2}
-.links{order:3;flex:1 0 100%;border-top:1px solid var(--line);padding-top:4px}.links button{flex:1;padding:11px 6px}
 .hero{gap:14px;padding:6px 0 16px}.hc{height:210px;max-width:100%}.hl h2{font-size:26px}
 .stats{grid-template-columns:1fr 1fr}.stat b{font-size:18px}
 .panel,.bdg{padding:16px}.two{gap:12px}
@@ -166,6 +161,66 @@ input,select{font-size:16px}
 .shr{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .shb{background:var(--card2);border:1px solid var(--line);color:var(--tx);border-radius:var(--r);padding:7px 12px;cursor:pointer;font:600 13px var(--bd);display:inline-flex;align-items:center;gap:7px}
 .shb:hover{border-color:var(--ac)}.shi{height:16px;width:auto}
+
+/* ===== Visual novo: painel gamer com barra lateral ===== */
+:root{--bg:#0a1220;--card:#121e33;--card2:#1b2b47;--line:rgba(130,170,230,.15);--tx:#e8eefb;--mut:#93a4c3;--ac:#22d3ee;--act:#04212b;--pd:#34d399;--ow:#fb7185;--yl:#facc15;--yt:#2b2100;--glow:rgba(139,92,246,.22);--hd:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--bd:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--r:10px}
+:root[data-theme="light"]{--bg:#eef2f9;--card:#fff;--card2:#e8eef8;--line:rgba(15,27,51,.12);--tx:#0f1b33;--mut:#586a8c;--ac:#0891b2;--act:#fff;--pd:#059669;--ow:#e11d48;--yl:#eab308;--yt:#2b2100;--glow:rgba(124,58,237,.14)}
+body{background:radial-gradient(900px 520px at 90% -8%,var(--glow),transparent 60%),radial-gradient(700px 480px at 0% 0%,rgba(34,211,238,.09),transparent 60%),var(--bg);font-variant-numeric:tabular-nums}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:url(img/fundo.jpg) center/cover no-repeat;opacity:.16}
+:root[data-theme="light"] body:before{opacity:.1}
+h1,h2,h3{font-weight:700;letter-spacing:0}
+.shell{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh}
+.sb{position:sticky;top:0;height:100vh;overflow-y:auto;background:linear-gradient(180deg,var(--card),var(--bg));border-right:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;gap:4px}
+.sb .brand{font-size:17px;margin-bottom:8px}
+.usr{display:flex;align-items:center;gap:12px;padding:10px 6px 14px}.usr small{display:block;color:var(--mut);font-size:12px}.usr b{font-size:16px}
+.sg{color:var(--mut);font-size:11px;letter-spacing:1px;margin:14px 8px 4px}
+.sb .links{display:flex;flex-direction:column;gap:2px;flex:none;overflow:visible}
+.sb .links button,.sl{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:1px solid transparent;color:var(--mut);padding:10px 12px;border-radius:var(--r);font:600 14px var(--bd);cursor:pointer}
+.sb .links button svg,.sl svg{width:18px;height:18px;flex:none}
+.sb .links button.on{background:var(--card2);color:var(--tx);border-color:var(--ac)}
+.sb .links button:hover,.sl:hover{background:var(--card2);color:var(--tx)}
+.spacer{flex:1}
+.mainc{min-width:0}
+.tb{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 28px;position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 85%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.tb h1{font-size:20px;margin:0}
+.content{padding:20px 28px 72px;max-width:1280px}
+.hero{display:grid;grid-template-columns:150px 1.3fr 1fr;gap:24px;align-items:center;padding:26px;border-radius:14px;border:1px solid var(--line);margin-bottom:18px;background:linear-gradient(90deg,rgba(10,18,32,.93),rgba(10,18,32,.6)),url(img/hero.jpg) center/cover,linear-gradient(120deg,#2a1457,#0f3a5c)}
+.hero,.hero h2,.hero b{color:#fff}
+.hero p,.hero small,.hero .eb{color:#c7d3ea}
+.hcov{width:150px;height:200px;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.08);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.hcov img{width:100%;height:100%;object-fit:cover;display:block}.hcov .noph{color:#c7d3ea;height:100%}
+.hb h2{font-size:clamp(24px,3vw,34px);line-height:1.1;margin:10px 0 6px}.hb p{margin:0}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{background:rgba(255,255,255,.14);border-radius:6px;padding:3px 9px;font:700 11px var(--bd);letter-spacing:.6px;color:#fff}.pill.alt{background:rgba(34,211,238,.22);color:#a5eefa}
+.hstats{display:flex;gap:28px;margin:14px 0}.hstats b{display:block;font-size:22px}
+.hact{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.yel{background:var(--yl);color:var(--yt);border:0;border-radius:var(--r);padding:10px 18px;font:700 14px var(--bd);cursor:pointer}.yel:hover{filter:brightness(1.07)}
+.hnext{background:rgba(10,18,32,.55);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:14px 16px}
+.hnext .hi{border-color:rgba(255,255,255,.12);padding:10px 0}.hnext .hi b{color:#fff;font-size:14px}.hnext .hi small{color:#c7d3ea}.hnext .hi span{color:var(--yl)}
+.stk{display:flex;align-items:center}
+.stk .av{border:2px solid var(--card);margin-left:-8px}.stk .av:first-child{margin-left:0}
+.hero .stk .av{border-color:#1a2540}
+.stk .more{margin-left:6px;font-size:12px;color:var(--mut)}.gb .stk{margin-top:10px}.stk .mt{margin-left:10px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:6px}.duo .bdg,.duo .panel{margin:0}
+details.addg{margin-top:16px}details.addg>summary{cursor:pointer;font:700 16px var(--hd)}details.addg form{margin-top:10px}
+.gg{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.gc{display:flex!important;flex-direction:column;margin-bottom:0!important}
+.cv{aspect-ratio:16/9!important;min-height:0!important}
+.gc:has(details[open]){grid-column:1/-1}
+.cpy[data-pay]{background:var(--yl);color:var(--yt);border:0;font-weight:700;padding:5px 12px}
+.sb::-webkit-scrollbar{width:0}
+@media(max-width:1000px){.hero{grid-template-columns:150px 1fr}.hnext{display:none}}
+@media(max-width:820px){
+.shell{display:block}
+.sb{position:fixed;left:0;right:0;bottom:0;top:auto;height:auto;z-index:30;flex-direction:row;justify-content:space-around;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));border-right:0;border-top:1px solid var(--line);background:var(--card);overflow:visible}
+.sb .brand,.usr,.sg,.sl,.spacer{display:none}
+.sb .links{flex-direction:row;width:100%;gap:4px}
+.sb .links button{flex:1;justify-content:center;flex-direction:column;gap:2px;padding:6px 4px;font-size:11px}
+.tb{padding:12px 16px}.content{padding:14px 14px 96px}
+.hero{grid-template-columns:110px 1fr;padding:16px;gap:14px}.hcov{width:110px;height:150px}
+.duo{grid-template-columns:1fr}
+}
+@media(max-width:560px){.hero{grid-template-columns:1fr}.hcov{display:none}.hstats{gap:18px}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -178,20 +233,33 @@ input,select{font-size:16px}
 <div class="err" id="le" role="alert"></div>
 <button class="add" type="submit">Entrar</button></form></div>
 
-<div class="wrap" id="app" hidden>
-<nav class="tn"><div class="brand"><img class="logo" src="img/steam.png" alt="" onerror="this.outerHTML='<i></i>'">Família Steam</div>
-<div class="links"><button class="on" data-t="jg">Jogos</button><button data-t="vt">Votação</button><button data-t="wl">Wishlist</button></div>
+<div class="shell" id="app" hidden>
+<aside class="sb" id="sb">
+<div class="brand"><img class="logo" src="img/steam.png" alt="" onerror="this.outerHTML='<i></i>'">Família Steam</div>
+<div class="usr"><span id="uav"></span><div><small id="hi"></small><b id="uname"></b></div></div>
+<div class="sg">NAVEGAÇÃO</div>
+<nav class="links"><button class="on" data-t="jg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M8 10v4M6 12h4"/><circle cx="16" cy="11" r="1"/><circle cx="18" cy="13" r="1"/></svg><span>Jogos</span></button><button data-t="vt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/></svg><span>Votação</span></button><button data-t="wl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.600-7 10-7 10z"/></svg><span>Wishlist</span></button></nav>
+<div class="sg">CONFIGURAR</div>
+<button class="sl" id="prf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c1-4 4-6 8-6s7 2 8 6"/></svg><span>Meu perfil e Pix</span></button>
+<button class="sl" id="th2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg><span>Tema claro/escuro</span></button>
+<button class="sl" id="out2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H5v16h4M16 8l4 4-4 4M20 12H9"/></svg><span>Sair</span></button>
+<div class="spacer"></div>
+</aside>
+<div class="mainc">
+<header class="tb"><h1 id="pgt">Jogos</h1>
 <div class="nr"><button class="ic" id="th" aria-label="Alternar tema claro e escuro">◐</button>
 <button class="ic" id="bell" aria-label="Notificações">🔔<span id="bc" hidden></span></button>
 <div id="nf" hidden></div>
-<button class="ic" id="meb" aria-label="Meu avatar"></button></div></nav>
+<button class="ic" id="meb" aria-label="Meu avatar"></button></div></header>
+<div class="content">
 
 <div id="t-jg" class="tab">
-<section class="stats" id="top" style="margin-top:6px"></section>
-<div class="jg">
-<aside class="side">
-<section class="bdg" id="bd"></section>
-<section class="panel" id="addg"><h2>Adicionar jogo</h2>
+<section class="hero" id="hero"></section>
+<section class="stats" id="top"></section>
+<div class="duo"><section class="bdg" id="bd"></section><section class="panel" id="ct"></section></div>
+<div class="sec"><h2 id="smh">Resumo por membro</h2></div>
+<section class="members" id="sm"></section>
+<details class="panel addg" id="addg"><summary>＋ Adicionar jogo</summary>
 <form id="f" autocomplete="off">
 <label for="n">Nome do jogo</label><input type="text" id="n" placeholder="Ex.: Elden Ring" maxlength="60">
 <div class="row"><div><label for="v">Valor total (R$)</label><input type="number" id="v" min="0" step="0.01" inputmode="decimal" placeholder="199,90"></div>
@@ -203,18 +271,13 @@ input,select{font-size:16px}
 <div class="links2"><button type="button" id="all">Todos</button><button type="button" id="none">Limpar</button></div>
 <div class="preview" id="pv">Preencha valor, parcelas e participantes para ver a divisão.</div>
 <div class="err" id="err" role="alert"></div>
-<button class="add" type="submit">Adicionar jogo</button></form></section>
-<section class="panel" id="ct"></section>
-</aside>
-<main>
-<section class="members" id="sm"></section>
+<button class="add" type="submit">Adicionar jogo</button></form>
+</details>
 <div class="sec"><h2>Jogos</h2>
 <div class="fch" id="fch"><button data-f="open" class="on">Em aberto</button><button data-f="all">Todos</button><button data-f="done">Finalizados</button></div>
-<input type="text" id="gs" placeholder="Buscar jogo" style="max-width:200px" aria-label="Buscar jogo"></div>
+<input type="text" id="gs" placeholder="Buscar jogo" style="max-width:220px" aria-label="Buscar jogo"></div>
 <div class="gg" id="gg"></div>
 <section class="finw" id="finw" hidden><div class="sec"><h2>Jogos finalizados</h2></div><div id="fin"></div></section>
-</main>
-</div>
 </div>
 
 <div id="t-vt" class="tab" hidden>
@@ -236,7 +299,7 @@ input,select{font-size:16px}
 <div class="fch" id="wfc" style="margin-top:14px"></div>
 <div class="wgrid" id="wl"></div>
 </div>
-</div>
+</div></div></div>
 
 <div id="tt" hidden role="alert"></div>
 <input type="file" id="fp" accept="image/*" hidden>
@@ -332,15 +395,21 @@ const visNames=()=>isAdmin()?MEMBERS:[me.name];
 
 /* ---------- renderização ---------- */
 function renderAll(){
-  $("meb").innerHTML=av(me.name,30);
-  statsRender();budgetRender();summaryRender();contribRender();finRender();gridRender();voteRender();wishRender();notifRender();
+  $("meb").innerHTML=av(me.name,30);$("uav").innerHTML=av(me.name,52);$("uname").textContent=me.name;{const h=new Date().getHours();$("hi").textContent=h<12?"Bom dia,":h<18?"Boa tarde,":"Boa noite,"}
+  heroRender();statsRender();budgetRender();summaryRender();contribRender();finRender();gridRender();voteRender();wishRender();notifRender();
 }
 function heroRender(){
   const L=games.filter(g=>!isDone(g)&&g.members.length&&g.start).map(g=>{const k=nextK(g);return{g,k,d:due(g,k)}}).sort((a,b)=>a.d-b.d),f=L[0];
-  $("hero").innerHTML=`<div class="hl"><small class="eb">PRÓXIMO VENCIMENTO</small>${f?`<h2>${esc(f.g.name)}</h2><p>${fmt(f.d)} · parcela ${f.k+1} de ${f.g.parcelas}</p><p class="hv">${isAdmin()?"Por pessoa":"Sua parcela"}: <b>${brl(per(f.g))}</b></p>`:`<h2>Tudo em dia</h2><p>Nenhuma parcela em aberto agora.</p>`}</div>
-  <div class="hc">${f&&f.g.img?`<img src="${f.g.img}" alt="">`:`<div class="noph">Sem foto</div>`}</div>
-  <div class="hr"><small class="eb">PRÓXIMAS PARCELAS</small>${L.slice(0,3).map(x=>`<div class="hi"><div><b>${esc(x.g.name)}</b><small>${fmt(x.d)} · ${x.k+1}/${x.g.parcelas}</small></div><span>${brl(per(x.g))}</span></div>`).join("")||`<p class="mt">Sem vencimentos.</p>`}</div>`;
+  if(!f){$("hero").innerHTML=`<div class="hcov"><div class="noph">Sem foto</div></div><div class="hb"><div class="pills"><span class="pill">TUDO EM DIA</span></div><h2>Nenhuma parcela em aberto</h2><p>Quando houver um jogo em andamento, o próximo vencimento aparece aqui.</p></div><div></div>`;return}
+  const g=f.g,pf=prof(g.payer)||{},canPay=g.payer&&g.payer!==me.name&&pf.pix;
+  $("hero").innerHTML=`<div class="hcov">${g.img?`<img src="${g.img}" alt="">`:`<div class="noph">Sem foto</div>`}</div>
+  <div class="hb"><div class="pills"><span class="pill">PRÓXIMO VENCIMENTO</span><span class="pill alt">${L.length} jogo${L.length>1?"s":""} em aberto</span></div>
+  <h2>${esc(g.name)}</h2><p>Parcela ${f.k+1} de ${g.parcelas} · vence em <b>${fmt(f.d)}</b></p>
+  <div class="hstats"><div><b>${brl(per(g))}</b><small>${isAdmin()?"por pessoa":"sua parcela"}</small></div><div><b>${brl(g.total)}</b><small>total do jogo</small></div></div>
+  <div class="hact">${canPay?`<button class="yel" data-pay="${g.id}">Pagar parcela</button>`:""}<span class="stk">${g.members.slice(0,6).map(m=>av(m,28)).join("")}</span></div></div>
+  <div class="hnext"><small class="eb">PRÓXIMAS PARCELAS</small>${L.slice(0,3).map(x=>`<div class="hi"><div><b>${esc(x.g.name)}</b><small>${fmt(x.d)} · ${x.k+1}/${x.g.parcelas}</small></div><span>${brl(per(x.g))}</span></div>`).join("")}</div>`;
 }
+$("hero").addEventListener("click",e=>{const b=e.target.closest("[data-pay]");if(b){const g=games.find(x=>x.id==b.dataset.pay);if(g)openPix(g)}});
 function statsRender(){const s=stats();
   $("top").innerHTML=`<div class="stat"><small>${isAdmin()?"Jogos":"Meus jogos"}</small><b>${games.length}</b></div>
   <div class="stat"><small>${isAdmin()?"Total comprado":"Minha parte do total"}</small><b>${brl(s.bought)}</b></div>
@@ -354,7 +423,7 @@ function budgetRender(){
   ${B>0?`<div class="bar"><i style="width:${Math.min(100,M/B*100)}%;background:${over?"var(--ow)":"var(--ac)"}"></i></div><div class="bn ${over?"ow":""}">${over?`Passou ${brl(M-B)} do orçamento`:`Sobram ${brl(B-M)} no mês`}</div>`:`<div class="bn">Defina o máximo que você pode gastar por mês (até R$ 1.000).</div>`}`;
 }
 function summaryRender(){
-  const adm=isAdmin();
+  const adm=isAdmin();$("smh").textContent=adm?"Resumo por membro":"Meu resumo";
   $("sm").innerHTML=visNames().map(n=>{const c=calc(n),b=budgets[n]||0,over=b>0&&c.mon>b;
     return `<div class="mc"><div class="mh">${av(n,40)}<div><h3>${n}</h3>${adm?(b>0?`<small class="mt">orçamento ${brl(b)}${over?" · <i class='tag w'>acima</i>":""}</small>`:`<i class="tag w">sem orçamento</i>`):""}</div></div>
     <div class="fl">Falta pagar</div><b class="fp ${c.rest>0.004?"ow":"pd"}">${brl(c.rest)}</b><div class="mt">Por mês: ${brl(c.mon)}</div></div>`}).join("");
@@ -389,6 +458,7 @@ function cardHtml(g){
   <div class="gb"><h3>${esc(g.name)}</h3><div class="mt">${brl(g.total)} · ${g.parcelas}x de ${brl(g.total/g.parcelas)}</div>
   ${schedLine(g)}${payHtml(g)}<div class="bar"><i style="width:${all?paidN/all*100:0}%"></i></div>
   <div class="pr">${all?Math.round(paidN/all*100):0}% pago · ${isAdmin()?"falta":"falta pagar"} <u class="ow">${brl(rest)}</u></div>
+  <div class="stk">${g.members.slice(0,5).map(m=>av(m,24)).join("")}${g.members.length>5?`<span class="more">+${g.members.length-5}</span>`:""}<span class="mt">${paidN}/${all} parcelas pagas</span></div>
   <div class="btns"><button data-a="all" data-id="${g.id}">Virou o mês: +1 parcela p/ todos</button>
   <button data-a="photo" data-id="${g.id}">${g.img?"Trocar foto":"Anexar foto"}</button>${g.img?`<button data-a="rmphoto" data-id="${g.id}">Remover foto</button>`:""}
   <button data-a="rep" data-id="${g.id}">Relatório</button>${delBtns(g)}</div>
@@ -584,7 +654,7 @@ $("nf").addEventListener("click",async e=>{
   else{const n=notifs.find(x=>x.id==b.dataset.id);if(n&&!n.read){await sb.from("notifications").update({read:true}).eq("id",n.id);n.read=true}tab("vt");$("nf").hidden=true}
   notifRender();
 });
-function tab(t){document.querySelectorAll(".links button").forEach(x=>x.classList.toggle("on",x.dataset.t===t));["jg","vt","wl"].forEach(k=>{$("t-"+k).hidden=k!==t})}
+function tab(t){$("pgt").textContent={jg:"Jogos",vt:"Votação",wl:"Wishlist"}[t];document.querySelectorAll(".links button").forEach(x=>x.classList.toggle("on",x.dataset.t===t));["jg","vt","wl"].forEach(k=>{$("t-"+k).hidden=k!==t})}
 document.querySelector(".links").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(b)tab(b.dataset.t)});
 $("th").onclick=()=>{const n=document.documentElement.dataset.theme==="light"?"dark":"light";document.documentElement.dataset.theme=n;try{localStorage.setItem("tema",n)}catch(_){}};
 function chkAv(img){const b=img.closest("button"),c=b.parentNode;b.remove();if(!c.querySelector("button"))c.parentNode.remove();$("avh").hidden=!!$("avj").querySelector("button")}
@@ -636,31 +706,31 @@ $("pxx").onclick=()=>{$("pxm").hidden=true};$("pxm").addEventListener("click",e=
 /* ---------- relatório (PNG / PDF) ---------- */
 function fit(x,t,w){while(t.length>3&&x.measureText(t).width>w)t=t.slice(0,-2);return t}
 function drawReport(g){
-  const W=900,S=2,RH=54,p=per(g),n=nOf(g),F=(w,s)=>`${w} ${s}px 'Inter','Segoe UI',Arial,sans-serif`;
+  const W=900,S=2,RH=54,p=per(g),n=nOf(g),F=(w,s)=>`${w} ${s}px 'Segoe UI',Roboto,Arial,sans-serif`;
   const items=g.start?Array.from({length:g.parcelas},(_,k)=>`${k+1}ª ${fmt(due(g,k))}`):[];
   const mc=document.createElement("canvas").getContext("2d");mc.font=F(400,14);
   const lines=[];let ln="";items.forEach(t=>{const nx=ln?ln+"   ·   "+t:t;if(mc.measureText(nx).width>820&&ln){lines.push(ln);ln=t}else ln=nx});if(ln)lines.push(ln);
   const H=215+g.members.length*RH+190+(lines.length?lines.length*24+56:0);
   const c=document.createElement("canvas");c.width=W*S;c.height=H*S;const x=c.getContext("2d");x.scale(S,S);
-  x.fillStyle="#0d0e0d";x.fillRect(0,0,W,H);x.fillStyle="#8bd400";x.fillRect(0,0,W,6);
-  x.fillStyle="#99a094";x.font=F(500,16);x.fillText("Família Steam · Relatório de pagamentos",40,50);
-  x.fillStyle="#f3f5ef";x.font=F(800,34);x.fillText(fit(x,g.name,820),40,98);
-  x.fillStyle="#99a094";x.font=F(400,16);x.fillText(`Total ${brl(g.total)}  ·  ${g.parcelas}x de ${brl(g.total/g.parcelas)}  ·  ${n} participante(s)  ·  gerado em ${fmt(new Date())}`,40,132);
+  x.fillStyle="#0a1220";x.fillRect(0,0,W,H);x.fillStyle="#22d3ee";x.fillRect(0,0,W,6);
+  x.fillStyle="#93a4c3";x.font=F(500,16);x.fillText("Família Steam · Relatório de pagamentos",40,50);
+  x.fillStyle="#e8eefb";x.font=F(800,34);x.fillText(fit(x,g.name,820),40,98);
+  x.fillStyle="#93a4c3";x.font=F(400,16);x.fillText(`Total ${brl(g.total)}  ·  ${g.parcelas}x de ${brl(g.total/g.parcelas)}  ·  ${n} participante(s)  ·  gerado em ${fmt(new Date())}`,40,132);
   if(g.start)x.fillText(`1ª parcela em ${fmt(due(g,0))}  ·  última em ${fmt(due(g,g.parcelas-1))}`,40,158);
   let y=198;x.font=F(500,14);x.fillText("Membro",62,y);x.textAlign="right";
   x.fillText("Parcelas",430,y);x.fillText("Já pagou",590,y);x.fillText("Falta pagar",740,y);x.fillText("Situação",860,y);x.textAlign="left";y+=14;let tp=0,tf=0;
   g.members.forEach((m,i)=>{const k=pg(g,m),paid=p*k,left=p*(g.parcelas-k);tp+=paid;tf+=left;
-    x.fillStyle=i%2?"#141514":"#181918";x.fillRect(40,y,820,RH-4);x.fillStyle="#8bd400";x.fillRect(40,y,4,RH-4);
-    x.fillStyle="#f3f5ef";x.font=F(700,19);x.fillText(m,62,y+27);
-    if(g.start){x.fillStyle="#99a094";x.font=F(400,12);x.fillText(k<g.parcelas?`próx. vencimento ${fmt(due(g,k))} (${k+1}ª)`:"todas as parcelas pagas",62,y+43)}
-    x.font=F(500,17);x.textAlign="right";x.fillStyle="#f3f5ef";x.fillText(`${k}/${g.parcelas}`,430,y+33);
-    x.fillStyle="#8bd400";x.fillText(brl(paid),590,y+33);x.fillStyle=left>0.004?"#ff6b5e":"#8bd400";x.font=F(700,18);x.fillText(brl(left),740,y+33);
-    x.fillStyle=left>0.004?"#99a094":"#8bd400";x.font=F(500,15);x.fillText(left>0.004?"Em aberto":"Quitado",860,y+33);x.textAlign="left";y+=RH});
-  y+=10;x.fillStyle="#2a2c2a";x.fillRect(40,y,820,2);y+=36;
-  const row=(l,v,col)=>{x.fillStyle="#99a094";x.font=F(500,16);x.fillText(l,40,y);x.textAlign="right";x.fillStyle=col;x.font=F(700,20);x.fillText(v,860,y);x.textAlign="left";y+=34};
-  row("Valor de cada um no total",`${brl(g.total/n)}  (${g.parcelas}x de ${brl(p)})`,"#f3f5ef");
-  row("Total já pago",brl(tp),"#8bd400");row("Total que falta",brl(tf),tf>0.004?"#ff6b5e":"#8bd400");
-  if(lines.length){y+=12;x.fillStyle="#f3f5ef";x.font=F(700,16);x.fillText("Calendário das parcelas",40,y);x.fillStyle="#99a094";x.font=F(400,14);lines.forEach(l=>{y+=24;x.fillText(l,40,y)})}
+    x.fillStyle=i%2?"#0f1a2e":"#132038";x.fillRect(40,y,820,RH-4);x.fillStyle="#22d3ee";x.fillRect(40,y,4,RH-4);
+    x.fillStyle="#e8eefb";x.font=F(700,19);x.fillText(m,62,y+27);
+    if(g.start){x.fillStyle="#93a4c3";x.font=F(400,12);x.fillText(k<g.parcelas?`próx. vencimento ${fmt(due(g,k))} (${k+1}ª)`:"todas as parcelas pagas",62,y+43)}
+    x.font=F(500,17);x.textAlign="right";x.fillStyle="#e8eefb";x.fillText(`${k}/${g.parcelas}`,430,y+33);
+    x.fillStyle="#34d399";x.fillText(brl(paid),590,y+33);x.fillStyle=left>0.004?"#fb7185":"#34d399";x.font=F(700,18);x.fillText(brl(left),740,y+33);
+    x.fillStyle=left>0.004?"#93a4c3":"#34d399";x.font=F(500,15);x.fillText(left>0.004?"Em aberto":"Quitado",860,y+33);x.textAlign="left";y+=RH});
+  y+=10;x.fillStyle="#22314f";x.fillRect(40,y,820,2);y+=36;
+  const row=(l,v,col)=>{x.fillStyle="#93a4c3";x.font=F(500,16);x.fillText(l,40,y);x.textAlign="right";x.fillStyle=col;x.font=F(700,20);x.fillText(v,860,y);x.textAlign="left";y+=34};
+  row("Valor de cada um no total",`${brl(g.total/n)}  (${g.parcelas}x de ${brl(p)})`,"#e8eefb");
+  row("Total já pago",brl(tp),"#34d399");row("Total que falta",brl(tf),tf>0.004?"#fb7185":"#34d399");
+  if(lines.length){y+=12;x.fillStyle="#e8eefb";x.font=F(700,16);x.fillText("Calendário das parcelas",40,y);x.fillStyle="#93a4c3";x.font=F(400,14);lines.forEach(l=>{y+=24;x.fillText(l,40,y)})}
   return c;
 }
 function pdfFrom(c){
@@ -688,6 +758,8 @@ $("rpng").onclick=()=>{if(!curRep)return;curRep.c.toBlob(b=>{if(b)saveFile(`rela
 $("rpdf").onclick=()=>{if(!curRep)return;try{saveFile(`relatorio-${slug(curRep.g.name)}.pdf`,pdfFrom(curRep.c))}catch(e){note("Não foi possível gerar o PDF.")}};
 $("rclose").onclick=()=>{$("md").hidden=true};$("md").addEventListener("click",e=>{if(e.target===$("md"))$("md").hidden=true});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("md").hidden=true;$("av").hidden=true;$("pxm").hidden=true}});
+
+$("th2").onclick=()=>$("th").click();$("prf").onclick=()=>openAvatar();$("out2").onclick=()=>$("out").click();
 
 /* ---------- login ---------- */
 $("d").value=today();
