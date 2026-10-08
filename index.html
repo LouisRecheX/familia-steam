@@ -359,6 +359,16 @@ body :is(button:disabled,.frb:disabled){opacity:.45;cursor:not-allowed;transform
 @media(prefers-reduced-motion:reduce){.nick.shine{animation:none}}
 .pcard.mini .nick{font-size:19px}
 .demob{background:var(--yl);color:#1b1500;text-align:center;font:600 13px var(--bd);padding:8px 14px}
+.pwf{position:relative}.pwf input{padding-right:92px}
+.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:var(--card);border:1px solid var(--line);color:var(--tx);border-radius:8px;padding:5px 10px;font:600 12px var(--bd);cursor:pointer}
+.eye:hover{border-color:var(--ac)}
+.oauth{margin-top:10px}
+.dsc{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;background:color-mix(in srgb,#5865f2 28%,transparent);border:1px solid color-mix(in srgb,#5865f2 65%,transparent);color:var(--tx);border-radius:var(--r);padding:12px;font:700 15px var(--bd);cursor:pointer;transition:background .18s,box-shadow .18s,transform .18s}
+.dsc:hover{background:color-mix(in srgb,#5865f2 46%,transparent);box-shadow:0 8px 22px color-mix(in srgb,#5865f2 38%,transparent);transform:translateY(-1px)}
+.dsc .pxi{height:20px;margin:0}
+.idn{display:grid;gap:6px}
+.idr{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card2);border-radius:var(--r);padding:8px 12px}
+.idr>span{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -367,9 +377,10 @@ body :is(button:disabled,.frb:disabled){opacity:.45;cursor:not-allowed;transform
 <div id="lg"><form class="lgc" id="lf" autocomplete="on">
 <h1><img class="logo big" src="img/steam.png" alt="" onerror="this.remove()">Família Steam</h1><p class="mt">Entre com seu usuário e senha.</p>
 <label for="lu">Usuário</label><input type="text" id="lu" autocomplete="username" autocapitalize="none" placeholder="ex.: luiz">
-<label for="lp">Senha</label><input type="password" id="lp" autocomplete="current-password">
+<label for="lp">Senha</label><div class="pwf"><input type="password" id="lp" autocomplete="current-password"><button type="button" class="eye" data-eye="lp" aria-label="Mostrar senha">Mostrar</button></div>
 <div class="err" id="le" role="alert"></div>
-<button class="add" type="submit">Entrar</button></form></div>
+<button class="add" type="submit">Entrar</button>
+<div class="oauth" id="oauth"></div></form></div>
 
 <div class="shell" id="app" hidden>
 <aside class="sb" id="sb">
@@ -467,13 +478,15 @@ body :is(button:disabled,.frb:disabled){opacity:.45;cursor:not-allowed;transform
 <label>Ornamento do cartão (cantos decorados)</label>
 <div class="frs" id="mor"></div>
 <button class="add" id="spix" type="button" style="margin:14px 0 20px">Salvar perfil</button>
+<label>Contas vinculadas (entrar sem digitar a senha)</label>
+<div class="idn" id="idn"></div>
 <label>Escolha seu avatar</label>
 <div class="avg" id="avj"></div><p class="mt" id="avh">Nenhum avatar de jogo encontrado. Veja no LEIA-ME como montar a pasta avatars.</p>
 <div class="mact"><button id="avx">Fechar</button><button id="pwb2" type="button">Trocar minha senha</button><button class="del" id="out">Sair da conta</button></div></div></div>
 <div id="pw" hidden role="dialog" aria-modal="true" aria-label="Trocar senha"><div class="mbox" style="max-width:420px"><h2 id="pwt">Trocar senha</h2>
 <p class="mt" id="pwp">Escolha uma senha nova, com pelo menos 8 caracteres. Anote em um lugar seguro: não dá para recuperar por e-mail.</p>
-<label for="pw1">Nova senha</label><input type="password" id="pw1" autocomplete="new-password">
-<label for="pw2">Repita a nova senha</label><input type="password" id="pw2" autocomplete="new-password">
+<label for="pw1">Nova senha</label><div class="pwf"><input type="password" id="pw1" autocomplete="new-password"><button type="button" class="eye" data-eye="pw1" aria-label="Mostrar senha">Mostrar</button></div>
+<label for="pw2">Repita a nova senha</label><div class="pwf"><input type="password" id="pw2" autocomplete="new-password"><button type="button" class="eye" data-eye="pw2" aria-label="Mostrar senha">Mostrar</button></div>
 <div class="err" id="pwe" role="alert"></div>
 <div class="mact"><button class="pri" id="pws">Salvar nova senha</button><button id="pwx">Agora não</button><button id="pwn" hidden>Não perguntar de novo</button></div></div></div>
 <div id="gm" hidden role="dialog" aria-modal="true" aria-label="Detalhes do jogo"><div class="mbox gbox"><button class="gx" id="gmx" aria-label="Fechar">×</button><div id="gmb"></div></div></div>
@@ -998,7 +1011,7 @@ async function exportCard(name,withPix){
   await new Promise(res=>c.toBlob(b=>{if(b)saveFile(`perfil-${slug(name)}.png`,b);res()},"image/png"));
 }
 async function openAvatar(){
-  $("av").hidden=false;$("mpix").value=me.pix||"";
+  $("av").hidden=false;identRender();$("mpix").value=me.pix||"";
   PLAT.forEach(([k])=>{$("tg-"+k).value=(me.tags||{})[k]||""});
   {const ns=me.nstyle||{};$("nk").value=me.nick||"";$("nkf").value=NFONTS.some(f=>f[0]===ns.f)?ns.f:"padrao";$("nkx").value=["glow","shine"].includes(ns.fx)?ns.fx:"none";nc1=hexOk(ns.c1)?ns.c1:"#ffffff";nc2=hexOk(ns.c2)?ns.c2:null;nkRender()}
   selPal=hexOk(me.palette)?me.palette:"#22d3ee";selPal2=hexOk(me.palette2)?me.palette2:null;selFrame=me.frame||null;selBanner=me.banner||null;selOrn=me.ornament||null;pixUnlock=false;pixRender();palRender();frRender();bnRender();orRender();prvRender();
@@ -1253,11 +1266,49 @@ $("gm").addEventListener("click",async e=>{
 $("gm").addEventListener("click",onAct);
 $("lbx").addEventListener("click",()=>{$("lbx").hidden=true});
 
+/* ---------- entrar e vincular com Discord ---------- */
+const OAUTH=[["discord","Discord","discord"]];
+const oauthMsg=m=>/manual linking/i.test(m)?'Falta ligar "Manual linking" no Supabase (Authentication → Sign In / Providers).':/not enabled|unsupported provider/i.test(m)?"Esse método ainda não foi ativado no Supabase.":"Não foi possível continuar: "+m;
+$("oauth").innerHTML=OAUTH.map(([k,l,f])=>`<button type="button" class="dsc" data-p="${k}"><img class="pxi" src="img/${f}.png" alt="" onerror="this.remove()">Entrar com ${l}</button>`).join("");
+$("oauth").addEventListener("click",async e=>{
+  const b=e.target.closest("[data-p]");if(!b)return;$("le").textContent="";
+  if(!sb){$("le").textContent="Sem conexão com o servidor. Verifique a internet e tente de novo.";return}
+  const r=await sb.auth.signInWithOAuth({provider:b.dataset.p,options:{redirectTo:location.origin}});
+  if(r.error)$("le").textContent=oauthMsg(r.error.message);
+});
+(function(){
+  const h=new URLSearchParams((location.hash||"").replace(/^#/,"")),q=new URLSearchParams(location.search),d=h.get("error_description")||q.get("error_description");
+  if(!d)return;const m=decodeURIComponent(d.replace(/\+/g," "));
+  $("le").textContent=/not allowed|database error|signup/i.test(m)?"Essa conta do Discord ainda não está vinculada a nenhum membro. Entre com usuário e senha e vincule em Meu perfil.":"Não foi possível entrar: "+m;
+  try{history.replaceState(null,"",location.pathname)}catch(_){}
+})();
+async function identRender(){
+  const el=$("idn");if(!el)return;
+  if(DEMO){el.innerHTML='<p class="mt">Indisponível no modo demonstração.</p>';return}
+  let ids=[];try{const r=await sb.auth.getUser();ids=(r.data&&r.data.user&&r.data.user.identities)||[]}catch(_){}
+  el._ids=ids;
+  el.innerHTML=OAUTH.map(([k,l,f])=>{
+    const i=ids.find(x=>x.provider===k),d=i&&i.identity_data||{},nm=d.full_name||d.name||d.custom_claims&&d.custom_claims.global_name||d.email||"";
+    return `<div class="idr"><span><img class="pi" src="img/${f}.png" alt="" onerror="this.remove()">${l}${i?` <small class="mt">vinculado${nm?": "+esc(nm):""}</small>`:` <small class="mt">não vinculado</small>`}</span>${i?(ids.length>1?`<button type="button" class="pillb del" data-unl="${k}">Desvincular</button>`:`<small class="mt">ativo</small>`):`<button type="button" class="pillb" data-lnk="${k}">Vincular</button>`}</div>`}).join("");
+}
+$("idn").addEventListener("click",async e=>{
+  const l=e.target.closest("[data-lnk]"),u=e.target.closest("[data-unl]");
+  if(l){const r=await sb.auth.linkIdentity({provider:l.dataset.lnk,options:{redirectTo:location.origin}});if(r.error)toast(oauthMsg(r.error.message))}
+  if(u){const i=($("idn")._ids||[]).find(x=>x.provider===u.dataset.unl);if(!i)return;const r=await sb.auth.unlinkIdentity(i);if(r.error)return toast("Não foi possível desvincular: "+r.error.message);toast("Conta desvinculada.",true);identRender()}
+});
+
+/* ---------- ver / ocultar senha ---------- */
+document.addEventListener("click",e=>{
+  const b=e.target.closest(".eye");if(!b)return;
+  const i=$(b.dataset.eye),sh=i.type==="password";i.type=sh?"text":"password";b.textContent=sh?"Ocultar":"Mostrar";b.setAttribute("aria-label",sh?"Ocultar senha":"Mostrar senha");
+});
+function resetEyes(){document.querySelectorAll(".eye").forEach(b=>{const i=$(b.dataset.eye);if(i)i.type="password";b.textContent="Mostrar"})}
+
 /* ---------- troca de senha ---------- */
 function afterPw(){if(!me.avatar||me.avatar.startsWith("emo:"))openAvatar()}
 function openPw(first){
   if(DEMO){toast("A troca de senha não está disponível no modo demonstração.");return}
-  $("pw1").value="";$("pw2").value="";$("pwe").textContent="";$("pwn").hidden=!first;
+  $("pw1").value="";$("pw2").value="";$("pwe").textContent="";resetEyes();$("pwn").hidden=!first;
   $("pwt").textContent=first?"Defina a sua senha":"Trocar senha";$("pws").disabled=false;$("pw").hidden=false;
 }
 async function markPw(){const r=await sb.from("profiles").update({pw_changed:true}).eq("id",me.id);if(!r.error)me.pw_changed=true}
@@ -1367,7 +1418,7 @@ $("lf").addEventListener("submit",async e=>{
   e.preventDefault();$("le").textContent="";
   if(!sb){$("le").textContent="Sem conexão com o servidor. Verifique a internet e tente de novo.";return}
   const {data,error}=await sb.auth.signInWithPassword({email:`${$("lu").value.trim().toLowerCase()}@${EMAIL_DOMAIN}`,password:$("lp").value});
-  if(error){$("le").textContent="Usuário ou senha incorretos.";return}
+  if(error){$("le").textContent=/invalid login credentials/i.test(error.message)?"Usuário ou senha incorretos. Use o botão Mostrar para conferir o que você digitou.":"Não foi possível entrar: "+error.message;return}
   await enter(data.session);
 });
 if(sb)sb.auth.getSession().then(({data})=>{if(data.session)enter(data.session)});
