@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Família Steam</title>
 <link rel="icon" href="img/steam.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a1220">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Família Steam">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script>try{document.documentElement.dataset.theme=localStorage.getItem("tema")||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}</script>
 <style>
 :root{--bg:#0d0e0d;--card:#181918;--card2:#242524;--line:rgba(255,255,255,.09);--tx:#f3f5ef;--mut:#99a094;--ac:#8bd400;--act:#0b1200;--pd:#8bd400;--ow:#ff6b5e;--glow:rgba(139,212,0,.11);--hd:'Space Grotesk','Inter',system-ui,sans-serif;--bd:'Inter',system-ui,sans-serif;--r:8px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
@@ -283,7 +290,7 @@ body.member [data-a="edit"]{display:none!important}
 </aside>
 <div class="mainc">
 <header class="tb"><h1 id="pgt">Jogos</h1>
-<div class="nr"><button class="ic" id="th" aria-label="Alternar tema claro e escuro">◐</button>
+<div class="nr"><button class="pillb" id="inst" hidden>Instalar app</button><button class="ic" id="th" aria-label="Alternar tema claro e escuro">◐</button>
 <button class="ic" id="bell" aria-label="Notificações">🔔<span id="bc" hidden></span></button>
 <div id="nf" hidden></div>
 <button class="ic" id="meb" aria-label="Meu avatar"></button></div></header>
@@ -371,7 +378,7 @@ const SUPABASE_URL="https://viawxlfqhjqgglqrqjdd.supabase.co",SUPABASE_KEY="eyJh
 const EMAIL_DOMAIN="familiasteam.app";
 const BUDGET_MAX=1000;
 const MEMBERS=["Marllon","Keren","Borges","Jonathan","Gilney","Luiz"];
-const sb=/^https?:/.test(SUPABASE_URL)?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;
+const sb=window.supabase&&/^https?:/.test(SUPABASE_URL)?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;
 const $=id=>document.getElementById(id);
 const brl=n=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -379,7 +386,7 @@ const today=()=>new Date().toLocaleDateString("sv-SE");
 const fmt=d=>d.toLocaleDateString("pt-BR");
 const slug=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"jogo";
 function due(g,k){const [y,m,d]=g.start.split("-").map(Number);const t=m-1+k,ly=y+Math.floor(t/12),lm=t%12;return new Date(ly,lm,Math.min(d,new Date(ly,lm+1,0).getDate()))}
-function toast(m,ok){const t=$("tt");t.textContent=m;t.hidden=false;t.style.background=ok?"var(--ac)":"var(--ow)";t.style.color=ok?"var(--act)":"#fff";clearTimeout(toast.h);toast.h=setTimeout(()=>{t.hidden=true},5000)}
+function toast(m,ok,ms){const t=$("tt");t.textContent=m;t.hidden=false;t.style.background=ok?"var(--ac)":"var(--ow)";t.style.color=ok?"var(--act)":"#fff";clearTimeout(toast.h);toast.h=setTimeout(()=>{t.hidden=true},ms||5000)}
 function readImg(file){return new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;r.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{const sc=Math.min(1,640/im.width),c=document.createElement("canvas");c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);c.getContext("2d").drawImage(im,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",.82))};im.src=r.result};r.readAsDataURL(file)})}
 
 /* ---------- estado ---------- */
@@ -959,6 +966,22 @@ $("eds").onclick=async()=>{
   save();closeEdit();renderAll();toast("Jogo atualizado.",true);
 };
 
+/* ---------- app instalável ---------- */
+let dip=null;
+const standalone=()=>(typeof matchMedia==="function"&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent||"");
+const instShow=()=>{$("inst").hidden=standalone()||!(dip||isIOS)};
+if(window.addEventListener){
+  window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();dip=e;instShow()});
+  window.addEventListener("appinstalled",()=>{dip=null;instShow();toast("App instalado.",true)});
+  if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost"))window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{})});
+}
+$("inst").onclick=async()=>{
+  if(dip){dip.prompt();try{await dip.userChoice}catch(_){}dip=null;instShow()}
+  else toast("No iPhone: toque em Compartilhar (quadrado com seta) e depois em Adicionar à Tela de Início.",true,9000);
+};
+instShow();
+
 /* ---------- login ---------- */
 $("d").value=today();
 async function enter(session){
@@ -969,7 +992,7 @@ async function enter(session){
 }
 $("lf").addEventListener("submit",async e=>{
   e.preventDefault();$("le").textContent="";
-  if(!sb){$("le").textContent="Falta configurar a URL e a chave do Supabase no início do script.";return}
+  if(!sb){$("le").textContent="Sem conexão com o servidor. Verifique a internet e tente de novo.";return}
   const {data,error}=await sb.auth.signInWithPassword({email:`${$("lu").value.trim().toLowerCase()}@${EMAIL_DOMAIN}`,password:$("lp").value});
   if(error){$("le").textContent="Usuário ou senha incorretos.";return}
   await enter(data.session);
