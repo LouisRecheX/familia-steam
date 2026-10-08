@@ -113,7 +113,7 @@ details.addg>summary{cursor:pointer;font:700 18px var(--hd)}
 .adm2{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}.adm2 input{width:auto;padding:7px 11px}
 #lg{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(800px 500px at 20% 10%,var(--glow),transparent 60%),var(--bg);z-index:50}
 .lgc{width:100%;max-width:380px;padding:30px 26px;background:var(--card);border:1px solid var(--line);border-radius:var(--r)}.lgc h1{font-size:30px;margin-bottom:6px}
-#md,#av{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px;z-index:40;overflow:auto}
+#md,#av,#pxm{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px;z-index:40;overflow:auto}
 .mbox{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;width:100%;max-width:760px;max-height:100%;overflow:auto}
 .mact{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}.mact button.pri{background:var(--ac);color:var(--act);border-color:var(--ac)}#rn{color:var(--ow);font-size:13px}
 .avg{display:flex;flex-wrap:wrap;gap:14px;margin:10px 0 18px}.avb{background:none;border:3px solid transparent;border-radius:50%;padding:0;cursor:pointer}.avb:hover,.avb:focus-visible{border-color:var(--ac)}
@@ -157,8 +157,10 @@ input,select{font-size:16px}
 .pix b{color:var(--tx)}.pix b.pk{color:var(--ac);word-break:break-all}
 .cpy{background:var(--card2);border:1px solid var(--line);color:var(--tx);border-radius:var(--r);padding:3px 10px;cursor:pointer;font:600 12px var(--bd)}
 .psel{width:auto!important;padding:4px 8px!important;font-size:13px!important}
+#pxc{width:100%;background:var(--card2);border:1px solid var(--line);color:var(--tx);border-radius:var(--r);padding:10px;font:12px/1.4 monospace;resize:none}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 </head>
 <body>
 <div id="lg"><form class="lgc" id="lf" autocomplete="on">
@@ -238,6 +240,12 @@ input,select{font-size:16px}
 <small class="mt">Jogos</small><div class="avg" id="avj"></div><p class="mt" id="avh">Nenhum avatar de jogo encontrado. Veja no LEIA-ME como montar a pasta avatars.</p>
 <small class="mt">Clássicos</small><div class="avg" id="avg"></div>
 <div class="mact"><button id="avx">Fechar</button><button class="del" id="out">Sair da conta</button></div></div></div>
+<div id="pxm" hidden role="dialog" aria-modal="true" aria-label="Pagar parcela"><div class="mbox" style="max-width:420px;text-align:center">
+<h2 id="pxt">Pagar parcela</h2><p class="mt" id="pxs"></p>
+<div id="pxq" style="margin:14px auto;background:#fff;padding:10px;border-radius:8px;width:fit-content;min-height:60px"></div>
+<textarea id="pxc" readonly rows="4" aria-label="Código Pix copia e cola"></textarea>
+<div class="mact" style="justify-content:center"><button class="pri" id="pxcp">Copiar Pix com valor</button><button id="pxx">Fechar</button></div>
+<p class="mt" style="font-size:12px;margin-top:12px">No app do banco, escolha Pix > Copia e Cola (ou Ler QR Code) e confira o nome e o valor antes de confirmar.</p></div></div>
 <div id="md" hidden role="dialog" aria-modal="true" aria-label="Relatório do jogo"><div class="mbox"><div id="rc"></div>
 <div class="mact"><button class="pri" id="rpng">Salvar imagem (PNG)</button><button class="pri" id="rpdf">Salvar PDF</button><button id="rclose">Fechar</button><span id="rn" role="alert"></span></div></div></div>
 <script>
@@ -366,7 +374,7 @@ const payerSel=g=>`<select class="psel" data-id="${g.id}" aria-label="Pagador">$
 function payHtml(g){
   if(!g.payer)return isAdmin()?`<div class="pix">Pagador não definido: ${payerSel(g)}</div>`:"";
   const p=prof(g.payer)||{},mine=g.payer===me.name;
-  const body=mine?`Você é o pagador deste jogo. Os outros enviam as parcelas para você.`:`Pague a parcela para <b>${esc(g.payer)}</b> · ${p.pix?`Pix: <b class="pk">${esc(p.pix)}</b> <button class="cpy" data-pix="${esc(p.pix)}">Copiar</button>`:`<span class="ow">Pix ainda não cadastrado</span>`}`;
+  const body=mine?`Você é o pagador deste jogo. Os outros enviam as parcelas para você.`:`Pague a parcela para <b>${esc(g.payer)}</b> · ${p.pix?`Pix: <b class="pk">${esc(p.pix)}</b> <button class="cpy" data-pix="${esc(p.pix)}">Copiar</button> <button class="cpy" data-pay="${g.id}">Pagar parcela</button>`:`<span class="ow">Pix ainda não cadastrado</span>`}`;
   return `<div class="pix">${isDone(g)?"":body+" "}${isAdmin()?`<span class="mt">Pagador: ${payerSel(g)}</span>`:""}</div>`;
 }
 function cardHtml(g){
@@ -432,7 +440,7 @@ function onAct(e){
   save();renderAll();
 }
 $("fin").addEventListener("click",navClick);$("fin").addEventListener("click",onAct);$("gg").addEventListener("click",onAct);
-$("gg").addEventListener("click",async e=>{const b=e.target.closest(".cpy");if(!b)return;try{await navigator.clipboard.writeText(b.dataset.pix);toast("Chave Pix copiada.",true)}catch(_){toast("Copie manualmente: "+b.dataset.pix,true)}});
+$("gg").addEventListener("click",async e=>{const b=e.target.closest(".cpy[data-pix]");if(!b)return;try{await navigator.clipboard.writeText(b.dataset.pix);toast("Chave Pix copiada.",true)}catch(_){toast("Copie manualmente: "+b.dataset.pix,true)}});
 $("gg").addEventListener("change",e=>{const i=e.target;if(i.classList&&i.classList.contains("psel")&&isAdmin()){const g=games.find(x=>x.id==i.dataset.id);if(g){g.payer=i.value||undefined;save();renderAll()}}});
 $("gg").addEventListener("toggle",e=>{const d=e.target;if(d.classList&&d.classList.contains("pay")){const id=+d.dataset.id;d.open?openSet.add(id):openSet.delete(id)}},true);
 $("gg").addEventListener("change",e=>{const i=e.target;if(i.classList&&i.classList.contains("sd")&&i.value){const g=games.find(x=>x.id==i.dataset.id);if(g){g.start=i.value;save();renderAll()}}});
@@ -593,6 +601,27 @@ $("av").addEventListener("click",async e=>{
 });
 $("out").onclick=async()=>{await sb.auth.signOut();location.reload()};
 
+/* ---------- Pix copia e cola e QR code ---------- */
+const emv=(id,v)=>id+String(v.length).padStart(2,"0")+v;
+function crc16(t){let c=0xFFFF;for(let i=0;i<t.length;i++){c^=t.charCodeAt(i)<<8;for(let j=0;j<8;j++)c=(c&0x8000)?((c<<1)^0x1021)&0xFFFF:(c<<1)&0xFFFF}return c.toString(16).toUpperCase().padStart(4,"0")}
+function pixKey(k){k=(k||"").trim();if(k.includes("@"))return k.toLowerCase();if(k.startsWith("+"))return "+"+k.replace(/\D/g,"");if(/^[\d.\-\/\s()]+$/.test(k))return k.replace(/\D/g,"");return k}
+const ascii=t=>t.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Za-z0-9 ]/g,"").toUpperCase();
+function pixCode(key,amount,name){
+  const acc=emv("00","BR.GOV.BCB.PIX")+emv("01",pixKey(key));
+  let p=emv("00","01")+emv("01","11")+emv("26",acc)+emv("52","0000")+emv("53","986")+emv("54",amount.toFixed(2))+emv("58","BR")+emv("59",ascii(name).slice(0,25)||"FAMILIA STEAM")+emv("60","BRASIL")+emv("62",emv("05","***"))+"6304";
+  return p+crc16(p);
+}
+function openPix(g){
+  const pf=prof(g.payer)||{};if(!pf.pix){toast("O pagador ainda não cadastrou o Pix.");return}
+  const amt=per(g),code=pixCode(pf.pix,amt,g.payer);
+  $("pxt").textContent=g.name;$("pxs").textContent=`Pagar ${brl(amt)} para ${g.payer}`;$("pxc").value=code;
+  let q="";if(window.qrcode){try{const qr=qrcode(0,"M");qr.addData(code);qr.make();q=qr.createImgTag(5,6)}catch(_){}}
+  $("pxq").innerHTML=q||`<span style="color:#333;font-size:13px">QR code indisponível. Use o código abaixo.</span>`;$("pxm").hidden=false;
+}
+$("gg").addEventListener("click",e=>{const b=e.target.closest("[data-pay]");if(b){const g=games.find(x=>x.id==b.dataset.pay);if(g)openPix(g)}});
+$("pxcp").onclick=async()=>{try{await navigator.clipboard.writeText($("pxc").value);toast("Código Pix copiado. Cole no app do banco.",true)}catch(_){$("pxc").select();toast("Selecione e copie o código.",true)}};
+$("pxx").onclick=()=>{$("pxm").hidden=true};$("pxm").addEventListener("click",e=>{if(e.target===$("pxm"))$("pxm").hidden=true});
+
 /* ---------- relatório (PNG / PDF) ---------- */
 function fit(x,t,w){while(t.length>3&&x.measureText(t).width>w)t=t.slice(0,-2);return t}
 function drawReport(g){
@@ -647,7 +676,7 @@ function saveFile(name,data){const u=URL.createObjectURL(data),a=document.create
 $("rpng").onclick=()=>{if(!curRep)return;curRep.c.toBlob(b=>{if(b)saveFile(`relatorio-${slug(curRep.g.name)}.png`,b)},"image/png")};
 $("rpdf").onclick=()=>{if(!curRep)return;try{saveFile(`relatorio-${slug(curRep.g.name)}.pdf`,pdfFrom(curRep.c))}catch(e){note("Não foi possível gerar o PDF.")}};
 $("rclose").onclick=()=>{$("md").hidden=true};$("md").addEventListener("click",e=>{if(e.target===$("md"))$("md").hidden=true});
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("md").hidden=true;$("av").hidden=true}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("md").hidden=true;$("av").hidden=true;$("pxm").hidden=true}});
 
 /* ---------- login ---------- */
 $("d").value=today();
@@ -665,7 +694,7 @@ $("lf").addEventListener("submit",async e=>{
   await enter(data.session);
 });
 if(sb)sb.auth.getSession().then(({data})=>{if(data.session)enter(data.session)});
-const idle=()=>{const a=document.activeElement;return !me||document.hidden||pend>0||!$("md").hidden||!$("av").hidden||(a&&/INPUT|SELECT|TEXTAREA/.test(a.tagName))};
+const idle=()=>{const a=document.activeElement;return !me||document.hidden||pend>0||!$("md").hidden||!$("av").hidden||!$("pxm").hidden||(a&&/INPUT|SELECT|TEXTAREA/.test(a.tagName))};
 document.addEventListener("visibilitychange",()=>{if(!idle())loadAll()});
 setInterval(()=>{if(!idle())loadAll()},45000);
 </script>
