@@ -369,6 +369,24 @@ body :is(button:disabled,.frb:disabled){opacity:.45;cursor:not-allowed;transform
 .idn{display:grid;gap:6px}
 .idr{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card2);border-radius:var(--r);padding:8px 12px}
 .idr>span{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.mbox{max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px)}
+#av{overflow:hidden}
+.acc{background:var(--card2);border:1px solid var(--line);border-radius:12px;margin-top:10px}
+.acc>summary{cursor:pointer;padding:12px 14px;font:700 15px var(--hd);list-style:none;display:flex;justify-content:space-between;align-items:center}
+.acc>summary::-webkit-details-marker{display:none}
+.acc>summary::after{content:"▾";color:var(--mut);transition:transform .2s}
+.acc[open]>summary::after{transform:rotate(180deg)}
+.accb{padding:2px 14px 14px}
+.savebar{position:sticky;bottom:-1px;z-index:6;background:var(--card);display:flex;flex-wrap:wrap;gap:8px;padding:12px 0 2px;margin-top:12px;border-top:1px solid var(--line)}
+.savebar .add{flex:1;min-width:150px;width:auto;margin:0}
+.savebar button:not(.add){padding:10px 14px;border-radius:var(--r);cursor:pointer;font:600 13px var(--bd)}
+.fchips{display:flex;flex-wrap:wrap;gap:8px}
+.fchip{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:104px;padding:10px 12px;border-radius:var(--r);background:var(--card);border:2px solid transparent;color:var(--tx);cursor:pointer;font-size:20px;line-height:1.1;transition:border-color .15s,transform .15s}
+.fchip small{font:500 11px var(--bd);color:var(--mut)}
+.fchip:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--ac) 60%,transparent)}
+.fchip.on{border-color:var(--ac)}
+.nkpv{background:#0f1a2e;border-radius:10px;padding:14px 16px;min-height:60px;display:flex;align-items:center;margin-top:4px}
+.nkpv h3{color:#e8eefb}.nkpv small{color:#93a4c3}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -389,7 +407,7 @@ body :is(button:disabled,.frb:disabled){opacity:.45;cursor:not-allowed;transform
 <div class="sg">NAVEGAÇÃO</div>
 <nav class="links"><button class="on" data-t="jg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M8 10v4M6 12h4"/><circle cx="16" cy="11" r="1"/><circle cx="18" cy="13" r="1"/></svg><span>Jogos</span></button><button data-t="vt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/></svg><span>Votação</span></button><button data-t="wl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.600-7 10-7 10z"/></svg><span>Wishlist</span></button><button data-t="pf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.600 3.400-5.500 6.500-5.500s5.700 1.900 6.500 5.500"/><path d="M16 4.500a3.500 3.500 0 0 1 0 7M18 14.800c1.800.8 3 2.600 3.500 5.200"/></svg><span>Perfis</span></button></nav>
 <div class="sg">CONFIGURAR</div>
-<button class="sl" id="prf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c1-4 4-6 8-6s7 2 8 6"/></svg><span>Meu perfil e Pix</span></button>
+<button class="sl" id="prf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c1-4 4-6 8-6s7 2 8 6"/></svg><span>Minhas informações</span></button>
 
 <button class="sl" id="pwb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Trocar senha</span></button>
 <button class="sl" id="out2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H5v16h4M16 8l4 4-4 4M20 12H9"/></svg><span>Sair</span></button>
@@ -457,32 +475,39 @@ body :is(button:disabled,.frb:disabled){opacity:.45;cursor:not-allowed;transform
 <div id="tt" hidden role="alert"></div>
 <input type="file" id="fp" accept="image/*" hidden>
 <input type="file" id="rcf" accept="image/*" multiple hidden>
-<div id="av" hidden role="dialog" aria-modal="true" aria-label="Escolher avatar"><div class="mbox">
-<h2>Meu perfil</h2>
+<div id="av" hidden role="dialog" aria-modal="true" aria-label="Minhas informações"><div class="mbox avbox">
+<h2>Minhas informações</h2>
 <div class="prvw"><small class="mt">Pré-visualização do seu cartão (atualiza enquanto você edita)</small><div id="mprv"></div></div>
+<details class="acc" open><summary>Pix e gametags</summary><div class="accb">
 <label for="mpix">Minha chave Pix (e-mail, CPF, telefone ou chave aleatória)</label>
 <div id="pixlk" class="pixlk" hidden><div><b id="pixv"></b><small class="mt">Chave já cadastrada. Cada pessoa tem uma única chave Pix.</small></div><button type="button" class="pillb" id="pixchg">Trocar chave</button></div>
 <input type="text" id="mpix" placeholder="Ex.: seuemail@gmail.com" autocomplete="off">
 <label>Gamertags (deixe em branco o que você não usa)</label>
 <div class="tgrid" id="mtags"></div>
+</div></details>
+<details class="acc"><summary>Apelido e fonte do nome</summary><div class="accb">
 <label for="nk">Apelido na família (aparece no seu cartão)</label>
 <input type="text" id="nk" maxlength="24" placeholder="Ex.: Galdino" autocomplete="off">
-<div class="row"><div><label for="nkf">Fonte do apelido</label><select id="nkf"></select></div><div><label for="nkx">Efeito</label><select id="nkx"></select></div></div>
+<label>Fonte do apelido (toque para escolher)</label>
+<div class="fchips" id="nkfc"></div><select id="nkf" hidden></select>
+<div class="row"><div><label for="nkx">Efeito</label><select id="nkx"></select></div></div>
 <div class="nkp" id="nkp"></div>
-<label>Cor do seu cartão de perfil</label>
-<div class="pal" id="mpal"></div>
-<label>Moldura do avatar</label>
-<div class="frs" id="mfr"></div>
-<label>Banner do cartão (imagem do topo)</label>
-<div class="frs" id="mbn"></div>
-<label>Ornamento do cartão (cantos decorados)</label>
-<div class="frs" id="mor"></div>
-<button class="add" id="spix" type="button" style="margin:14px 0 20px">Salvar perfil</button>
-<label>Contas vinculadas (entrar sem digitar a senha)</label>
-<div class="idn" id="idn"></div>
-<label>Escolha seu avatar</label>
-<div class="avg" id="avj"></div><p class="mt" id="avh">Nenhum avatar de jogo encontrado. Veja no LEIA-ME como montar a pasta avatars.</p>
-<div class="mact"><button id="avx">Fechar</button><button id="pwb2" type="button">Trocar minha senha</button><button class="del" id="out">Sair da conta</button></div></div></div>
+<label>Como vai ficar o seu nome</label>
+<div class="nkpv" id="nkpv"></div>
+</div></details>
+<details class="acc"><summary>Cor do cartão</summary><div class="accb"><div class="pal" id="mpal"></div></div></details>
+<details class="acc"><summary>Moldura, banner e ornamento</summary><div class="accb">
+<label>Moldura do avatar</label><div class="frs" id="mfr"></div>
+<label>Banner do cartão (imagem do topo)</label><div class="frs" id="mbn"></div>
+<label>Ornamento do cartão (cantos decorados)</label><div class="frs" id="mor"></div>
+</div></details>
+<details class="acc"><summary>Avatar</summary><div class="accb"><div class="avg" id="avj"></div><p class="mt" id="avh">Nenhum avatar de jogo encontrado. Veja no LEIA-ME como montar a pasta avatars.</p></div></details>
+<details class="acc"><summary>Contas vinculadas e senha</summary><div class="accb">
+<label>Contas vinculadas (entrar sem digitar a senha)</label><div class="idn" id="idn"></div>
+<button type="button" class="pillb" id="pwb2" style="margin-top:12px">Trocar minha senha</button>
+</div></details>
+<div class="savebar"><button class="add" id="spix" type="button">Salvar alterações</button><button id="avx" type="button">Fechar</button><button class="del" id="out" type="button">Sair da conta</button></div>
+</div></div>
 <div id="pw" hidden role="dialog" aria-modal="true" aria-label="Trocar senha"><div class="mbox" style="max-width:420px"><h2 id="pwt">Trocar senha</h2>
 <p class="mt" id="pwp">Escolha uma senha nova, com pelo menos 8 caracteres. Anote em um lugar seguro: não dá para recuperar por e-mail.</p>
 <label for="pw1">Nova senha</label><div class="pwf"><input type="password" id="pw1" autocomplete="new-password"><button type="button" class="eye" data-eye="pw1" aria-label="Mostrar senha">Mostrar</button></div>
@@ -942,7 +967,12 @@ const bnRender=()=>pickRender($("mbn"),BANNERS,selBanner,"banners","thb");
 const orRender=()=>pickRender($("mor"),ORNS,selOrn,"ornaments","tho");
 $("mbn").addEventListener("click",e=>{const b=e.target.closest(".frb");if(b&&!b.disabled){selBanner=b.dataset.f||null;bnRender()}});
 $("mor").addEventListener("click",e=>{const b=e.target.closest(".frb");if(b&&!b.disabled){selOrn=b.dataset.f||null;orRender()}});
-function prvRender(){$("mprv").innerHTML=pcard(me.name,draft(),true,true)}
+function nkfRender(){
+  const cur=$("nkf").value||"padrao",txt=(($("nk").value||"").trim()||me.name).slice(0,12);
+  $("nkfc").innerHTML=NFONTS.map(([k,l,f])=>`<button type="button" class="fchip ${k===cur?"on":""}" data-k="${k}" style="font-family:${f}" title="${l}">${esc(txt)}<small>${l}</small></button>`).join("");
+}
+$("nkfc").addEventListener("click",e=>{const b=e.target.closest(".fchip");if(!b)return;$("nkf").value=b.dataset.k;prvRender()});
+function prvRender(){const d=draft();$("mprv").innerHTML=pcard(me.name,d,true,true);const pv=$("nkpv");if(pv)pv.innerHTML=nameHtml(me.name,d);nkfRender()}
 $("av").addEventListener("input",e=>{if(e.target.matches&&e.target.matches("input"))prvRender()});
 const frOk=f=>f.unlock!=="top"||topMember===me.name;
 function frRender(){
@@ -1297,6 +1327,7 @@ $("idn").addEventListener("click",async e=>{
   if(u){const i=($("idn")._ids||[]).find(x=>x.provider===u.dataset.unl);if(!i)return;const r=await sb.auth.unlinkIdentity(i);if(r.error)return toast("Não foi possível desvincular: "+r.error.message);toast("Conta desvinculada.",true);identRender()}
 });
 
+$("av").addEventListener("toggle",e=>{const d=e.target;if(d.classList&&d.classList.contains("acc")&&d.open)document.querySelectorAll("#av details.acc").forEach(x=>{if(x!==d)x.open=false})},true);
 /* ---------- ver / ocultar senha ---------- */
 document.addEventListener("click",e=>{
   const b=e.target.closest(".eye");if(!b)return;
