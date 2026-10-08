@@ -166,7 +166,7 @@ input,select{font-size:16px}
 :root{--bg:#0a1220;--card:#121e33;--card2:#1b2b47;--line:rgba(130,170,230,.15);--tx:#e8eefb;--mut:#93a4c3;--ac:#22d3ee;--act:#04212b;--pd:#34d399;--ow:#fb7185;--yl:#facc15;--yt:#2b2100;--glow:rgba(139,92,246,.22);--hd:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--bd:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--r:10px}
 :root[data-theme="light"]{--bg:#eef2f9;--card:#fff;--card2:#e8eef8;--line:rgba(15,27,51,.12);--tx:#0f1b33;--mut:#586a8c;--ac:#0891b2;--act:#fff;--pd:#059669;--ow:#e11d48;--yl:#eab308;--yt:#2b2100;--glow:rgba(124,58,237,.14)}
 body{background:radial-gradient(900px 520px at 90% -8%,var(--glow),transparent 60%),radial-gradient(700px 480px at 0% 0%,rgba(34,211,238,.09),transparent 60%),var(--bg);font-variant-numeric:tabular-nums}
-body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:url(img/fundo.jpg) center/cover no-repeat;opacity:.16}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:url(img/fundo.jpg) center/cover no-repeat,url(img/fundo.png) center/cover no-repeat;opacity:.16}
 :root[data-theme="light"] body:before{opacity:.1}
 h1,h2,h3{font-weight:700;letter-spacing:0}
 .shell{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh}
@@ -184,7 +184,7 @@ h1,h2,h3{font-weight:700;letter-spacing:0}
 .tb{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 28px;position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 85%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .tb h1{font-size:20px;margin:0}
 .content{padding:20px 28px 72px;max-width:1280px}
-.hero{display:grid;grid-template-columns:150px 1.3fr 1fr;gap:24px;align-items:center;padding:26px;border-radius:14px;border:1px solid var(--line);margin-bottom:18px;background:linear-gradient(90deg,rgba(10,18,32,.93),rgba(10,18,32,.6)),url(img/hero.jpg) center/cover,linear-gradient(120deg,#2a1457,#0f3a5c)}
+.hero{display:grid;grid-template-columns:150px 1.3fr 1fr;gap:24px;align-items:center;padding:26px;border-radius:14px;border:1px solid var(--line);margin-bottom:18px;background:linear-gradient(90deg,rgba(10,18,32,.93),rgba(10,18,32,.6)),url(img/hero.jpg) center/cover,url(img/hero.png) center/cover,linear-gradient(120deg,#2a1457,#0f3a5c)}
 .hero,.hero h2,.hero b{color:#fff}
 .hero p,.hero small,.hero .eb{color:#c7d3ea}
 .hcov{width:150px;height:200px;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.08);box-shadow:0 10px 30px rgba(0,0,0,.4)}
@@ -695,13 +695,13 @@ function tab(t){$("pgt").textContent={jg:"Jogos",vt:"Votação",wl:"Wishlist",pf
 document.querySelector(".links").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(b)tab(b.dataset.t)});
 $("th").onclick=()=>{const n=document.documentElement.dataset.theme==="light"?"dark":"light";document.documentElement.dataset.theme=n;try{localStorage.setItem("tema",n)}catch(_){}};
 function chkAv(img){const b=img.closest("button"),c=b.parentNode;b.remove();if(!c.querySelector("button"))c.parentNode.remove();$("avh").hidden=!!$("avj").querySelector("button")}
-const PLAT=[["epic","Epic Games"],["xbox","Xbox"],["riot","Riot Games"],["battlenet","Battle.net"],["origin","Origin"],["ubisoft","Ubisoft Connect"]];
+const PLAT=[["epic","Epic Games","epicgames"],["xbox","Xbox","xbox"],["riot","Riot Games","riotgames"],["battlenet","Battle.net","battlenet"],["origin","Origin","origin"],["ubisoft","Ubisoft Connect","ubisoft"],["playstation","PlayStation","playstation"]];
 const PALS=["#22d3ee","#8b5cf6","#ec4899","#34d399","#f97316","#ef4444","#3b82f6","#facc15"];
 const hexOk=c=>/^#[0-9a-fA-F]{6}$/.test(c||"");
 async function loadFrames(){try{const r=await fetch("frames/frames.json",{cache:"no-store"});if(r.ok)FRAMES=(await r.json()).filter(f=>f&&/^[a-z0-9-]{1,40}$/.test(f.id)&&/^[a-z0-9._-]+$/i.test(f.file))}catch(_){FRAMES=[]}}
 function frameSrc(name){const f=((prof(name)||{}).frame),d=FRAMES.find(x=>x.id===f);if(!d)return"";if(d.unlock==="top"&&topMember!==name)return"";return "frames/"+d.file}
 function avf(name,sz){const fr=frameSrc(name);if(!fr)return av(name,sz);return `<span class="avf" style="width:${sz}px;height:${sz}px"><span class="avi">${av(name,Math.round(sz*.72))}</span><img class="frm" src="${esc(fr)}" alt="" onerror="this.remove()"></span>`}
-$("mtags").innerHTML=PLAT.map(([k,l])=>`<label class="tg"><img class="pi" src="img/${k}.png" alt="" onerror="this.remove()"><input type="text" id="tg-${k}" placeholder="${l}" maxlength="40" autocomplete="off" aria-label="${l}"></label>`).join("");
+$("mtags").innerHTML=PLAT.map(([k,l,f])=>`<label class="tg"><img class="pi" src="img/${f}.png" alt="" onerror="this.remove()"><input type="text" id="tg-${k}" placeholder="${l}" maxlength="40" autocomplete="off" aria-label="${l}"></label>`).join("");
 function palRender(){$("mpal").innerHTML=PALS.map(c=>`<button type="button" class="sw ${c===selPal?"on":""}" style="background:${c}" data-c="${c}" aria-label="Cor ${c}"></button>`).join("")+`<input type="color" id="mcol" value="${selPal}" aria-label="Cor personalizada">`}
 $("mpal").addEventListener("click",e=>{const b=e.target.closest(".sw");if(b){selPal=b.dataset.c;palRender()}});
 $("mpal").addEventListener("input",e=>{if(e.target.id==="mcol"){selPal=e.target.value;document.querySelectorAll("#mpal .sw").forEach(x=>x.classList.remove("on"))}});
@@ -713,7 +713,7 @@ $("mfr").addEventListener("click",e=>{const b=e.target.closest(".frb");if(b&&!b.
 function pfRender(){
   $("pfg").innerHTML=MEMBERS.map(n=>{
     const p=prof(n)||{},c=hexOk(p.palette)?p.palette:"#22d3ee",tg=p.tags||{};
-    const tags=PLAT.filter(([k])=>tg[k]).map(([k,l])=>`<div class="gt"><img class="pi" src="img/${k}.png" alt="${l}" title="${l}" onerror="this.outerHTML='<b>${l}</b>'"><span>${esc(tg[k])}</span></div>`).join("")||`<div class="mt">Nenhuma gametag cadastrada.</div>`;
+    const tags=PLAT.filter(([k])=>tg[k]).map(([k,l,f])=>`<div class="gt"><img class="pi" src="img/${f}.png" alt="${l}" title="${l}" onerror="this.outerHTML='<b>${l}</b>'"><span>${esc(tg[k])}</span></div>`).join("")||`<div class="mt">Nenhuma gametag cadastrada.</div>`;
     return `<article class="pcard" style="--pc:${c}"><div class="pch"></div><div class="pcb"><div class="pcav">${avf(n,96)}</div>
     <div class="pcn"><h3>${esc(n)}</h3>${topMember===n?`<span class="pill gold">★ Premium Member</span>`:""}${n===me.name?`<span class="mt">(você)</span>`:""}</div>
     <div class="gts">${tags}</div>
