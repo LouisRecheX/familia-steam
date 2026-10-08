@@ -163,6 +163,9 @@ input,select{font-size:16px}
 .logo.big{width:38px;height:38px;margin-right:10px}
 .pxlogo{height:38px;max-width:140px;object-fit:contain;margin-bottom:8px}
 .pxi{height:14px;width:auto;vertical-align:-2px;margin-right:5px}
+.shr{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.shb{background:var(--card2);border:1px solid var(--line);color:var(--tx);border-radius:var(--r);padding:7px 12px;cursor:pointer;font:600 13px var(--bd);display:inline-flex;align-items:center;gap:7px}
+.shb:hover{border-color:var(--ac)}.shi{height:16px;width:auto}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -300,7 +303,7 @@ async function loadAll(){
   const [g,w,p,pr,bg,v,nt]=R;
   profs=pr.data;me=profs.find(x=>x.id===me.id)||me;
   games=g.data.map(r=>{const ps=r.participants.slice().sort((a,b)=>mi(a.member)-mi(b.member));
-    return{id:r.id,name:r.name,total:+r.total,parcelas:r.parcelas,n:r.n||ps.length,start:r.start_date||undefined,year:r.year||+(r.start_date||"").slice(0,4)||new Date().getFullYear(),img:r.img||undefined,payer:r.payer||undefined,members:ps.map(x=>x.member),pay:Object.fromEntries(ps.map(x=>[x.member,x.paid]))}});
+    return{id:r.id,name:r.name,total:+r.total,parcelas:r.parcelas,n:r.n||ps.length,start:r.start_date||undefined,year:r.start_date?+r.start_date.slice(0,4):(r.year||new Date().getFullYear()),img:r.img||undefined,payer:r.payer||undefined,members:ps.map(x=>x.member),pay:Object.fromEntries(ps.map(x=>[x.member,x.paid]))}});
   snap.clear();games.forEach(x=>snap.set(x.id,JSON.stringify(x)));
   wish=w.data;props=p.data;wv=v.data;notifs=nt.data;budgets={};
   bg.data.forEach(x=>{const u=profs.find(y=>y.id===x.user_id);if(u)budgets[u.name]=x.monthly});
@@ -363,7 +366,7 @@ function contribRender(){
   const sum=Object.values(tot).reduce((a,b)=>a+b,0),mx=Math.max(...Object.values(tot),0.01);
   $("ct").innerHTML=`<h2>Contribuído em <select id="cy" aria-label="Ano">${[...yrs].sort().map(y=>`<option ${y===cy?"selected":""}>${y}</option>`).join("")}</select></h2>
   ${Object.keys(tot).map(n=>`<div class="cr"><span>${av(n,24)}${n}</span><div class="cb"><i style="width:${tot[n]/mx*100}%"></i></div><b>${brl(tot[n])}</b></div>`).join("")}
-  <div class="cs"><span>Total do ano</span><b>${brl(sum)}</b></div><p class="ch">Parte de cada um nos jogos que começaram a ser pagos em ${cy}. O valor conta inteiro no ano em que o jogo foi adicionado, mesmo que as parcelas passem para o ano seguinte.</p>`;
+  <div class="cs"><span>Total do ano</span><b>${brl(sum)}</b></div><p class="ch">Parte de cada um nos jogos comprados em ${cy} que já começaram a ser pagos. O valor conta inteiro no ano da compra (data da 1ª parcela), mesmo que as parcelas passem para o ano seguinte.</p>`;
 }
 function schedLine(g){
   if(!g.start)return isAdmin()?`<div class="sch">Sem data da 1ª parcela. Definir: <input type="date" class="sd" data-id="${g.id}" aria-label="Data da primeira parcela"></div>`:"";
@@ -446,7 +449,7 @@ $("fin").addEventListener("click",navClick);$("fin").addEventListener("click",on
 $("gg").addEventListener("click",async e=>{const b=e.target.closest(".cpy[data-pix]");if(!b)return;try{await navigator.clipboard.writeText(b.dataset.pix);toast("Chave Pix copiada.",true)}catch(_){toast("Copie manualmente: "+b.dataset.pix,true)}});
 $("gg").addEventListener("change",e=>{const i=e.target;if(i.classList&&i.classList.contains("psel")&&isAdmin()){const g=games.find(x=>x.id==i.dataset.id);if(g){g.payer=i.value||undefined;save();renderAll()}}});
 $("gg").addEventListener("toggle",e=>{const d=e.target;if(d.classList&&d.classList.contains("pay")){const id=+d.dataset.id;d.open?openSet.add(id):openSet.delete(id)}},true);
-$("gg").addEventListener("change",e=>{const i=e.target;if(i.classList&&i.classList.contains("sd")&&i.value){const g=games.find(x=>x.id==i.dataset.id);if(g){g.start=i.value;save();renderAll()}}});
+$("gg").addEventListener("change",e=>{const i=e.target;if(i.classList&&i.classList.contains("sd")&&i.value){const g=games.find(x=>x.id==i.dataset.id);if(g){g.start=i.value;g.year=+i.value.slice(0,4);save();renderAll()}}});
 $("fp").addEventListener("change",async e=>{const f=e.target.files[0];e.target.value="";const g=games.find(x=>x.id===photoId);if(!f||!g)return;try{g.img=await readImg(f);save();renderAll()}catch(_){toast("Não foi possível ler a foto.")}});
 $("fch").addEventListener("click",e=>{const b=e.target.closest("button[data-f]");if(!b)return;gf=b.dataset.f;document.querySelectorAll("#fch button").forEach(x=>x.classList.toggle("on",x===b));gridRender()});
 $("gs").addEventListener("input",e=>{gq=e.target.value.trim().toLowerCase();gridRender()});
@@ -479,7 +482,7 @@ $("f").addEventListener("submit",async e=>{
   if(!(p>=1&&p<=48))return err("Parcelas devem ser entre 1 e 48.");if(!start)return err("Informe a data da primeira parcela.");
   if(!ps.length)return err("Selecione pelo menos um participante.");err("");
   let img;const fl=$("ph").files[0];if(fl){try{img=await readImg(fl)}catch(_){toast("Não foi possível ler a foto; jogo adicionado sem foto.")}}
-  games.unshift({id:Date.now(),name,total:v,parcelas:p,n:ps.length,members:ps,pay:Object.fromEntries(ps.map(m=>[m,0])),start,img,payer:$("gpay").value,year:new Date().getFullYear()});
+  games.unshift({id:Date.now(),name,total:v,parcelas:p,n:ps.length,members:ps,pay:Object.fromEntries(ps.map(m=>[m,0])),start,img,payer:$("gpay").value,year:+start.slice(0,4)});
   save();$("gpay").value=me.name;$("n").value="";$("ph").value="";$("v").value="";$("p").value=1;$("d").value=today();setAll(true);renderAll();
 });
 
@@ -494,6 +497,7 @@ function voteRender(){
     return `<article class="panel vcard" style="margin-top:14px"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><div style="display:flex;gap:12px;align-items:center">${p.img?`<img src="${p.img}" alt="" style="width:92px;height:56px;object-fit:cover;border-radius:6px">`:""}<div><h3>${esc(p.name)}</h3><span class="mt" style="display:flex;align-items:center;gap:6px">${av(p.by_name,18)}Proposto por ${esc(p.by_name)}</span></div></div><div style="text-align:right"><b style="font:700 18px var(--hd)">${brl(price)}</b><br><span class="mt">${p.parcelas}x de ${brl(price/p.parcelas)}</span></div></div>
     <div class="vv">${MEMBERS.map(n=>`<span class="vp ${vt[n]===true?"y":vt[n]===false?"n":""}">${av(n,20)}${n}<i>${vt[n]===true?"participa":vt[n]===false?"não":"…"}</i></span>`).join("")}</div>
     <div class="btns2"><button class="${mine===true?"sel":""}" data-v="yes" data-id="${p.id}">Participo</button><button class="${mine===false?"sel":""}" data-v="no" data-id="${p.id}">Não participo</button></div>
+    <div class="shr"><button class="shb" data-v="wa" data-id="${p.id}"><img class="shi" src="img/whatsapp.png" alt="" onerror="this.remove()">Compartilhar no WhatsApp</button><button class="shb" data-v="dc" data-id="${p.id}"><img class="shi" src="img/discord.png" alt="" onerror="this.remove()">Copiar para o Discord</button></div>
     <details class="imp" data-id="${p.id}" ${openV.has(p.id)?"open":""}><summary>Ver impacto no meu mês ${warn?`<span class="ow">⚠</span>`:""}</summary>
     <div class="nn">${[...Array(N)].map((_,i)=>`<span><b>${i+1}</b> ${brl(price/(i+1)/p.parcelas)}</span>`).join("")}</div><span class="mt">Mensal por pessoa conforme quantas participarem</span>
     ${yes>0?imp(`Hoje (${yes} aceitaram)`,yes,price,p.parcelas,mine===true):`<div class="sc"><b>Ninguém aceitou ainda</b></div>`}
@@ -505,6 +509,11 @@ $("vl").addEventListener("toggle",e=>{const d=e.target;if(d.classList&&d.classLi
 $("vl").addEventListener("click",async e=>{
   const b=e.target.closest("button[data-v]");if(!b)return;
   const id=+b.dataset.id,p=props.find(x=>x.id===id),a=b.dataset.v;if(!p)return;
+  if(a==="wa"||a==="dc"){
+    const msg=`🎮 Votação aberta: ${p.name}\nPreço: ${brl(+p.price)} em ${p.parcelas}x (${brl(+p.price/p.parcelas)} por parcela, no total)\nProposto por ${p.by_name}. Vote em ${location.origin}`;
+    if(a==="wa"){window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank","noopener")}
+    else{try{await navigator.clipboard.writeText(msg);toast("Mensagem copiada. Cole no Discord.",true)}catch(_){toast("Não foi possível copiar a mensagem.")}}
+    return}
   if(a==="yes"||a==="no"){const acc=a==="yes",r=await sb.from("votes").upsert({proposal_id:id,member:me.name,accept:acc});
     if(r.error){toast("Não foi possível votar: "+r.error.message);return}
     p.votes=p.votes.filter(v=>v.member!==me.name).concat({member:me.name,accept:acc});voteRender();return}
@@ -513,7 +522,7 @@ $("vl").addEventListener("click",async e=>{
   if(a==="conv"){
     const d=$("cd-"+id).value;if(!d){toast("Escolha a data da 1ª parcela.");return}
     const ms=MEMBERS.filter(n=>p.votes.some(v=>v.member===n&&v.accept));
-    games.unshift({id:Date.now(),name:p.name,total:+p.price,parcelas:p.parcelas,n:ms.length,start:d,payer:$("cp-"+id).value,year:new Date().getFullYear(),img:p.img||undefined,members:ms,pay:Object.fromEntries(ms.map(n=>[n,0]))});
+    games.unshift({id:Date.now(),name:p.name,total:+p.price,parcelas:p.parcelas,n:ms.length,start:d,payer:$("cp-"+id).value,year:+d.slice(0,4),img:p.img||undefined,members:ms,pay:Object.fromEntries(ms.map(n=>[n,0]))});
     save();const r=await sb.from("proposals").delete().eq("id",id);if(!r.error)props=props.filter(x=>x!==p);
     renderAll();tab("jg");toast("Jogo criado na aba Jogos.",true)}
 });
