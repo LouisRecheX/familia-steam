@@ -387,6 +387,40 @@ body :is(button:disabled,.frb:disabled){opacity:.45;cursor:not-allowed;transform
 .fchip.on{border-color:var(--ac)}
 .nkpv{background:#0f1a2e;border-radius:10px;padding:14px 16px;min-height:60px;display:flex;align-items:center;margin-top:4px}
 .nkpv h3{color:#e8eefb}.nkpv small{color:#93a4c3}
+/* ===== Visibilidade: letras maiores e menos cinza ===== */
+:root{--mut:#b8c4dc}
+:root[data-theme="light"]{--mut:#445063}
+body{font-size:16px}
+.mt,.bdg small,.stat small,.fl,.pr,.sch,.pix,.pm,.kvs small,.hi small,.fd,.nkw small,.m small,.mc .mt,.sc small,.ch,.hstats small,.stk .mt,.vv,.pcn .mt{font-size:14px}
+.eb,.sg,.pl{font-size:12.5px}
+.pill,.tag,.cp,.nn span,.gt small{font-size:13px}
+label,.links2,.links2 button{font-size:14px}
+.btns button,.btns2 button,.pillb,.mact button,.sch button,.cpy,.shb,.lk button,.fch button,.nfc button,.eye,.chip span{font-size:14px}
+.sb .links button,.sl{font-size:15px}
+.gt{font-size:15px}.pxr b.pk,.pk{font-size:14.5px}
+.m b.fp,.mc b.fp{font-size:23px}
+.hb p{font-size:16px}
+@media(max-width:820px){.sb .links button{font-size:12px}}
+/* ===== Símbolo do Pix ===== */
+.pxic{height:24px;width:auto;vertical-align:middle;margin-right:6px}
+.pxtx{display:inline-block;font:700 12px var(--bd);background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:2px 7px;margin-right:6px}
+.pxl{display:flex;align-items:center;gap:2px;min-width:0;flex-wrap:wrap}
+/* ===== Banner do topo em slides ===== */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:26px;align-items:center}
+.hmain{min-width:0}
+.hslides{display:grid}
+.hs{grid-area:1/1;display:grid;grid-template-columns:150px minmax(0,1fr);gap:24px;align-items:center;opacity:0;transform:translateX(30px);visibility:hidden;pointer-events:none;transition:opacity .7s ease,transform .7s ease,visibility 0s linear .7s}
+.hs.on{opacity:1;transform:none;visibility:visible;pointer-events:auto;transition:opacity .7s ease,transform .7s ease,visibility 0s}
+.hdots{display:flex;gap:8px;margin-top:16px}
+.hdot{width:26px;height:6px;border-radius:99px;border:0;padding:0;cursor:pointer;background:rgba(255,255,255,.35);transition:background .25s,width .25s}
+.hdot:hover{background:rgba(255,255,255,.6)}
+.hdot.on{background:var(--yl);width:46px}
+.hnext .hi.cur{background:rgba(255,255,255,.1);border-radius:8px;padding-left:10px;padding-right:10px}
+.hero .hb h2{font-size:clamp(26px,3.2vw,36px)}
+@media(max-width:1000px){.hero{grid-template-columns:1fr}.hnext{display:none}}
+@media(max-width:820px){.hs{grid-template-columns:110px minmax(0,1fr);gap:14px}.hcov{width:110px;height:150px}}
+@media(max-width:560px){.hs{grid-template-columns:1fr}.hcov{display:none}}
+@media(prefers-reduced-motion:reduce){.hs,.hs.on{transition:none;transform:none}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -545,6 +579,7 @@ function toast(m,ok,ms){const t=$("tt");t.textContent=m;t.hidden=false;t.style.b
 function readImg(file,mx){return new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;r.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{const sc=Math.min(1,(mx||640)/im.width),c=document.createElement("canvas");c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);c.getContext("2d").drawImage(im,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",.82))};im.src=r.result};r.readAsDataURL(file)})}
 
 const safeImg=s=>/^data:image\/(jpeg|png|webp|gif);base64,[A-Za-z0-9+\/=]+$/.test(s||"")?s:"";
+const pixIc=()=>`<img class="pxic" src="img/pix.png" alt="Pix" title="Chave Pix" onerror="this.outerHTML='<span class=pxtx>Pix</span>'">`;
 const EXPI='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
 
 /* ---------- estado ---------- */
@@ -613,18 +648,39 @@ function renderAll(){
   $("meb").innerHTML=av(me.name,30);$("uav").innerHTML=avf(me.name,64);$("uname").textContent=me.name;{const h=new Date().getHours();$("hi").textContent=h<12?"Bom dia,":h<18?"Boa tarde,":"Boa noite,"}
   heroRender();statsRender();budgetRender();summaryRender();contribRender();finRender();gridRender();voteRender();wishRender();notifRender();pfRender();if(gmId)gmRender();
 }
-function heroRender(){
-  const L=games.filter(g=>!isDone(g)&&g.members.length&&g.start).map(g=>{const k=nextK(g);return{g,k,d:due(g,k)}}).sort((a,b)=>a.d-b.d),f=L[0];
-  if(!f){$("hero").innerHTML=`<div class="hcov"><div class="noph">Sem foto</div></div><div class="hb"><div class="pills"><span class="pill">TUDO EM DIA</span></div><h2>Nenhuma parcela em aberto</h2><p>Quando houver um jogo em andamento, o próximo vencimento aparece aqui.</p></div><div></div>`;return}
-  const g=f.g,pf=prof(g.payer)||{},canPay=g.payer&&g.payer!==me.name&&pf.pix;
-  $("hero").innerHTML=`<div class="hcov">${g.img?`<img src="${g.img}" alt="">`:`<div class="noph">Sem foto</div>`}</div>
-  <div class="hb"><div class="pills"><span class="pill">PRÓXIMO VENCIMENTO</span><span class="pill alt">${L.length} jogo${L.length>1?"s":""} em aberto</span></div>
-  <h2>${esc(g.name)}</h2><p>Parcela ${f.k+1} de ${g.parcelas} · vence em <b>${fmt(f.d)}</b></p>
-  <div class="hstats"><div><b>${brl(per(g))}</b><small>${isAdmin()?"por pessoa":"sua parcela"}</small></div><div><b>${brl(g.total)}</b><small>total do jogo</small></div></div>
-  <div class="hact">${canPay?`<button class="yel" data-pay="${g.id}">Pagar parcela</button>`:""}<span class="stk">${g.members.slice(0,6).map(m=>av(m,28)).join("")}</span></div></div>
-  <div class="hnext"><small class="eb">PRÓXIMAS PARCELAS</small>${L.slice(0,3).map(x=>`<div class="hi"><div><b>${esc(x.g.name)}</b><small>${fmt(x.d)} · ${x.k+1}/${x.g.parcelas}</small></div><span>${brl(per(x.g))}</span></div>`).join("")}</div>`;
+let heroI=0,heroN=0,heroT=null,heroHold=false;
+function heroShow(i){
+  heroI=i;
+  document.querySelectorAll("#hero .hs").forEach((el,k)=>{el.classList.toggle("on",k===i);el.setAttribute("aria-hidden",k===i?"false":"true")});
+  document.querySelectorAll("#hero .hdot").forEach((el,k)=>el.classList.toggle("on",k===i));
+  document.querySelectorAll("#hero .hi").forEach((el,k)=>el.classList.toggle("cur",k===i));
 }
-$("hero").addEventListener("click",e=>{const b=e.target.closest("[data-pay]");if(b){const g=games.find(x=>x.id==b.dataset.pay);if(g)openPix(g)}});
+function heroTimer(){
+  clearInterval(heroT);heroT=null;
+  const calm=typeof matchMedia==="function"&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(heroN>1&&!calm)heroT=setInterval(()=>{if(!heroHold&&!document.hidden)heroShow((heroI+1)%heroN)},6500);
+}
+function heroRender(){
+  const L=games.filter(g=>!isDone(g)&&g.members.length&&g.start).map(g=>{const k=nextK(g);return{g,k,d:due(g,k)}}).sort((a,b)=>a.d-b.d),S=L.slice(0,3);
+  heroN=S.length;
+  if(!S.length){clearInterval(heroT);heroT=null;$("hero").innerHTML=`<div class="hmain"><div class="hslides"><div class="hs on"><div class="hcov"><div class="noph">Sem foto</div></div><div class="hb"><div class="pills"><span class="pill">TUDO EM DIA</span></div><h2>Nenhuma parcela em aberto</h2><p>Quando houver um jogo em andamento, o próximo vencimento aparece aqui.</p></div></div></div></div>`;return}
+  if(heroI>=S.length)heroI=0;
+  const slide=(x,i)=>{const g=x.g,pf=prof(g.payer)||{},canPay=g.payer&&g.payer!==me.name&&pf.pix;
+    return `<div class="hs${i===heroI?" on":""}" aria-hidden="${i===heroI?"false":"true"}"><div class="hcov">${g.img?`<img src="${g.img}" alt="">`:`<div class="noph">Sem foto</div>`}</div>
+    <div class="hb"><div class="pills"><span class="pill">${i===0?"PRÓXIMO VENCIMENTO":"VENCE EM "+fmt(x.d)}</span><span class="pill alt">${L.length} jogo${L.length>1?"s":""} em aberto</span></div>
+    <h2>${esc(g.name)}</h2><p>Parcela ${x.k+1} de ${g.parcelas} · vence em <b>${fmt(x.d)}</b></p>
+    <div class="hstats"><div><b>${brl(per(g))}</b><small>${isAdmin()?"por pessoa":"sua parcela"}</small></div><div><b>${brl(g.total)}</b><small>total do jogo</small></div></div>
+    <div class="hact">${canPay?`<button class="yel" data-pay="${g.id}">Pagar parcela</button>`:""}<span class="stk">${g.members.slice(0,6).map(m=>av(m,28)).join("")}</span></div></div></div>`};
+  $("hero").innerHTML=`<div class="hmain"><div class="hslides">${S.map(slide).join("")}</div>${S.length>1?`<div class="hdots" role="tablist">${S.map((x,i)=>`<button type="button" class="hdot${i===heroI?" on":""}" data-hs="${i}" aria-label="Mostrar ${esc(x.g.name)}"></button>`).join("")}</div>`:""}</div>
+  <div class="hnext"><small class="eb">PRÓXIMAS PARCELAS</small>${S.map((x,i)=>`<div class="hi${i===heroI?" cur":""}"><div><b>${esc(x.g.name)}</b><small>${fmt(x.d)} · ${x.k+1}/${x.g.parcelas}</small></div><span>${brl(per(x.g))}</span></div>`).join("")}</div>`;
+  heroTimer();
+}
+$("hero").addEventListener("click",e=>{
+  const d=e.target.closest("[data-hs]");if(d){heroShow(+d.dataset.hs);heroTimer();return}
+  const b=e.target.closest("[data-pay]");if(b){const g=games.find(x=>x.id==b.dataset.pay);if(g)openPix(g)}
+});
+["mouseenter","focusin"].forEach(t=>$("hero").addEventListener(t,()=>{heroHold=true}));
+["mouseleave","focusout"].forEach(t=>$("hero").addEventListener(t,()=>{heroHold=false}));
 function statsRender(){const s=stats();
   $("top").innerHTML=`<div class="stat"><small>${isAdmin()?"Jogos":"Meus jogos"}</small><b>${games.length}</b></div>
   <div class="stat"><small>${isAdmin()?"Total comprado":"Minha parte do total"}</small><b>${brl(s.bought)}</b></div>
@@ -664,7 +720,7 @@ const payerSel=g=>`<select class="psel" data-id="${g.id}" aria-label="Pagador">$
 function payHtml(g){
   if(!g.payer)return isAdmin()?`<div class="pix">Pagador não definido: ${payerSel(g)}</div>`:"";
   const p=prof(g.payer)||{},mine=g.payer===me.name;
-  const body=mine?`Você é o pagador deste jogo. Os outros enviam as parcelas para você.`:`Pague a parcela para <b>${esc(g.payer)}</b> · ${p.pix?`Pix: <b class="pk">${esc(p.pix)}</b> <button class="cpy" data-pix="${esc(p.pix)}">Copiar</button> <button class="cpy" data-pay="${g.id}"><img class="pxi" src="img/pix.png" alt="" onerror="this.remove()">Pagar parcela</button>`:`<span class="ow">Pix ainda não cadastrado</span>`}`;
+  const body=mine?`Você é o pagador deste jogo. Os outros enviam as parcelas para você.`:`Pague a parcela para <b>${esc(g.payer)}</b> · ${p.pix?`${pixIc()} <b class="pk">${esc(p.pix)}</b> <button class="cpy" data-pix="${esc(p.pix)}">Copiar</button> <button class="cpy" data-pay="${g.id}"><img class="pxi" src="img/pix.png" alt="" onerror="this.remove()">Pagar parcela</button>`:`<span class="ow">Pix ainda não cadastrado</span>`}`;
   return `<div class="pix">${isDone(g)?"":body+" "}${isAdmin()?`<span class="mt">Pagador: ${payerSel(g)}</span>`:""}</div>`;
 }
 function cardHtml(g){
@@ -983,7 +1039,7 @@ $("mfr").addEventListener("click",e=>{const b=e.target.closest(".frb");if(b&&!b.
 function pcard(n,p,own,mini){
   const c=hexOk(p.palette)?p.palette:"#22d3ee",c2=hexOk(p.palette2)?p.palette2:shade(c,.4),tg=p.tags||{};
   const tags=PLAT.filter(([k])=>tg[k]).map(([k,l,f])=>`<div class="gt"><img class="pi" src="img/${f}.png" alt="${l}" title="${l}" onerror="this.outerHTML='<b>${l}</b>'"><span>${esc(tg[k])}</span></div>`).join("")||`<div class="mt">Nenhuma gametag cadastrada.</div>`;
-  const pix=p.pix?(mini?`<small class="mt">Chave Pix</small><b class="pk">${esc(p.pix)}</b>`:`<small class="mt">Chave Pix</small><div class="pxr"><b class="pk">${esc(p.pix)}</b><button class="cpy" data-pix="${esc(p.pix)}">Copiar</button></div>`):`<small class="mt">Pix ainda não cadastrado</small>`;
+  const pix=p.pix?(mini?`${pixIc()}<b class="pk">${esc(p.pix)}</b>`:`<div class="pxr"><span class="pxl">${pixIc()}<b class="pk">${esc(p.pix)}</b></span><button class="cpy" data-pix="${esc(p.pix)}">Copiar</button></div>`):`<span class="pxl">${pixIc()}<small class="mt">ainda não cadastrado</small></span>`;
   const act=mini?"":`<div class="pcx"><button class="pillb" data-exp="${esc(n)}">Baixar imagem</button><label class="ipx"><input type="checkbox"> incluir Pix</label>${own?`<button class="pillb" data-edit="1">Editar meu perfil</button>`:""}</div>`;
   const bn=assetOf(BANNERS,p.banner,n),od=assetOf(ORNS,p.ornament,n);
   const orn=od?["tl","tr"].concat(od.corners==="all"?["bl","br"]:[]).map(k=>`<img class="orn ${k}" src="ornaments/${esc(od.file)}" alt="" onerror="this.remove()">`).join(""):"";
@@ -1006,7 +1062,7 @@ async function exportCard(name,withPix){
   const tags=PLAT.filter(([k])=>tg[k]),showPix=!!(withPix&&p.pix),fs=frameSrc(name);
   const W=720,S=2,RH=48,top=284,H=top+Math.max(1,tags.length)*RH+(showPix?92:30)+34;
   const bn=assetOf(BANNERS,p.banner,name),od=assetOf(ORNS,p.ornament,name),M=od?76:0;
-  const [avImg,frImg,bnImg,orImg,...icons]=await Promise.all([(p.avatar||"").startsWith("img:")?loadImg("avatars/"+p.avatar.slice(4)):null,fs?loadImg(fs):null,bn?loadImg("banners/"+bn.file):null,od?loadImg("ornaments/"+od.file):null,...tags.map(([k,l,f])=>loadImg("img/"+f+".png"))]);
+  const [avImg,frImg,bnImg,orImg,pxImg,...icons]=await Promise.all([(p.avatar||"").startsWith("img:")?loadImg("avatars/"+p.avatar.slice(4)):null,fs?loadImg(fs):null,bn?loadImg("banners/"+bn.file):null,od?loadImg("ornaments/"+od.file):null,showPix?loadImg("img/pix.png"):null,...tags.map(([k,l,f])=>loadImg("img/"+f+".png"))]);
   const c=document.createElement("canvas");c.width=(W+2*M)*S;c.height=(H+2*M)*S;const x=c.getContext("2d");x.scale(S,S);x.translate(M,M);
   const F=(w,s)=>`${w} ${s}px 'Segoe UI',Roboto,Arial,sans-serif`;
   x.save();rr(x,0,0,W,H,26);x.clip();x.fillStyle="#0f1a2e";x.fillRect(0,0,W,H);
@@ -1035,7 +1091,7 @@ async function exportCard(name,withPix){
     const ic=icons[i];let tx=54;if(ic){x.drawImage(ic,50,y+8,24,24);tx=88}
     x.fillStyle="#e8eefb";x.font=F(600,17);x.fillText(tg[k],tx,y+26);
     x.fillStyle="#93a4c3";x.font=F(400,13);x.textAlign="right";x.fillText(l,W-52,y+25);x.textAlign="left";y+=RH});
-  if(showPix){y+=10;x.fillStyle="#93a4c3";x.font=F(400,13);x.fillText("Chave Pix",36,y+14);x.fillStyle="#e8eefb";x.font=F(700,18);x.fillText(p.pix,36,y+40)}
+  if(showPix){y+=10;let tx=36;if(pxImg){const hh=28,ww=hh*pxImg.width/pxImg.height;x.drawImage(pxImg,36,y+4,ww,hh);tx=36+ww+12}else{x.fillStyle="#93a4c3";x.font=F(400,13);x.fillText("Chave Pix",36,y+14);y+=10}x.fillStyle="#e8eefb";x.font=F(700,18);x.fillText(p.pix,tx,y+(pxImg?24:40))}
   x.fillStyle="#93a4c3";x.font=F(400,12);x.textAlign="right";x.fillText("Família Steam",W-36,H-16);x.textAlign="left";
   if(orImg){const z=Math.min(.42*W,260),o=.1875*z,cr=(sx,sy,px,py)=>{x.save();x.translate(px,py);x.scale(sx,sy);x.drawImage(orImg,-o,-o,z,z);x.restore()};cr(1,1,0,0);cr(-1,1,W,0);if(od.corners==="all"){cr(1,-1,0,H);cr(-1,-1,W,H)}}
   await new Promise(res=>c.toBlob(b=>{if(b)saveFile(`perfil-${slug(name)}.png`,b);res()},"image/png"));
@@ -1238,7 +1294,7 @@ function gmRender(){
   const adm=isAdmin(),p=per(g),pf=prof(g.payer)||{},done=isDone(g),cl=claimsOf(g.id),pend=cl.filter(c=>c.status==="pending");
   const k0=!done&&g.start&&g.members.length?nextK(g):null,paidN=g.members.reduce((x,m)=>x+pg(g,m),0),all=g.parcelas*g.members.length;
   const rest=g.members.reduce((x,m)=>x+p*(g.parcelas-pg(g,m)),0),mk=pg(g,me.name),mineIn=g.members.includes(me.name);
-  const pixBox=done||!g.payer?"":g.payer===me.name?`<div class="pix">Você é o pagador deste jogo: os outros enviam as parcelas para você.</div>`:pf.pix?`<div class="pix">Pagar para <b>${esc(g.payer)}</b> · Pix: <b class="pk">${esc(pf.pix)}</b> <button class="cpy" data-pix="${esc(pf.pix)}">Copiar</button> <button class="cpy" data-pay="${g.id}"><img class="pxi" src="img/pix.png" alt="" onerror="this.remove()">Pagar parcela</button></div>`:`<div class="pix"><span class="ow">O pagador (${esc(g.payer)}) ainda não cadastrou a chave Pix.</span></div>`;
+  const pixBox=done||!g.payer?"":g.payer===me.name?`<div class="pix">Você é o pagador deste jogo: os outros enviam as parcelas para você.</div>`:pf.pix?`<div class="pix">Pagar para <b>${esc(g.payer)}</b> · ${pixIc()} <b class="pk">${esc(pf.pix)}</b> <button class="cpy" data-pix="${esc(pf.pix)}">Copiar</button> <button class="cpy" data-pay="${g.id}"><img class="pxi" src="img/pix.png" alt="" onerror="this.remove()">Pagar parcela</button></div>`:`<div class="pix"><span class="ow">O pagador (${esc(g.payer)}) ainda não cadastrou a chave Pix.</span></div>`;
   const rows=g.members.map(m=>{const k=pg(g,m),c=pend.find(x=>x.member===m);
     return `<div class="pm"><b>${av(m,24)}${esc(m)}</b><span>${k}/${g.parcelas} pagas · pago <u class="pd">${brl(p*k)}</u> · falta <u class="ow">${brl(p*(g.parcelas-k))}</u>${c?` · <span class="tag">pedido: ${c.claimed} pagas</span>`:""}</span>${adm?`<span class="btns"><button data-a="dec" data-id="${g.id}" data-m="${esc(m)}" aria-label="Desfazer parcela">−</button><button data-a="inc" data-id="${g.id}" data-m="${esc(m)}">+1</button><button data-a="full" data-id="${g.id}" data-m="${esc(m)}">${k>=g.parcelas?"Quitado":"Quitar restante"}</button></span>`:""}</div>`}).join("");
   const form=(!adm&&mineIn&&mk<g.parcelas)?`<section class="cf"><h4>Informar pagamento</h4><p class="mt">Você tem <b>${mk}</b> de ${g.parcelas} parcelas pagas. Informe quantas já pagou no total e anexe o comprovante. O administrador confere e aprova${pend.some(c=>c.member===me.name)?"; um novo pedido substitui o que está em análise":""}.</p>
