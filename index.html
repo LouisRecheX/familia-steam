@@ -264,6 +264,34 @@ details.addg{margin-top:16px}details.addg>summary{cursor:pointer;font:700 16px v
 .pcx{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px}
 .ipx{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;color:var(--mut)}
 body.member [data-a="edit"]{display:none!important}
+#mpal{display:block}
+.prvw{position:sticky;top:-1px;z-index:6;background:var(--card);padding:0 0 10px;margin-bottom:6px;border-bottom:1px solid var(--line);max-height:42vh;overflow:auto}
+.prvw>small{display:block;margin:2px 0 8px}
+.pcard.mini .pch{height:54px}
+.pcard.mini .pcb{padding:0 14px 12px}
+.pcard.mini .pcav{margin-top:-36px}
+.pcard.mini .pcn{margin:4px 0 8px}.pcard.mini .pcn h3{font-size:17px}
+.pcard.mini .gts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.pcard.mini .gt{padding:4px 8px;font-size:12px}.pcard.mini .pi{width:18px;height:18px}
+.pcard.mini .pcp{padding-top:8px}.pcard.mini .pk{font-size:13px;word-break:break-all}
+.pixlk{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card2);border-radius:var(--r);padding:10px 12px}
+.pixlk b{display:block;word-break:break-all;font-size:15px}
+
+/* ===== Botões translúcidos com efeito ao passar o mouse ===== */
+:root{--gl:color-mix(in srgb,var(--tx) 9%,transparent);--glb:color-mix(in srgb,var(--tx) 18%,transparent);--glh:color-mix(in srgb,var(--tx) 17%,transparent)}
+body :is(.pillb,.btns button,.btns2 button,.mact button,.sch button,.cpy,.shb,.lk button,.cnav button,.ic,.fch button,.frb,.sl,.sb .links button,.chip span){background:var(--gl);border:1px solid var(--glb);color:var(--tx);-webkit-backdrop-filter:blur(10px) saturate(140%);backdrop-filter:blur(10px) saturate(140%);transition:background .18s,border-color .18s,box-shadow .18s,transform .18s,color .18s}
+body :is(.pillb:hover,.btns button:hover,.btns2 button:hover,.mact button:hover,.sch button:hover,.cpy:hover,.shb:hover,.lk button:hover,.cnav button:hover,.ic:hover,.fch button:hover,.frb:hover,.sl:hover,.sb .links button:hover,.chip span:hover){background:var(--glh);border-color:color-mix(in srgb,var(--ac) 60%,transparent);box-shadow:0 6px 18px color-mix(in srgb,var(--ac) 22%,transparent);transform:translateY(-1px)}
+body :is(.add,.mact button.pri,.btns2 button.sel,.fch button.on,.chip input:checked+span,.lk button.sel,.sb .links button.on,.cnav button,.frb.on){background:color-mix(in srgb,var(--ac) 26%,transparent);border:1px solid color-mix(in srgb,var(--ac) 60%,transparent);color:var(--tx)}
+body :is(.add:hover,.mact button.pri:hover,.btns2 button.sel:hover,.fch button.on:hover,.chip input:checked+span:hover,.lk button.sel:hover,.sb .links button.on:hover,.cnav button:hover,.frb.on:hover){background:color-mix(in srgb,var(--ac) 42%,transparent);border-color:var(--ac);box-shadow:0 8px 22px color-mix(in srgb,var(--ac) 35%,transparent);transform:translateY(-1px)}
+body :is(.yel,.cpy[data-pay]){background:color-mix(in srgb,var(--yl) 28%,transparent);border:1px solid color-mix(in srgb,var(--yl) 65%,transparent);color:var(--tx);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transition:background .18s,box-shadow .18s,transform .18s}
+body :is(.yel:hover,.cpy[data-pay]:hover){background:color-mix(in srgb,var(--yl) 46%,transparent);box-shadow:0 8px 22px color-mix(in srgb,var(--yl) 38%,transparent);transform:translateY(-1px);filter:none}
+body :is(.del,.btns .del,.pillb.del,.mact .del){background:color-mix(in srgb,var(--ow) 14%,transparent);border-color:color-mix(in srgb,var(--ow) 45%,transparent);color:var(--ow)}
+body :is(.del:hover,.btns .del:hover,.pillb.del:hover,.mact .del:hover){background:color-mix(in srgb,var(--ow) 28%,transparent);border-color:var(--ow);box-shadow:0 6px 18px color-mix(in srgb,var(--ow) 30%,transparent)}
+body :is(.pillb:active,.btns button:active,.btns2 button:active,.mact button:active,.sch button:active,.cpy:active,.shb:active,.lk button:active,.cnav button:active,.ic:active,.fch button:active,.frb:active,.sl:active,.sb .links button:active,.chip span:active,.add:active,.mact button.pri:active,.btns2 button.sel:active,.fch button.on:active,.chip input:checked+span:active,.lk button.sel:active,.sb .links button.on:active,.cnav button:active,.frb.on:active,.yel:active){transform:translateY(0);box-shadow:none}
+body :is(button:disabled,.frb:disabled){opacity:.45;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.sw,.dub{transition:transform .15s,box-shadow .15s}.sw:hover,.dub:hover{transform:scale(1.12);box-shadow:0 4px 14px rgba(0,0,0,.35)}
+@media(prefers-reduced-motion:reduce){body :is(button,.chip span){transition:none!important;transform:none!important}}
+@media(max-width:560px){.prvw{max-height:34vh}.pcard.mini .gts{display:none}.pcard.mini .pch{height:44px}.pcard.mini .pcav{margin-top:-30px}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -350,7 +378,9 @@ body.member [data-a="edit"]{display:none!important}
 <input type="file" id="fp" accept="image/*" hidden>
 <div id="av" hidden role="dialog" aria-modal="true" aria-label="Escolher avatar"><div class="mbox">
 <h2>Meu perfil</h2>
+<div class="prvw"><small class="mt">Pré-visualização do seu cartão (atualiza enquanto você edita)</small><div id="mprv"></div></div>
 <label for="mpix">Minha chave Pix (e-mail, CPF, telefone ou chave aleatória)</label>
+<div id="pixlk" class="pixlk" hidden><div><b id="pixv"></b><small class="mt">Chave já cadastrada. Cada pessoa tem uma única chave Pix.</small></div><button type="button" class="pillb" id="pixchg">Trocar chave</button></div>
 <input type="text" id="mpix" placeholder="Ex.: seuemail@gmail.com" autocomplete="off">
 <label>Gamertags (deixe em branco o que você não usa)</label>
 <div class="tgrid" id="mtags"></div>
@@ -359,8 +389,8 @@ body.member [data-a="edit"]{display:none!important}
 <label>Moldura do avatar</label>
 <div class="frs" id="mfr"></div>
 <button class="add" id="spix" type="button" style="margin:14px 0 20px">Salvar perfil</button>
-<small class="mt">Escolha seu avatar</small>
-<small class="mt">Jogos</small><div class="avg" id="avj"></div><p class="mt" id="avh">Nenhum avatar de jogo encontrado. Veja no LEIA-ME como montar a pasta avatars.</p>
+<label>Escolha seu avatar</label>
+<div class="avg" id="avj"></div><p class="mt" id="avh">Nenhum avatar de jogo encontrado. Veja no LEIA-ME como montar a pasta avatars.</p>
 <div class="mact"><button id="avx">Fechar</button><button class="del" id="out">Sair da conta</button></div></div></div>
 <div id="pxm" hidden role="dialog" aria-modal="true" aria-label="Pagar parcela"><div class="mbox" style="max-width:420px;text-align:center">
 <img class="pxlogo" src="img/pix.png" alt="Pix" onerror="this.remove()">
@@ -724,8 +754,8 @@ const PLAT=[["steam","Steam","steam"],["epic","Epic Games","epicgames"],["xbox",
 const PALS=["#22d3ee","#8b5cf6","#ec4899","#34d399","#f97316","#ef4444","#3b82f6","#facc15"];
 const hexOk=c=>/^#[0-9a-fA-F]{6}$/.test(c||"");
 async function loadFrames(){try{const r=await fetch("frames/frames.json",{cache:"no-store"});if(r.ok)FRAMES=(await r.json()).filter(f=>f&&/^[a-z0-9-]{1,40}$/.test(f.id)&&/^[a-z0-9._-]+$/i.test(f.file))}catch(_){FRAMES=[]}}
-function frameSrc(name){const f=((prof(name)||{}).frame),d=FRAMES.find(x=>x.id===f);if(!d)return"";if(d.unlock==="top"&&topMember!==name)return"";return "frames/"+d.file}
-function avf(name,sz){const fr=frameSrc(name);if(!fr)return av(name,sz);return `<span class="avf" style="width:${sz}px;height:${sz}px"><span class="avi">${av(name,Math.round(sz*.72))}</span><img class="frm" src="${esc(fr)}" alt="" onerror="this.remove()"></span>`}
+function frameSrc(name,fid){const f=fid!==undefined?fid:((prof(name)||{}).frame),d=FRAMES.find(x=>x.id===f);if(!d)return"";if(d.unlock==="top"&&topMember!==name)return"";return "frames/"+d.file}
+function avf(name,sz,fid){const fr=frameSrc(name,fid);if(!fr)return av(name,sz);return `<span class="avf" style="width:${sz}px;height:${sz}px"><span class="avi">${av(name,Math.round(sz*.72))}</span><img class="frm" src="${esc(fr)}" alt="" onerror="this.remove()"></span>`}
 $("mtags").innerHTML=PLAT.map(([k,l,f])=>`<label class="tg"><img class="pi" src="img/${f}.png" alt="" onerror="this.remove()"><input type="text" id="tg-${k}" placeholder="${l}" maxlength="40" autocomplete="off" aria-label="${l}"></label>`).join("");
 const DUOS=[["Aurora","#22d3ee","#8b5cf6"],["Pôr do sol","#f97316","#ec4899"],["Oceano","#3b82f6","#34d399"],["Fogo","#ef4444","#facc15"],["Neon","#ec4899","#22d3ee"],["Floresta","#34d399","#166534"],["Galáxia","#8b5cf6","#1e1b4b"],["Gelo","#bae6fd","#3b82f6"],["Ouro","#facc15","#b45309"],["Cereja","#ef4444","#7f1d1d"]];
 function shade(h,f){const n=parseInt(h.slice(1),16),r=Math.round((n>>16)*f),g=Math.round(((n>>8)&255)*f),b=Math.round((n&255)*f);return "#"+[r,g,b].map(v=>v.toString(16).padStart(2,"0")).join("")}
@@ -735,6 +765,7 @@ function palRender(){
   <div class="pl">Cores únicas</div><div class="duos">${PALS.map(c=>`<button type="button" class="sw ${c===selPal&&!selPal2?"on":""}" data-c="${c}" style="background:${c}" aria-label="Cor ${c}"></button>`).join("")}</div>
   <div class="pl">Personalizar</div><div class="cust"><label class="cl">Cor 1 <input type="color" id="mcol" value="${selPal}"></label><label class="cl">Cor 2 <input type="color" id="mcol2" value="${c2}"></label><button type="button" class="pillb" id="mone">Só uma cor</button></div>
   <div class="prev" id="mprev" style="background:linear-gradient(135deg,${selPal},${c2})"></div>`;
+  prvRender();
 }
 $("mpal").addEventListener("click",e=>{
   const d=e.target.closest(".dub");if(d){selPal=d.dataset.a;selPal2=d.dataset.b;palRender();return}
@@ -746,21 +777,33 @@ $("mpal").addEventListener("input",e=>{
   $("mprev").style.background=`linear-gradient(135deg,${selPal},${selPal2||shade(selPal,.4)})`;
   document.querySelectorAll("#mpal .sw,#mpal .dub").forEach(x=>x.classList.remove("on"));
 });
+let pixUnlock=false;
+const pixLocked=()=>!!me.pix&&!pixUnlock;
+function pixRender(){const l=pixLocked();$("pixlk").hidden=!l;$("mpix").hidden=l;$("pixv").textContent=me.pix||"";if(!l&&me.pix&&!$("mpix").value)$("mpix").value=me.pix}
+$("pixchg").onclick=()=>{pixUnlock=true;pixRender();$("mpix").focus();prvRender()};
+function draft(){
+  const tags={};PLAT.forEach(([k])=>{const v=($("tg-"+k).value||"").trim();if(v)tags[k]=v});
+  const fd=FRAMES.find(x=>x.id===selFrame),fr=fd&&frOk(fd)?selFrame:null;
+  return Object.assign({},me,{tags,palette:selPal,palette2:selPal2,frame:fr,pix:pixLocked()?me.pix:(($("mpix").value||"").trim()||null)});
+}
+function prvRender(){$("mprv").innerHTML=pcard(me.name,draft(),true,true)}
+$("av").addEventListener("input",e=>{if(e.target.matches&&e.target.matches("input"))prvRender()});
 const frOk=f=>f.unlock!=="top"||topMember===me.name;
 function frRender(){
   $("mfr").innerHTML=`<button type="button" class="frb ${!selFrame?"on":""}" data-f="">Nenhuma</button>`+FRAMES.map(f=>`<button type="button" class="frb ${selFrame===f.id?"on":""}" data-f="${esc(f.id)}" ${frOk(f)?"":"disabled"} title="${frOk(f)?esc(f.name):"Exclusiva de quem mais contribuiu no ano"}"><span class="avf" style="width:64px;height:64px"><span class="avi">${av(me.name,46)}</span><img class="frm" src="frames/${esc(f.file)}" alt="" onerror="this.closest('button').remove()"></span><small>${esc(f.name)}${frOk(f)?"":" 🔒"}</small></button>`).join("");
+  prvRender();
 }
 $("mfr").addEventListener("click",e=>{const b=e.target.closest(".frb");if(b&&!b.disabled){selFrame=b.dataset.f||null;frRender()}});
-function pfRender(){
-  $("pfg").innerHTML=MEMBERS.map(n=>{
-    const p=prof(n)||{},c=hexOk(p.palette)?p.palette:"#22d3ee",c2=hexOk(p.palette2)?p.palette2:shade(c,.4),tg=p.tags||{};
-    const tags=PLAT.filter(([k])=>tg[k]).map(([k,l,f])=>`<div class="gt"><img class="pi" src="img/${f}.png" alt="${l}" title="${l}" onerror="this.outerHTML='<b>${l}</b>'"><span>${esc(tg[k])}</span></div>`).join("")||`<div class="mt">Nenhuma gametag cadastrada.</div>`;
-    return `<article class="pcard" style="--pc:${c};--pc2:${c2}"><div class="pch"></div><div class="pcb"><div class="pcav">${avf(n,96)}</div>
-    <div class="pcn"><h3>${esc(n)}</h3>${topMember===n?`<span class="pill gold">★ Premium Member</span>`:""}${n===me.name?`<span class="mt">(você)</span>`:""}</div>
-    <div class="gts">${tags}</div>
-    <div class="pcp">${p.pix?`<small class="mt">Chave Pix</small><div class="pxr"><b class="pk">${esc(p.pix)}</b><button class="cpy" data-pix="${esc(p.pix)}">Copiar</button></div>`:`<small class="mt">Pix ainda não cadastrado</small>`}</div>
-    <div class="pcx"><button class="pillb" data-exp="${esc(n)}">Baixar imagem</button><label class="ipx"><input type="checkbox"> incluir Pix</label>${n===me.name?`<button class="pillb" data-edit="1">Editar meu perfil</button>`:""}</div></div></article>`}).join("");
+function pcard(n,p,own,mini){
+  const c=hexOk(p.palette)?p.palette:"#22d3ee",c2=hexOk(p.palette2)?p.palette2:shade(c,.4),tg=p.tags||{};
+  const tags=PLAT.filter(([k])=>tg[k]).map(([k,l,f])=>`<div class="gt"><img class="pi" src="img/${f}.png" alt="${l}" title="${l}" onerror="this.outerHTML='<b>${l}</b>'"><span>${esc(tg[k])}</span></div>`).join("")||`<div class="mt">Nenhuma gametag cadastrada.</div>`;
+  const pix=p.pix?(mini?`<small class="mt">Chave Pix</small><b class="pk">${esc(p.pix)}</b>`:`<small class="mt">Chave Pix</small><div class="pxr"><b class="pk">${esc(p.pix)}</b><button class="cpy" data-pix="${esc(p.pix)}">Copiar</button></div>`):`<small class="mt">Pix ainda não cadastrado</small>`;
+  const act=mini?"":`<div class="pcx"><button class="pillb" data-exp="${esc(n)}">Baixar imagem</button><label class="ipx"><input type="checkbox"> incluir Pix</label>${own?`<button class="pillb" data-edit="1">Editar meu perfil</button>`:""}</div>`;
+  return `<article class="pcard${mini?" mini":""}" style="--pc:${c};--pc2:${c2}"><div class="pch"></div><div class="pcb"><div class="pcav">${avf(n,mini?72:96,p.frame)}</div>
+  <div class="pcn"><h3>${esc(n)}</h3>${topMember===n?`<span class="pill gold">★ Premium Member</span>`:""}${own&&!mini?`<span class="mt">(você)</span>`:""}</div>
+  <div class="gts">${tags}</div><div class="pcp">${pix}</div>${act}</div></article>`;
 }
+function pfRender(){$("pfg").innerHTML=MEMBERS.map(n=>pcard(n,prof(n)||{},n===me.name,false)).join("")}
 $("pfg").addEventListener("click",async e=>{
   const c=e.target.closest(".cpy[data-pix]");
   if(c){try{await navigator.clipboard.writeText(c.dataset.pix);toast("Chave Pix copiada.",true)}catch(_){toast("Copie manualmente: "+c.dataset.pix,true)}return}
@@ -802,7 +845,7 @@ async function exportCard(name,withPix){
 async function openAvatar(){
   $("av").hidden=false;$("mpix").value=me.pix||"";
   PLAT.forEach(([k])=>{$("tg-"+k).value=(me.tags||{})[k]||""});
-  selPal=hexOk(me.palette)?me.palette:"#22d3ee";selPal2=hexOk(me.palette2)?me.palette2:null;selFrame=me.frame||null;palRender();frRender();
+  selPal=hexOk(me.palette)?me.palette:"#22d3ee";selPal2=hexOk(me.palette2)?me.palette2:null;selFrame=me.frame||null;pixUnlock=false;pixRender();palRender();frRender();prvRender();
   let list=[];try{const r=await fetch("avatars/avatars.json",{cache:"no-store"});if(r.ok)list=await r.json()}catch(_){}
   const by={};list.forEach(x=>{const g=x.game||"Outros";(by[g]=by[g]||[]).push(x)});
   $("avj").innerHTML=Object.keys(by).map(g=>`<div class="grp" style="width:100%"><div class="mt">${esc(g)}</div><div class="avg" style="margin:8px 0 0">`+by[g].map(x=>{const ne=!/\.(png|jpe?g|webp|gif)$/i.test(x.file),f=esc(x.file)+(ne?".png":"");return `<button class="avb" data-a="img:${f}" aria-label="${esc(x.name||x.file)}" title="${esc(x.name||x.file)}"><img class="av" style="width:72px;height:72px" src="avatars/${f}" ${ne?`data-b="${esc(x.file)}" data-n="0"`:""} alt="${esc(x.name||x.file)}" onerror="nextExt(this)"></button>`}).join("")+`</div></div>`).join("");
@@ -811,12 +854,12 @@ async function openAvatar(){
 $("spix").onclick=async()=>{
   const tags={};PLAT.forEach(([k])=>{const v=($("tg-"+k).value||"").trim().slice(0,40);if(v)tags[k]=v});
   const fd=FRAMES.find(x=>x.id===selFrame);let frame=selFrame||null;if(fd&&!frOk(fd))frame=null;
-  const upd={pix:$("mpix").value.trim()||null,tags,palette:hexOk(selPal)?selPal:null,palette2:hexOk(selPal2)?selPal2:null,frame};
+  const upd={pix:pixLocked()?me.pix:($("mpix").value.trim()||null),tags,palette:hexOk(selPal)?selPal:null,palette2:hexOk(selPal2)?selPal2:null,frame};
   const r=await sb.from("profiles").update(upd).eq("id",me.id).select("id,pix,tags,palette,palette2,frame");
   if(r.error){toast("Não foi possível salvar o perfil: "+r.error.message);return}
   if(!r.data||!r.data.length){toast("O banco não aceitou a alteração (permissão).");return}
   Object.assign(me,r.data[0]);const pf=prof(me.name);if(pf)Object.assign(pf,r.data[0]);
-  renderAll();toast("Perfil salvo.",true);
+  pixUnlock=false;pixRender();prvRender();renderAll();toast("Perfil salvo.",true);
 };
 $("meb").onclick=openAvatar;$("avx").onclick=()=>{$("av").hidden=true};
 $("av").addEventListener("click",async e=>{
