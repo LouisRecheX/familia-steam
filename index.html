@@ -112,7 +112,7 @@ details.addg>summary{cursor:pointer;font:700 18px var(--hd)}
 .adm2{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}.adm2 input{width:auto;padding:7px 11px}
 #lg{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(800px 500px at 20% 10%,var(--glow),transparent 60%),var(--bg);z-index:50}
 .lgc{width:100%;max-width:380px;padding:30px 26px;background:var(--card);border:1px solid var(--line);border-radius:var(--r)}.lgc h1{font-size:30px;margin-bottom:6px}
-#md,#av,#pxm{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px;z-index:40;overflow:auto}
+#md,#av,#pxm,#edm{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px;z-index:40;overflow:auto}
 .mbox{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;width:100%;max-width:760px;max-height:100%;overflow:auto}
 .mact{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}.mact button.pri{background:var(--ac);color:var(--act);border-color:var(--ac)}#rn{color:var(--ow);font-size:13px}
 .avg{display:flex;flex-wrap:wrap;gap:14px;margin:10px 0 18px}.avb{background:none;border:3px solid transparent;border-radius:50%;padding:0;cursor:pointer}.avb:hover,.avb:focus-visible{border-color:var(--ac)}
@@ -256,6 +256,7 @@ details.addg{margin-top:16px}details.addg>summary{cursor:pointer;font:700 16px v
 .prev{height:34px;border-radius:8px;margin-top:10px;border:1px solid var(--line)}
 .pcx{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px}
 .ipx{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;color:var(--mut)}
+body.member [data-a="edit"]{display:none!important}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -361,6 +362,8 @@ details.addg{margin-top:16px}details.addg>summary{cursor:pointer;font:700 16px v
 <textarea id="pxc" readonly rows="4" aria-label="Código Pix copia e cola"></textarea>
 <div class="mact" style="justify-content:center"><button class="pri" id="pxcp">Copiar Pix com valor</button><button id="pxx">Fechar</button></div>
 <p class="mt" style="font-size:12px;margin-top:12px">No app do banco, escolha Pix > Copia e Cola (ou Ler QR Code) e confira o nome e o valor antes de confirmar.</p></div></div>
+<div id="edm" hidden role="dialog" aria-modal="true" aria-label="Editar"><div class="mbox" style="max-width:520px"><h2 id="edt">Editar</h2><div id="edb"></div><div class="err" id="ede" role="alert"></div>
+<div class="mact"><button class="pri" id="eds">Salvar alterações</button><button id="edx">Cancelar</button></div></div></div>
 <div id="md" hidden role="dialog" aria-modal="true" aria-label="Relatório do jogo"><div class="mbox"><div id="rc"></div>
 <div class="mact"><button class="pri" id="rpng">Salvar imagem (PNG)</button><button class="pri" id="rpdf">Salvar PDF</button><button id="rclose">Fechar</button><span id="rn" role="alert"></span></div></div></div>
 <script>
@@ -425,6 +428,7 @@ async function syncGames(){
     for(const g of games){const s=JSON.stringify(g);if(snap.get(g.id)===s)continue;
       let r=await sb.from("games").upsert({id:g.id,name:g.name,total:g.total,parcelas:g.parcelas,n:nOf(g),start_date:g.start||null,year:g.year,payer:g.payer||null,img:g.img||null});if(r.error)throw r.error;
       r=await sb.from("participants").upsert(g.members.map(m=>({game_id:g.id,member:m,paid:g.pay[m]||0})));if(r.error)throw r.error;
+      {let dq=sb.from("participants").delete().eq("game_id",g.id);if(g.members.length)dq=dq.not("member","in","("+g.members.join(",")+")");const d=await dq;if(d.error)throw d.error}
       snap.set(g.id,s)}
     const ids=new Set(games.map(g=>g.id));
     for(const id of [...snap.keys()])if(!ids.has(id)){const r=await sb.from("games").delete().eq("id",id);if(r.error)throw r.error;snap.delete(id)}
@@ -507,7 +511,7 @@ function cardHtml(g){
   <div class="stk">${g.members.slice(0,5).map(m=>av(m,24)).join("")}${g.members.length>5?`<span class="more">+${g.members.length-5}</span>`:""}<span class="mt">${paidN}/${all} parcelas pagas</span></div>
   <div class="btns"><button data-a="all" data-id="${g.id}">Virou o mês: +1 parcela p/ todos</button>
   <button data-a="photo" data-id="${g.id}">${g.img?"Trocar foto":"Anexar foto"}</button>${g.img?`<button data-a="rmphoto" data-id="${g.id}">Remover foto</button>`:""}
-  <button data-a="rep" data-id="${g.id}">Relatório</button>${delBtns(g)}</div>
+  <button data-a="rep" data-id="${g.id}">Relatório</button><button data-a="edit" data-id="${g.id}">Editar</button>${delBtns(g)}</div>
   <details class="pay" data-id="${g.id}" ${openSet.has(g.id)?"open":""}><summary>Detalhes e pagamentos</summary>${calendar(g)}
   ${g.members.map(m=>{const k=pg(g,m);return `<div class="pm"><b>${av(m,24)}${esc(m)}</b><span>${k}/${g.parcelas} pagas · pago <u class="pd">${brl(p*k)}</u> · falta <u class="ow">${brl(p*(g.parcelas-k))}</u></span>
   <span class="btns"><button data-a="dec" data-id="${g.id}" data-m="${esc(m)}" aria-label="Desfazer parcela">−</button><button data-a="inc" data-id="${g.id}" data-m="${esc(m)}">+1</button><button data-a="full" data-id="${g.id}" data-m="${esc(m)}">${k>=g.parcelas?"Quitado":"Quitar restante"}</button></span></div>`}).join("")}
@@ -522,7 +526,7 @@ function finRender(){
   $("finw").hidden=!fin.length;if(!fin.length){$("fin").innerHTML="";return}
   $("fin").innerHTML=`<div class="stage">${fin.map((g,i)=>`<article class="fc" data-ci="${i}"><div class="ph">${g.img?`<img src="${g.img}" alt="${esc(g.name)}">`:`<div class="noph">Sem foto</div>`}</div>
   <div class="fi"><h3>${esc(g.name)}</h3><div class="fd">${g.start?"Última parcela em "+fmt(due(g,g.parcelas-1)):"Sem data"}</div><div class="fv">${brl(g.total)} · ${g.parcelas}x</div>
-  <div class="btns"><button data-a="photo" data-id="${g.id}">${g.img?"Trocar foto":"Anexar foto"}</button><button data-a="rep" data-id="${g.id}">Relatório</button><button data-a="reopen" data-id="${g.id}">Reabrir</button>${delBtns(g)}</div></div></article>`).join("")}</div>
+  <div class="btns"><button data-a="photo" data-id="${g.id}">${g.img?"Trocar foto":"Anexar foto"}</button><button data-a="rep" data-id="${g.id}">Relatório</button><button data-a="edit" data-id="${g.id}">Editar</button><button data-a="reopen" data-id="${g.id}">Reabrir</button>${delBtns(g)}</div></div></article>`).join("")}</div>
   <div class="cnav"><button data-nav="-1" id="np" aria-label="Anterior">‹</button><span id="fcnt"></span><button data-nav="1" id="nn" aria-label="Próximo">›</button></div>`;
   ci=Math.min(ci,fin.length-1);place();
 }
@@ -549,6 +553,7 @@ function onAct(e){
   const a=b.dataset.a,m=b.dataset.m;
   if(a==="rep"){openReport(g);return}
   if(!isAdmin())return;
+  if(a==="edit"){openEdit("game",g.id);return}
   if(a==="inc"&&pg(g,m)<g.parcelas)g.pay[m]=pg(g,m)+1;
   else if(a==="dec"&&pg(g,m)>0)g.pay[m]=pg(g,m)-1;
   else if(a==="full")g.pay[m]=g.parcelas;
@@ -619,12 +624,13 @@ function voteRender(){
     ${yes>0?imp(`Hoje (${yes} aceitaram)`,yes,price,p.parcelas,mine===true):`<div class="sc"><b>Ninguém aceitou ainda</b></div>`}
     ${imp(mine===true?"Você já participa":"Se você participar",nowN,price,p.parcelas)}${imp("Se todos aceitarem",N,price,p.parcelas)}
     ${B>0?"":`<p class="mt">Defina seu orçamento mensal para receber alertas.</p>`}</details>
-    <div class="adm2">${isAdmin()&&yes>0?`<input type="date" id="cd-${p.id}" value="${today()}" aria-label="Data da 1ª parcela"><select id="cp-${p.id}" aria-label="Pagador" style="width:auto;padding:7px 10px">${MEMBERS.map(n=>`<option ${n===me.name?"selected":""}>${n}</option>`).join("")}</select><button class="pillb" data-v="conv" data-id="${p.id}">Virar jogo (${yes})</button>`:""}${(p.created_by===me.id||isAdmin())?(pendV===p.id?`<button class="pillb del" data-v="rmy" data-id="${p.id}">Confirmar</button><button class="pillb" data-v="rmn" data-id="${p.id}">Cancelar</button>`:`<button class="pillb del" data-v="rm" data-id="${p.id}">Remover</button>`):""}</div></article>`}).join(""):`<div class="empty" style="margin-top:14px">Nenhuma votação aberta. Proponha um jogo acima.</div>`;
+    <div class="adm2">${isAdmin()&&yes>0?`<input type="date" id="cd-${p.id}" value="${today()}" aria-label="Data da 1ª parcela"><select id="cp-${p.id}" aria-label="Pagador" style="width:auto;padding:7px 10px">${MEMBERS.map(n=>`<option ${n===me.name?"selected":""}>${n}</option>`).join("")}</select><button class="pillb" data-v="conv" data-id="${p.id}">Virar jogo (${yes})</button>`:""}${(p.created_by===me.id||isAdmin())?`<button class="pillb" data-v="edit" data-id="${p.id}">Editar</button>`+(pendV===p.id?`<button class="pillb del" data-v="rmy" data-id="${p.id}">Confirmar</button><button class="pillb" data-v="rmn" data-id="${p.id}">Cancelar</button>`:`<button class="pillb del" data-v="rm" data-id="${p.id}">Remover</button>`):""}</div></article>`}).join(""):`<div class="empty" style="margin-top:14px">Nenhuma votação aberta. Proponha um jogo acima.</div>`;
 }
 $("vl").addEventListener("toggle",e=>{const d=e.target;if(d.classList&&d.classList.contains("imp")){const id=+d.dataset.id;d.open?openV.add(id):openV.delete(id)}},true);
 $("vl").addEventListener("click",async e=>{
   const b=e.target.closest("button[data-v]");if(!b)return;
   const id=+b.dataset.id,p=props.find(x=>x.id===id),a=b.dataset.v;if(!p)return;
+  if(a==="edit"){openEdit("prop",id);return}
   if(a==="wa"||a==="dc"){
     const msg=`🎮 Votação aberta: ${p.name}\nPreço: ${brl(+p.price)} em ${p.parcelas}x (${brl(+p.price/p.parcelas)} por parcela, no total)\nProposto por ${p.by_name}. Vote em ${location.origin}`;
     if(a==="wa"){window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank","noopener")}
@@ -661,7 +667,7 @@ function wishRender(){
   $("wl").innerHTML=L.length?L.map(w=>`<article class="wc"><div class="ph">${w.img?`<img src="${w.img}" alt="${esc(w.name)}">`:`<div class="noph">Sem foto</div>`}</div>
   <div class="fi"><h3>${esc(w.name)}</h3><div class="fd wby">${av(w.by_name,22)}${esc(w.by_name)}</div>${w.price?`<div class="wpr">${brl(+w.price)}</div>`:""}
   <div class="lk"><button class="${wmine(w.id)===1?"sel":""}" data-w="like" data-id="${w.id}" aria-label="Gostei">👍 ${wc(w.id,1)}</button><button class="${wmine(w.id)===-1?"sel":""}" data-w="dis" data-id="${w.id}" aria-label="Não gostei">👎 ${wc(w.id,-1)}</button></div>
-  <div class="btns"><button data-w="prop" data-id="${w.id}">Propor votação</button>${(w.created_by===me.id||isAdmin())?(pendW===w.id?`<button class="del" data-w="rmy" data-id="${w.id}">Confirmar</button><button data-w="rmn" data-id="${w.id}">Cancelar</button>`:`<button class="del" data-w="rm" data-id="${w.id}">Remover</button>`):""}</div></div></article>`).join(""):`<div class="empty">Nenhum jogo na wishlist${wfm==="all"?"":" de "+wfm} ainda.</div>`;
+  <div class="btns"><button data-w="prop" data-id="${w.id}">Propor votação</button>${(w.created_by===me.id||isAdmin())?`<button data-w="edit" data-id="${w.id}">Editar</button>`+(pendW===w.id?`<button class="del" data-w="rmy" data-id="${w.id}">Confirmar</button><button data-w="rmn" data-id="${w.id}">Cancelar</button>`:`<button class="del" data-w="rm" data-id="${w.id}">Remover</button>`):""}</div></div></article>`).join(""):`<div class="empty">Nenhum jogo na wishlist${wfm==="all"?"":" de "+wfm} ainda.</div>`;
 }
 $("wfc").addEventListener("click",e=>{const b=e.target.closest("button[data-m]");if(b){wfm=b.dataset.m;wishRender()}});
 $("wf").addEventListener("submit",async e=>{
@@ -675,6 +681,7 @@ $("wf").addEventListener("submit",async e=>{
 $("wl").addEventListener("click",async e=>{
   const b=e.target.closest("button[data-w]");if(!b)return;
   const id=+b.dataset.id,w=wish.find(x=>x.id===id),a=b.dataset.w;if(!w)return;
+  if(a==="edit"){openEdit("wish",id);return}
   if(a==="like"||a==="dis"){
     const v=a==="like"?1:-1,cur=wmine(id);let r;
     if(cur===v)r=await sb.from("wish_votes").delete().eq("wish_id",id).eq("member",me.name);
@@ -888,9 +895,67 @@ function saveFile(name,data){const u=URL.createObjectURL(data),a=document.create
 $("rpng").onclick=()=>{if(!curRep)return;curRep.c.toBlob(b=>{if(b)saveFile(`relatorio-${slug(curRep.g.name)}.png`,b)},"image/png")};
 $("rpdf").onclick=()=>{if(!curRep)return;try{saveFile(`relatorio-${slug(curRep.g.name)}.pdf`,pdfFrom(curRep.c))}catch(e){note("Não foi possível gerar o PDF.")}};
 $("rclose").onclick=()=>{$("md").hidden=true};$("md").addEventListener("click",e=>{if(e.target===$("md"))$("md").hidden=true});
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("md").hidden=true;$("av").hidden=true;$("pxm").hidden=true}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("md").hidden=true;$("av").hidden=true;$("pxm").hidden=true;closeEdit()}});
 
 $("th2").onclick=()=>$("th").click();$("prf").onclick=()=>openAvatar();$("out2").onclick=()=>$("out").click();
+
+/* ---------- edição de itens ---------- */
+let edit=null;
+const imgField=cur=>`<label for="e9">Foto${cur?" (envie outra para trocar)":" (opcional)"}</label><input type="file" id="e9" accept="image/*">${cur?`<label class="ipx"><input type="checkbox" id="e8"> remover a foto atual</label>`:""}`;
+function closeEdit(){$("edm").hidden=true;edit=null}
+function openEdit(type,id){
+  edit={type,id,confirm:false};$("ede").textContent="";$("eds").textContent="Salvar alterações";let h="";
+  if(type==="wish"){
+    const w=wish.find(x=>x.id===id);if(!w){edit=null;return}$("edt").textContent="Editar item da wishlist";
+    h=`<label for="e1">Nome do jogo</label><input type="text" id="e1" maxlength="60" value="${esc(w.name)}"><label for="e2">Preço (opcional)</label><input type="number" id="e2" min="0" step="0.01" inputmode="decimal" value="${w.price||""}">${imgField(w.img)}`;
+  }else if(type==="prop"){
+    const p=props.find(x=>x.id===id);if(!p){edit=null;return}$("edt").textContent="Editar votação";
+    h=`<label for="e1">Nome do jogo</label><input type="text" id="e1" maxlength="60" value="${esc(p.name)}"><div class="row"><div><label for="e2">Preço total (R$)</label><input type="number" id="e2" min="0" step="0.01" inputmode="decimal" value="${+p.price}"></div><div><label for="e3">Parcelas</label><input type="number" id="e3" min="1" max="48" value="${p.parcelas}"></div></div>${imgField(p.img)}<p class="mt">Se mudar o preço ou as parcelas, os votos já feitos são zerados e os outros membros são avisados.</p>`;
+  }else{
+    const g=games.find(x=>x.id===id);if(!g){edit=null;return}$("edt").textContent="Editar jogo";
+    h=`<label for="e1">Nome do jogo</label><input type="text" id="e1" maxlength="60" value="${esc(g.name)}"><div class="row"><div><label for="e2">Valor total (R$)</label><input type="number" id="e2" min="0" step="0.01" inputmode="decimal" value="${g.total}"></div><div><label for="e3">Parcelas</label><input type="number" id="e3" min="1" max="48" value="${g.parcelas}"></div></div>
+    <div class="row"><div><label for="e4">Data da 1ª parcela</label><input type="date" id="e4" value="${g.start||""}"></div><div><label for="e5">Pagador</label><select id="e5">${g.payer?"":`<option value="" selected>—</option>`}${MEMBERS.map(n=>`<option ${n===g.payer?"selected":""}>${n}</option>`).join("")}</select></div></div>
+    <label>Quem participa</label><div class="chips" id="e7">${MEMBERS.map(n=>`<label class="chip"><input type="checkbox" value="${n}" ${g.members.includes(n)?"checked":""}><span>${n}</span></label>`).join("")}</div>
+    <label for="e6">Dividir o valor entre (nº de pessoas)</label><input type="number" id="e6" min="1" max="20" value="${nOf(g)}">${imgField(g.img)}
+    <p class="mt">Os pagamentos já registrados são mantidos. Se reduzir as parcelas, os pagamentos acima do novo número são reduzidos.</p>`;
+  }
+  $("edb").innerHTML=h;$("edm").hidden=false;
+}
+$("edx").onclick=closeEdit;$("edm").addEventListener("click",e=>{if(e.target===$("edm"))closeEdit()});
+$("eds").onclick=async()=>{
+  if(!edit)return;const t=edit.type,id=edit.id,err=m=>{$("ede").textContent=m};
+  const name=$("e1").value.trim();if(!name)return err("Informe o nome do jogo.");
+  let img,imgSet=false;const fl=$("e9")&&$("e9").files[0];
+  if(fl){try{img=await readImg(fl);imgSet=true}catch(_){return err("Não foi possível ler a foto.")}}
+  else if($("e8")&&$("e8").checked){img=null;imgSet=true}
+  if(t==="wish"){
+    const price=parseFloat($("e2").value),upd={name,price:price>0?price:null};if(imgSet)upd.img=img;
+    const r=await sb.from("wishlist").update(upd).eq("id",id).select("*").single();
+    if(r.error)return err("Não foi possível salvar: "+r.error.message);
+    const i=wish.findIndex(x=>x.id===id);if(i>=0)wish[i]=r.data;closeEdit();wishRender();toast("Item atualizado.",true);return;
+  }
+  if(t==="prop"){
+    const price=parseFloat($("e2").value),parc=parseInt($("e3").value);
+    if(!(price>0)||!(parc>=1&&parc<=48))return err("Informe preço e parcelas (1 a 48).");
+    const p=props.find(x=>x.id===id),changed=+p.price!==price||p.parcelas!==parc,reset=changed&&p.votes.length>0;
+    if(reset&&!edit.confirm){edit.confirm=true;$("eds").textContent="Confirmar e zerar os votos";return err("Mudar o preço ou as parcelas zera os votos já feitos. Clique de novo para confirmar.")}
+    const r=await sb.rpc("edit_proposal",{p_id:id,p_name:name,p_price:price,p_parcelas:parc,p_img:imgSet?img:null,p_set_img:imgSet,p_reset:reset});
+    if(r.error)return err("Não foi possível salvar: "+r.error.message);
+    const q2=await sb.from("proposals").select("*,votes(member,accept)").eq("id",id).single();
+    if(!q2.error){const i=props.findIndex(x=>x.id===id);if(i>=0)props[i]=q2.data}
+    closeEdit();voteRender();toast("Votação atualizada.",true);return;
+  }
+  if(!isAdmin())return err("Só o administrador edita jogos.");
+  const g=games.find(x=>x.id===id);if(!g)return;
+  const total=parseFloat($("e2").value),parc=parseInt($("e3").value),start=$("e4").value,nn=parseInt($("e6").value);
+  const ms=MEMBERS.filter(m=>[...document.querySelectorAll("#e7 input")].some(i=>i.value===m&&i.checked));
+  if(!(total>0))return err("Informe um valor total maior que zero.");if(!(parc>=1&&parc<=48))return err("Parcelas devem ser entre 1 e 48.");
+  if(!start)return err("Informe a data da primeira parcela.");if(!ms.length)return err("Selecione pelo menos um participante.");
+  g.name=name;g.total=total;g.parcelas=parc;g.start=start;g.year=+start.slice(0,4);g.payer=$("e5").value||undefined;
+  const pay={};ms.forEach(m=>{pay[m]=Math.min(g.pay[m]||0,parc)});g.pay=pay;g.members=ms;g.n=Math.max(ms.length,nn||ms.length);
+  if(imgSet)g.img=img||undefined;
+  save();closeEdit();renderAll();toast("Jogo atualizado.",true);
+};
 
 /* ---------- login ---------- */
 $("d").value=today();
@@ -908,7 +973,7 @@ $("lf").addEventListener("submit",async e=>{
   await enter(data.session);
 });
 if(sb)sb.auth.getSession().then(({data})=>{if(data.session)enter(data.session)});
-const idle=()=>{const a=document.activeElement;return !me||document.hidden||pend>0||!$("md").hidden||!$("av").hidden||!$("pxm").hidden||(a&&/INPUT|SELECT|TEXTAREA/.test(a.tagName))};
+const idle=()=>{const a=document.activeElement;return !me||document.hidden||pend>0||!$("md").hidden||!$("av").hidden||!$("pxm").hidden||!$("edm").hidden||(a&&/INPUT|SELECT|TEXTAREA/.test(a.tagName))};
 document.addEventListener("visibilitychange",()=>{if(!idle())loadAll()});
 setInterval(()=>{if(!idle())loadAll()},45000);
 </script>
