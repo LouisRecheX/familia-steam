@@ -359,7 +359,6 @@ body :is(button:disabled,.frb:disabled){opacity:.45;cursor:not-allowed;transform
 @media(prefers-reduced-motion:reduce){.nick.shine{animation:none}}
 .pcard.mini .nick{font-size:19px}
 .demob{background:var(--yl);color:#1b1500;text-align:center;font:600 13px var(--bd);padding:8px 14px}
-.pi{background:#eef2f8;border-radius:6px;padding:2px;box-sizing:content-box}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -853,7 +852,7 @@ $("th").onclick=()=>{const n=document.documentElement.dataset.theme==="light"?"d
 const EXTS=["png","jpg","jpeg","webp"];
 function nextExt(img){const b=img.dataset.b;if(!b)return chkAv(img);const i=+img.dataset.n+1;if(i>=EXTS.length)return chkAv(img);img.dataset.n=i;img.src=`avatars/${b}.${EXTS[i]}`;img.closest("button").dataset.a=`img:${b}.${EXTS[i]}`}
 function chkAv(img){const b=img.closest("button"),c=b.parentNode;b.remove();if(!c.querySelector("button"))c.parentNode.remove();$("avh").hidden=!!$("avj").querySelector("button")}
-const PLAT=[["steam","Steam","steam"],["epic","Epic Games","epicgames"],["xbox","Xbox","xbox"],["riot","Riot Games","riotgames"],["battlenet","Battle.net","battlenet"],["ea","EA","ea"],["ubisoft","Ubisoft Connect","ubisoft"],["playstation","PlayStation","playstation"]];
+const PLAT=[["steam","Steam","steam"],["epic","Epic Games","epicgames"],["xbox","Xbox","xbox"],["riot","Riot Games","riotgames"],["battlenet","Battle.net","battlenet"],["ubisoft","Ubisoft Connect","ubisoft"],["playstation","PlayStation","playstation"]];
 const PALS=["#22d3ee","#8b5cf6","#ec4899","#34d399","#f97316","#ef4444","#3b82f6","#facc15"];
 const hexOk=c=>/^#[0-9a-fA-F]{6}$/.test(c||"");
 async function loadList(url){try{const r=await fetch(url,{cache:"no-store"});if(r.ok)return (await r.json()).filter(f=>f&&/^[a-z0-9-]{1,40}$/.test(f.id)&&/^[a-z0-9._-]+$/i.test(f.file))}catch(_){}return[]}
@@ -1284,7 +1283,7 @@ function demoClient(meRow){
       mkP("d2","Keren",{avatar:"img:ellie.png",pix:"keren.exemplo@pix.com",tags:{epic:"keren_demo"},palette:"#ec4899",palette2:"#facc15"}),
       mkP("d3","Borges",{avatar:"img:geralt.png",pix:"borges.exemplo@pix.com",tags:{riot:"Borges#BR1"}}),
       mkP("d4","Jonathan",{avatar:"img:miles-morales.png",pix:"+5511999990000",tags:{playstation:"jonathan_psn"}}),
-      mkP("d5","Gilney",{avatar:"img:aloy.png",pix:"gilney.exemplo@pix.com",tags:{steam:"gilney_demo",ea:"Gilney_EA"},palette:"#34d399",palette2:"#166534"}),
+      mkP("d5","Gilney",{avatar:"img:aloy.png",pix:"gilney.exemplo@pix.com",tags:{steam:"gilney_demo"},palette:"#34d399",palette2:"#166534"}),
       mkP("d6","Luiz",{avatar:"img:joel.png",pix:"luiz.exemplo@pix.com",tags:{ubisoft:"Luiz_UBI"}}),
       Object.assign({},meRow,{pix:meRow.pix||null,tags:meRow.tags||{},nstyle:meRow.nstyle||{}})
     ],
