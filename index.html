@@ -221,6 +221,32 @@ details.addg{margin-top:16px}details.addg>summary{cursor:pointer;font:700 16px v
 .duo{grid-template-columns:1fr}
 }
 @media(max-width:560px){.hero{grid-template-columns:1fr}.hcov{display:none}.hstats{gap:18px}}
+
+/* ===== Perfis ===== */
+.avf{position:relative;display:inline-block;flex:none}
+.avi{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex}
+.frm{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.pcard{background:var(--card);border:1px solid color-mix(in srgb,var(--pc) 45%,var(--line));border-radius:14px;overflow:hidden}
+.pch{height:84px;background:linear-gradient(135deg,var(--pc),color-mix(in srgb,var(--pc) 40%,#000))}
+.pcb{padding:0 18px 18px}
+.pcav{margin-top:-52px;display:inline-block}.pcav>.av{border:4px solid var(--card)}
+.pcn{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:8px 0 12px}.pcn h3{font-size:20px}
+.pill.gold{background:var(--yl);color:var(--yt)}
+.gts{display:grid;gap:8px;margin-bottom:14px}
+.gt{display:flex;align-items:center;gap:10px;background:var(--card2);border-radius:8px;padding:8px 10px;font-size:14px;word-break:break-all}
+.pi{width:22px;height:22px;object-fit:contain;flex:none}
+.pcp{border-top:1px solid var(--line);padding-top:12px}
+.pxr{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px}.pxr b.pk{color:var(--tx);word-break:break-all;font-size:14px}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tg{display:flex;align-items:center;gap:8px;margin:0;color:var(--tx)}
+.pal{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.sw{width:30px;height:30px;border-radius:50%;border:3px solid transparent;cursor:pointer;padding:0}.sw.on{border-color:var(--tx)}
+#mcol{width:40px;height:32px;padding:0;border:0;background:none;cursor:pointer}
+.frs{display:flex;flex-wrap:wrap;gap:10px}
+.frb{background:var(--card2);border:2px solid transparent;border-radius:10px;padding:8px 10px;color:var(--tx);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font:600 12px var(--bd);min-width:84px}
+.frb.on{border-color:var(--ac)}.frb:disabled{opacity:.5;cursor:not-allowed}
+@media(max-width:560px){.tgrid{grid-template-columns:1fr}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -238,7 +264,7 @@ details.addg{margin-top:16px}details.addg>summary{cursor:pointer;font:700 16px v
 <div class="brand"><img class="logo" src="img/steam.png" alt="" onerror="this.outerHTML='<i></i>'">Família Steam</div>
 <div class="usr"><span id="uav"></span><div><small id="hi"></small><b id="uname"></b></div></div>
 <div class="sg">NAVEGAÇÃO</div>
-<nav class="links"><button class="on" data-t="jg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M8 10v4M6 12h4"/><circle cx="16" cy="11" r="1"/><circle cx="18" cy="13" r="1"/></svg><span>Jogos</span></button><button data-t="vt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/></svg><span>Votação</span></button><button data-t="wl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.600-7 10-7 10z"/></svg><span>Wishlist</span></button></nav>
+<nav class="links"><button class="on" data-t="jg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M8 10v4M6 12h4"/><circle cx="16" cy="11" r="1"/><circle cx="18" cy="13" r="1"/></svg><span>Jogos</span></button><button data-t="vt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/></svg><span>Votação</span></button><button data-t="wl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.600-7 10-7 10z"/></svg><span>Wishlist</span></button><button data-t="pf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.600 3.400-5.500 6.500-5.500s5.700 1.900 6.500 5.500"/><path d="M16 4.500a3.500 3.500 0 0 1 0 7M18 14.800c1.800.8 3 2.600 3.500 5.200"/></svg><span>Perfis</span></button></nav>
 <div class="sg">CONFIGURAR</div>
 <button class="sl" id="prf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c1-4 4-6 8-6s7 2 8 6"/></svg><span>Meu perfil e Pix</span></button>
 <button class="sl" id="th2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg><span>Tema claro/escuro</span></button>
@@ -290,6 +316,8 @@ details.addg{margin-top:16px}details.addg>summary{cursor:pointer;font:700 16px v
 <div id="vl"></div>
 </div>
 
+<div id="t-pf" class="tab" hidden><div class="pgrid" id="pfg"></div></div>
+
 <div id="t-wl" class="tab" hidden>
 <form class="panel wf" id="wf" autocomplete="off" style="margin-top:8px">
 <input type="text" id="wn" placeholder="Nome do jogo" maxlength="60" aria-label="Nome do jogo">
@@ -306,7 +334,14 @@ details.addg{margin-top:16px}details.addg>summary{cursor:pointer;font:700 16px v
 <div id="av" hidden role="dialog" aria-modal="true" aria-label="Escolher avatar"><div class="mbox">
 <h2>Meu perfil</h2>
 <label for="mpix">Minha chave Pix (e-mail, CPF, telefone ou chave aleatória)</label>
-<div style="display:flex;gap:8px;margin-bottom:18px"><input type="text" id="mpix" placeholder="Ex.: seuemail@gmail.com" autocomplete="off"><button class="pillb" id="spix">Salvar Pix</button></div>
+<input type="text" id="mpix" placeholder="Ex.: seuemail@gmail.com" autocomplete="off">
+<label>Gamertags (deixe em branco o que você não usa)</label>
+<div class="tgrid" id="mtags"></div>
+<label>Cor do seu cartão de perfil</label>
+<div class="pal" id="mpal"></div>
+<label>Moldura do avatar</label>
+<div class="frs" id="mfr"></div>
+<button class="add" id="spix" type="button" style="margin:14px 0 20px">Salvar perfil</button>
 <small class="mt">Escolha seu avatar</small>
 <small class="mt">Jogos</small><div class="avg" id="avj"></div><p class="mt" id="avh">Nenhum avatar de jogo encontrado. Veja no LEIA-ME como montar a pasta avatars.</p>
 <div class="mact"><button id="avx">Fechar</button><button class="del" id="out">Sair da conta</button></div></div></div>
@@ -337,6 +372,7 @@ function readImg(file){return new Promise((res,rej)=>{const r=new FileReader();r
 
 /* ---------- estado ---------- */
 let games=[],props=[],wish=[],wv=[],notifs=[],profs=[],budgets={},me=null;
+let FRAMES=[],topMember=null,selPal="#22d3ee",selFrame=null;
 let gf="open",gq="",wfm="all",ci=0,pendingDel=null,pendV=null,pendW=null,photoId=null,vImg=null,cy=new Date().getFullYear(),pend=0,curRep=null;
 const openSet=new Set(),openV=new Set();
 const isAdmin=()=>!!me&&me.role==="admin";
@@ -360,7 +396,7 @@ async function loadAll(){
     q("games","*,participants(member,paid)").order("created_at",{ascending:false}),
     q("wishlist","*").order("created_at",{ascending:false}),
     q("proposals","*,votes(member,accept)").order("created_at",{ascending:false}),
-    q("profiles","id,name,role,avatar,pix"),q("budgets","user_id,monthly"),q("wish_votes","*"),
+    q("profiles","id,name,role,avatar,pix,tags,palette,frame"),q("budgets","user_id,monthly"),q("wish_votes","*"),
     q("notifications","*").order("created_at",{ascending:false}).limit(30)]);
   const bad=R.find(x=>x.error);if(bad){toast("Erro ao carregar os dados: "+bad.error.message);return}
   const [g,w,p,pr,bg,v,nt]=R;
@@ -370,6 +406,7 @@ async function loadAll(){
   snap.clear();games.forEach(x=>snap.set(x.id,JSON.stringify(x)));
   wish=w.data;props=p.data;wv=v.data;notifs=nt.data;budgets={};
   bg.data.forEach(x=>{const u=profs.find(y=>y.id===x.user_id);if(u)budgets[u.name]=x.monthly});
+  try{const tp=await sb.rpc("top_contributor_year",{y:new Date().getFullYear()});topMember=tp.error?null:tp.data}catch(_){topMember=null}
   renderAll();
 }
 const snap=new Map();
@@ -395,8 +432,8 @@ const visNames=()=>isAdmin()?MEMBERS:[me.name];
 
 /* ---------- renderização ---------- */
 function renderAll(){
-  $("meb").innerHTML=av(me.name,30);$("uav").innerHTML=av(me.name,52);$("uname").textContent=me.name;{const h=new Date().getHours();$("hi").textContent=h<12?"Bom dia,":h<18?"Boa tarde,":"Boa noite,"}
-  heroRender();statsRender();budgetRender();summaryRender();contribRender();finRender();gridRender();voteRender();wishRender();notifRender();
+  $("meb").innerHTML=av(me.name,30);$("uav").innerHTML=avf(me.name,64);$("uname").textContent=me.name;{const h=new Date().getHours();$("hi").textContent=h<12?"Bom dia,":h<18?"Boa tarde,":"Boa noite,"}
+  heroRender();statsRender();budgetRender();summaryRender();contribRender();finRender();gridRender();voteRender();wishRender();notifRender();pfRender();
 }
 function heroRender(){
   const L=games.filter(g=>!isDone(g)&&g.members.length&&g.start).map(g=>{const k=nextK(g);return{g,k,d:due(g,k)}}).sort((a,b)=>a.d-b.d),f=L[0];
@@ -654,22 +691,58 @@ $("nf").addEventListener("click",async e=>{
   else{const n=notifs.find(x=>x.id==b.dataset.id);if(n&&!n.read){await sb.from("notifications").update({read:true}).eq("id",n.id);n.read=true}tab("vt");$("nf").hidden=true}
   notifRender();
 });
-function tab(t){$("pgt").textContent={jg:"Jogos",vt:"Votação",wl:"Wishlist"}[t];document.querySelectorAll(".links button").forEach(x=>x.classList.toggle("on",x.dataset.t===t));["jg","vt","wl"].forEach(k=>{$("t-"+k).hidden=k!==t})}
+function tab(t){$("pgt").textContent={jg:"Jogos",vt:"Votação",wl:"Wishlist",pf:"Perfis"}[t];document.querySelectorAll(".links button").forEach(x=>x.classList.toggle("on",x.dataset.t===t));["jg","vt","wl","pf"].forEach(k=>{$("t-"+k).hidden=k!==t})}
 document.querySelector(".links").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(b)tab(b.dataset.t)});
 $("th").onclick=()=>{const n=document.documentElement.dataset.theme==="light"?"dark":"light";document.documentElement.dataset.theme=n;try{localStorage.setItem("tema",n)}catch(_){}};
 function chkAv(img){const b=img.closest("button"),c=b.parentNode;b.remove();if(!c.querySelector("button"))c.parentNode.remove();$("avh").hidden=!!$("avj").querySelector("button")}
+const PLAT=[["epic","Epic Games"],["xbox","Xbox"],["riot","Riot Games"],["battlenet","Battle.net"],["origin","Origin"],["ubisoft","Ubisoft Connect"]];
+const PALS=["#22d3ee","#8b5cf6","#ec4899","#34d399","#f97316","#ef4444","#3b82f6","#facc15"];
+const hexOk=c=>/^#[0-9a-fA-F]{6}$/.test(c||"");
+async function loadFrames(){try{const r=await fetch("frames/frames.json",{cache:"no-store"});if(r.ok)FRAMES=(await r.json()).filter(f=>f&&/^[a-z0-9-]{1,40}$/.test(f.id)&&/^[a-z0-9._-]+$/i.test(f.file))}catch(_){FRAMES=[]}}
+function frameSrc(name){const f=((prof(name)||{}).frame),d=FRAMES.find(x=>x.id===f);if(!d)return"";if(d.unlock==="top"&&topMember!==name)return"";return "frames/"+d.file}
+function avf(name,sz){const fr=frameSrc(name);if(!fr)return av(name,sz);return `<span class="avf" style="width:${sz}px;height:${sz}px"><span class="avi">${av(name,Math.round(sz*.72))}</span><img class="frm" src="${esc(fr)}" alt="" onerror="this.remove()"></span>`}
+$("mtags").innerHTML=PLAT.map(([k,l])=>`<label class="tg"><img class="pi" src="img/${k}.png" alt="" onerror="this.remove()"><input type="text" id="tg-${k}" placeholder="${l}" maxlength="40" autocomplete="off" aria-label="${l}"></label>`).join("");
+function palRender(){$("mpal").innerHTML=PALS.map(c=>`<button type="button" class="sw ${c===selPal?"on":""}" style="background:${c}" data-c="${c}" aria-label="Cor ${c}"></button>`).join("")+`<input type="color" id="mcol" value="${selPal}" aria-label="Cor personalizada">`}
+$("mpal").addEventListener("click",e=>{const b=e.target.closest(".sw");if(b){selPal=b.dataset.c;palRender()}});
+$("mpal").addEventListener("input",e=>{if(e.target.id==="mcol"){selPal=e.target.value;document.querySelectorAll("#mpal .sw").forEach(x=>x.classList.remove("on"))}});
+const frOk=f=>f.unlock!=="top"||topMember===me.name;
+function frRender(){
+  $("mfr").innerHTML=`<button type="button" class="frb ${!selFrame?"on":""}" data-f="">Nenhuma</button>`+FRAMES.map(f=>`<button type="button" class="frb ${selFrame===f.id?"on":""}" data-f="${esc(f.id)}" ${frOk(f)?"":"disabled"} title="${frOk(f)?esc(f.name):"Exclusiva de quem mais contribuiu no ano"}"><span class="avf" style="width:64px;height:64px"><span class="avi">${av(me.name,46)}</span><img class="frm" src="frames/${esc(f.file)}" alt="" onerror="this.closest('button').remove()"></span><small>${esc(f.name)}${frOk(f)?"":" 🔒"}</small></button>`).join("");
+}
+$("mfr").addEventListener("click",e=>{const b=e.target.closest(".frb");if(b&&!b.disabled){selFrame=b.dataset.f||null;frRender()}});
+function pfRender(){
+  $("pfg").innerHTML=MEMBERS.map(n=>{
+    const p=prof(n)||{},c=hexOk(p.palette)?p.palette:"#22d3ee",tg=p.tags||{};
+    const tags=PLAT.filter(([k])=>tg[k]).map(([k,l])=>`<div class="gt"><img class="pi" src="img/${k}.png" alt="${l}" title="${l}" onerror="this.outerHTML='<b>${l}</b>'"><span>${esc(tg[k])}</span></div>`).join("")||`<div class="mt">Nenhuma gametag cadastrada.</div>`;
+    return `<article class="pcard" style="--pc:${c}"><div class="pch"></div><div class="pcb"><div class="pcav">${avf(n,96)}</div>
+    <div class="pcn"><h3>${esc(n)}</h3>${topMember===n?`<span class="pill gold">★ Premium Member</span>`:""}${n===me.name?`<span class="mt">(você)</span>`:""}</div>
+    <div class="gts">${tags}</div>
+    <div class="pcp">${p.pix?`<small class="mt">Chave Pix</small><div class="pxr"><b class="pk">${esc(p.pix)}</b><button class="cpy" data-pix="${esc(p.pix)}">Copiar</button></div>`:`<small class="mt">Pix ainda não cadastrado</small>`}</div>
+    ${n===me.name?`<button class="pillb" data-edit="1" style="margin-top:12px">Editar meu perfil</button>`:""}</div></article>`}).join("");
+}
+$("pfg").addEventListener("click",async e=>{
+  const c=e.target.closest(".cpy[data-pix]");
+  if(c){try{await navigator.clipboard.writeText(c.dataset.pix);toast("Chave Pix copiada.",true)}catch(_){toast("Copie manualmente: "+c.dataset.pix,true)}return}
+  if(e.target.closest("[data-edit]"))openAvatar();
+});
 async function openAvatar(){
   $("av").hidden=false;$("mpix").value=me.pix||"";
+  PLAT.forEach(([k])=>{$("tg-"+k).value=(me.tags||{})[k]||""});
+  selPal=hexOk(me.palette)?me.palette:"#22d3ee";selFrame=me.frame||null;palRender();frRender();
   let list=[];try{const r=await fetch("avatars/avatars.json",{cache:"no-store"});if(r.ok)list=await r.json()}catch(_){}
   const by={};list.forEach(x=>{const g=x.game||"Outros";(by[g]=by[g]||[]).push(x)});
   $("avj").innerHTML=Object.keys(by).map(g=>`<div class="grp" style="width:100%"><div class="mt">${esc(g)}</div><div class="avg" style="margin:8px 0 0">`+by[g].map(x=>`<button class="avb" data-a="img:${esc(x.file)}" aria-label="${esc(x.name||x.file)}" title="${esc(x.name||x.file)}"><img class="av" style="width:72px;height:72px" src="avatars/${esc(x.file)}" alt="${esc(x.name||x.file)}" onerror="chkAv(this)"></button>`).join("")+`</div></div>`).join("");
   $("avh").hidden=!!list.length;
 }
 $("spix").onclick=async()=>{
-  const v=$("mpix").value.trim(),r=await sb.from("profiles").update({pix:v||null}).eq("id",me.id).select("id,pix");
-  if(r.error){toast("Não foi possível salvar o Pix: "+r.error.message);return}
-  if(!r.data||!r.data.length){toast("O banco não aceitou a alteração (permissão). Rode o atualizacao-pix.sql.");return}
-  me.pix=v||null;const pf=prof(me.name);if(pf)pf.pix=me.pix;renderAll();toast(v?"Chave Pix salva.":"Chave Pix removida.",true);
+  const tags={};PLAT.forEach(([k])=>{const v=($("tg-"+k).value||"").trim().slice(0,40);if(v)tags[k]=v});
+  const fd=FRAMES.find(x=>x.id===selFrame);let frame=selFrame||null;if(fd&&!frOk(fd))frame=null;
+  const upd={pix:$("mpix").value.trim()||null,tags,palette:hexOk(selPal)?selPal:null,frame};
+  const r=await sb.from("profiles").update(upd).eq("id",me.id).select("id,pix,tags,palette,frame");
+  if(r.error){toast("Não foi possível salvar o perfil: "+r.error.message);return}
+  if(!r.data||!r.data.length){toast("O banco não aceitou a alteração (permissão).");return}
+  Object.assign(me,r.data[0]);const pf=prof(me.name);if(pf)Object.assign(pf,r.data[0]);
+  renderAll();toast("Perfil salvo.",true);
 };
 $("meb").onclick=openAvatar;$("avx").onclick=()=>{$("av").hidden=true};
 $("av").addEventListener("click",async e=>{
@@ -767,7 +840,7 @@ async function enter(session){
   const {data,error}=await sb.from("profiles").select("*").eq("id",session.user.id).single();
   if(error||!data){await sb.auth.signOut();$("le").textContent="Perfil não encontrado. Fale com o administrador.";return}
   me=data;document.body.classList.toggle("member",!isAdmin());$("lg").hidden=true;$("app").hidden=false;
-  await loadAll();$("gpay").value=me.name;if(!me.avatar||me.avatar.startsWith("emo:"))openAvatar();
+  await loadFrames();await loadAll();$("gpay").value=me.name;if(!me.avatar||me.avatar.startsWith("emo:"))openAvatar();
 }
 $("lf").addEventListener("submit",async e=>{
   e.preventDefault();$("le").textContent="";
