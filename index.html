@@ -122,7 +122,7 @@ details.addg>summary{cursor:pointer;font:700 18px var(--hd)}
 .adm2{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}.adm2 input{width:auto;padding:7px 11px}
 #lg{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(800px 500px at 20% 10%,var(--glow),transparent 60%),var(--bg);z-index:50}
 .lgc{width:100%;max-width:380px;padding:30px 26px;background:var(--card);border:1px solid var(--line);border-radius:var(--r)}.lgc h1{font-size:30px;margin-bottom:6px}
-#md,#av,#pxm,#edm,#gm{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px;z-index:40;overflow:auto}
+#md,#av,#pxm,#edm,#gm,#pw{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px;z-index:40;overflow:auto}
 .mbox{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;width:100%;max-width:760px;max-height:100%;overflow:auto}
 .mact{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}.mact button.pri{background:var(--ac);color:var(--act);border-color:var(--ac)}#rn{color:var(--ow);font-size:13px}
 .avg{display:flex;flex-wrap:wrap;gap:14px;margin:10px 0 18px}.avb{background:none;border:3px solid transparent;border-radius:50%;padding:0;cursor:pointer}.avb:hover,.avb:focus-visible{border-color:var(--ac)}
@@ -358,6 +358,8 @@ body :is(button:disabled,.frb:disabled){opacity:.45;cursor:not-allowed;transform
 @keyframes nkshine{from{background-position:0% 50%}to{background-position:200% 50%}}
 @media(prefers-reduced-motion:reduce){.nick.shine{animation:none}}
 .pcard.mini .nick{font-size:19px}
+.demob{background:var(--yl);color:#1b1500;text-align:center;font:600 13px var(--bd);padding:8px 14px}
+.pi{background:#eef2f8;border-radius:6px;padding:2px;box-sizing:content-box}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -378,7 +380,8 @@ body :is(button:disabled,.frb:disabled){opacity:.45;cursor:not-allowed;transform
 <nav class="links"><button class="on" data-t="jg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M8 10v4M6 12h4"/><circle cx="16" cy="11" r="1"/><circle cx="18" cy="13" r="1"/></svg><span>Jogos</span></button><button data-t="vt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/></svg><span>Votação</span></button><button data-t="wl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.600-7 10-7 10z"/></svg><span>Wishlist</span></button><button data-t="pf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.600 3.400-5.500 6.500-5.500s5.700 1.900 6.500 5.500"/><path d="M16 4.500a3.500 3.500 0 0 1 0 7M18 14.800c1.800.8 3 2.600 3.500 5.200"/></svg><span>Perfis</span></button></nav>
 <div class="sg">CONFIGURAR</div>
 <button class="sl" id="prf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c1-4 4-6 8-6s7 2 8 6"/></svg><span>Meu perfil e Pix</span></button>
-<button class="sl" id="th2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg><span>Tema claro/escuro</span></button>
+
+<button class="sl" id="pwb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Trocar senha</span></button>
 <button class="sl" id="out2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H5v16h4M16 8l4 4-4 4M20 12H9"/></svg><span>Sair</span></button>
 <div class="spacer"></div>
 </aside>
@@ -388,6 +391,7 @@ body :is(button:disabled,.frb:disabled){opacity:.45;cursor:not-allowed;transform
 <button class="ic" id="bell" aria-label="Notificações"><img id="bellimg" class="bellimg" src="img/no-notification.png" alt="" onerror="this.replaceWith(document.createTextNode('🔔'))"><span id="bc" hidden></span></button>
 <div id="nf" hidden></div>
 <button class="ic" id="meb" aria-label="Meu avatar"></button></div></header>
+<div class="demob" id="demob" hidden>Modo demonstração: tudo aqui é fictício e nada do que você fizer é salvo. Use à vontade para testar.</div>
 <div class="content">
 
 <div id="t-jg" class="tab">
@@ -466,7 +470,13 @@ body :is(button:disabled,.frb:disabled){opacity:.45;cursor:not-allowed;transform
 <button class="add" id="spix" type="button" style="margin:14px 0 20px">Salvar perfil</button>
 <label>Escolha seu avatar</label>
 <div class="avg" id="avj"></div><p class="mt" id="avh">Nenhum avatar de jogo encontrado. Veja no LEIA-ME como montar a pasta avatars.</p>
-<div class="mact"><button id="avx">Fechar</button><button class="del" id="out">Sair da conta</button></div></div></div>
+<div class="mact"><button id="avx">Fechar</button><button id="pwb2" type="button">Trocar minha senha</button><button class="del" id="out">Sair da conta</button></div></div></div>
+<div id="pw" hidden role="dialog" aria-modal="true" aria-label="Trocar senha"><div class="mbox" style="max-width:420px"><h2 id="pwt">Trocar senha</h2>
+<p class="mt" id="pwp">Escolha uma senha nova, com pelo menos 8 caracteres. Anote em um lugar seguro: não dá para recuperar por e-mail.</p>
+<label for="pw1">Nova senha</label><input type="password" id="pw1" autocomplete="new-password">
+<label for="pw2">Repita a nova senha</label><input type="password" id="pw2" autocomplete="new-password">
+<div class="err" id="pwe" role="alert"></div>
+<div class="mact"><button class="pri" id="pws">Salvar nova senha</button><button id="pwx">Agora não</button><button id="pwn" hidden>Não perguntar de novo</button></div></div></div>
 <div id="gm" hidden role="dialog" aria-modal="true" aria-label="Detalhes do jogo"><div class="mbox gbox"><button class="gx" id="gmx" aria-label="Fechar">×</button><div id="gmb"></div></div></div>
 <div id="pxm" hidden role="dialog" aria-modal="true" aria-label="Pagar parcela"><div class="mbox" style="max-width:420px;text-align:center">
 <img class="pxlogo" src="img/pix.png" alt="Pix" onerror="this.remove()">
@@ -485,7 +495,8 @@ const SUPABASE_URL="https://viawxlfqhjqgglqrqjdd.supabase.co",SUPABASE_KEY="eyJh
 const EMAIL_DOMAIN="familiasteam.app";
 const BUDGET_MAX=1000;
 const MEMBERS=["Marllon","Keren","Borges","Jonathan","Gilney","Luiz"];
-const sb=window.supabase&&/^https?:/.test(SUPABASE_URL)?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;
+let sb=window.supabase&&/^https?:/.test(SUPABASE_URL)?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;
+const realSb=sb;let DEMO=false;
 const $=id=>document.getElementById(id);
 const brl=n=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -525,7 +536,7 @@ async function loadAll(){
     q("games","*,participants(member,paid)").order("created_at",{ascending:false}),
     q("wishlist","*").order("created_at",{ascending:false}),
     q("proposals","*,votes(member,accept)").order("created_at",{ascending:false}),
-    q("profiles","id,name,role,avatar,pix,nick,nstyle,tags,palette,palette2,frame,banner,ornament"),q("budgets","user_id,monthly"),q("wish_votes","*"),
+    q("profiles","id,name,role,avatar,pix,pw_changed,nick,nstyle,tags,palette,palette2,frame,banner,ornament"),q("budgets","user_id,monthly"),q("wish_votes","*"),
     q("notifications","*").order("created_at",{ascending:false}).limit(60),q("payment_claims","*").order("created_at",{ascending:false})]);
   const bad=R.find(x=>x.error);if(bad){toast("Erro ao carregar os dados: "+bad.error.message);return}
   const [g,w,p,pr,bg,v,nt,pc]=R;
@@ -1095,7 +1106,7 @@ $("rpdf").onclick=()=>{if(!curRep)return;try{saveFile(`relatorio-${slug(curRep.g
 $("rclose").onclick=()=>{$("md").hidden=true};$("md").addEventListener("click",e=>{if(e.target===$("md"))$("md").hidden=true});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("md").hidden=true;$("av").hidden=true;$("pxm").hidden=true;closeEdit();closeGame();$("lbx").hidden=true}});
 
-$("th2").onclick=()=>$("th").click();$("prf").onclick=()=>openAvatar();$("out2").onclick=()=>$("out").click();
+$("prf").onclick=()=>openAvatar();$("pwb").onclick=()=>openPw(false);$("pwb2").onclick=()=>openPw(false);$("out2").onclick=()=>$("out").click();
 
 /* ---------- edição de itens ---------- */
 let edit=null;
@@ -1243,13 +1254,115 @@ $("gm").addEventListener("click",async e=>{
 $("gm").addEventListener("click",onAct);
 $("lbx").addEventListener("click",()=>{$("lbx").hidden=true});
 
+/* ---------- troca de senha ---------- */
+function afterPw(){if(!me.avatar||me.avatar.startsWith("emo:"))openAvatar()}
+function openPw(first){
+  if(DEMO){toast("A troca de senha não está disponível no modo demonstração.");return}
+  $("pw1").value="";$("pw2").value="";$("pwe").textContent="";$("pwn").hidden=!first;
+  $("pwt").textContent=first?"Defina a sua senha":"Trocar senha";$("pws").disabled=false;$("pw").hidden=false;
+}
+async function markPw(){const r=await sb.from("profiles").update({pw_changed:true}).eq("id",me.id);if(!r.error)me.pw_changed=true}
+$("pws").onclick=async()=>{
+  const a=$("pw1").value,b=$("pw2").value,err=m=>{$("pwe").textContent=m};
+  if(a.length<8)return err("Use pelo menos 8 caracteres.");
+  if(a!==b)return err("As senhas não conferem.");
+  $("pws").disabled=true;
+  const r=await sb.auth.updateUser({password:a});
+  if(r.error){$("pws").disabled=false;return err(/different/i.test(r.error.message)?"A nova senha precisa ser diferente da atual.":"Não foi possível trocar a senha: "+r.error.message)}
+  await markPw();$("pw").hidden=true;toast("Senha alterada com sucesso.",true);afterPw();
+};
+$("pwx").onclick=()=>{$("pw").hidden=true;afterPw()};
+$("pwn").onclick=async()=>{await markPw();$("pw").hidden=true;afterPw()};
+
+/* ---------- modo demonstração: banco de dados de mentira, só na memória ---------- */
+function demoClient(meRow){
+  const D=n=>new Date(Date.now()+n*864e5),iso=n=>D(n).toISOString(),day=n=>D(n).toLocaleDateString("sv-SE");
+  const mkP=(id,name,x)=>Object.assign({id,name,role:"member",avatar:null,pix:null,pw_changed:true,nick:null,nstyle:{},tags:{},palette:null,palette2:null,frame:null,banner:null,ornament:null},x||{});
+  const db={
+    profiles:[
+      mkP("d1","Marllon",{avatar:"img:kratos.png",pix:"marllon.exemplo@pix.com",nick:"Marlão",nstyle:{f:"orbitron",fx:"glow",c1:"#22d3ee",c2:"#f472b6"},tags:{steam:"marllon_demo",xbox:"Marllon#0001"},palette:"#22d3ee",palette2:"#8b5cf6"}),
+      mkP("d2","Keren",{avatar:"img:ellie.png",pix:"keren.exemplo@pix.com",tags:{epic:"keren_demo"},palette:"#ec4899",palette2:"#facc15"}),
+      mkP("d3","Borges",{avatar:"img:geralt.png",pix:"borges.exemplo@pix.com",tags:{riot:"Borges#BR1"}}),
+      mkP("d4","Jonathan",{avatar:"img:miles-morales.png",pix:"+5511999990000",tags:{playstation:"jonathan_psn"}}),
+      mkP("d5","Gilney",{avatar:"img:aloy.png",pix:"gilney.exemplo@pix.com",tags:{steam:"gilney_demo",ea:"Gilney_EA"},palette:"#34d399",palette2:"#166534"}),
+      mkP("d6","Luiz",{avatar:"img:joel.png",pix:"luiz.exemplo@pix.com",tags:{ubisoft:"Luiz_UBI"}}),
+      Object.assign({},meRow,{pix:meRow.pix||null,tags:meRow.tags||{},nstyle:meRow.nstyle||{}})
+    ],
+    games:[
+      {id:1,name:"Jogo Demonstração 1",total:240,parcelas:6,n:4,start_date:day(-35),year:new Date().getFullYear(),img:null,payer:"Marllon",participants:[{member:"Marllon",paid:2},{member:"Keren",paid:1},{member:"Gilney",paid:2},{member:"Teste",paid:1}]},
+      {id:2,name:"Jogo Demonstração 2 (quitado)",total:120,parcelas:3,n:3,start_date:day(-120),year:new Date().getFullYear(),img:null,payer:"Luiz",participants:[{member:"Luiz",paid:3},{member:"Borges",paid:3},{member:"Teste",paid:3}]},
+      {id:3,name:"Jogo Demonstração 3",total:300,parcelas:5,n:5,start_date:day(-5),year:new Date().getFullYear(),img:null,payer:"Luiz",participants:[{member:"Luiz",paid:1},{member:"Gilney",paid:0},{member:"Keren",paid:0},{member:"Jonathan",paid:0},{member:"Teste",paid:0}]}],
+    proposals:[
+      {id:1,name:"Proposta de exemplo",price:180,parcelas:6,img:null,by_name:"Keren",created_by:"d2",created_at:iso(-1),votes:[{member:"Keren",accept:true},{member:"Marllon",accept:true}]},
+      {id:2,name:"Minha proposta de teste",price:90,parcelas:3,img:null,by_name:"Teste",created_by:meRow.id,created_at:iso(0),votes:[]}],
+    wishlist:[
+      {id:1,name:"Item de exemplo da wishlist",price:99.9,img:null,by_name:"Gilney",created_by:"d5",created_at:iso(-2)},
+      {id:2,name:"Outro item de exemplo",price:null,img:null,by_name:"Marllon",created_by:"d1",created_at:iso(-3)}],
+    wish_votes:[{wish_id:1,member:"Marllon",v:1},{wish_id:1,member:"Keren",v:1},{wish_id:2,member:"Gilney",v:-1}],
+    budgets:[{user_id:"d1",monthly:120},{user_id:"d2",monthly:80}],
+    notifications:[
+      {id:1,user_id:meRow.id,kind:"votacao",msg:"Keren abriu a votação de \"Proposta de exemplo\"",read:false,created_at:iso(-1),ref_id:1},
+      {id:2,user_id:meRow.id,kind:"wishlist",msg:"Gilney adicionou \"Item de exemplo da wishlist\" à wishlist",read:false,created_at:iso(-2),ref_id:1},
+      {id:3,user_id:meRow.id,kind:"pagamento",msg:"Seu pagamento de \"Jogo Demonstração 1\" foi recusado: comprovante ilegível (exemplo)",read:true,created_at:iso(-3),ref_id:1}],
+    payment_claims:[{id:1,game_id:1,member:"Teste",claimed:2,receipts:[],status:"rejected",note:"Comprovante ilegível (exemplo)",created_at:iso(-3),created_by:meRow.id}]
+  };
+  let nid=100;const err=m=>({data:null,error:{message:m}});
+  function table(name){
+    const st={act:"select",pl:null,f:[],ret:false,one:false};
+    const hit=r=>st.f.every(fn=>fn(r));
+    const run=()=>{
+      const rows=db[name];if(!rows&&name!=="votes")return err("Indisponível na demonstração");
+      if(st.act==="select"){const out=rows.filter(hit);return {data:st.one?out[0]:out,error:null}}
+      if(name==="votes"&&st.act==="upsert"){const p=db.proposals.find(x=>x.id===st.pl.proposal_id);if(p)p.votes=p.votes.filter(v=>v.member!==st.pl.member).concat({member:st.pl.member,accept:st.pl.accept});return {data:null,error:null}}
+      if(st.act==="insert"){const row=Object.assign({id:++nid,created_by:meRow.id,created_at:iso(0)},st.pl);if(name==="proposals")row.votes=[];rows.unshift(row);return {data:st.ret?(st.one?row:[row]):null,error:null}}
+      if(st.act==="upsert"){
+        const pl=st.pl;
+        if(name==="wish_votes"){const i=rows.findIndex(r=>r.wish_id===pl.wish_id&&r.member===pl.member);if(i>=0)rows[i]=pl;else rows.push(pl)}
+        else if(name==="budgets"){const i=rows.findIndex(r=>r.user_id===pl.user_id);if(i>=0)rows[i]=pl;else rows.push(pl)}
+        return {data:null,error:null}}
+      if(st.act==="update"){const out=rows.filter(hit);out.forEach(r=>Object.assign(r,st.pl));return {data:st.ret?(st.one?out[0]:out):null,error:null}}
+      if(st.act==="delete"){db[name]=rows.filter(r=>!hit(r));return {data:null,error:null}}
+      return err("Indisponível na demonstração");
+    };
+    const b={
+      select(){if(st.act!=="select")st.ret=true;return b},insert(p){st.act="insert";st.pl=p;return b},update(p){st.act="update";st.pl=p;return b},
+      upsert(p){st.act="upsert";st.pl=p;return b},delete(){st.act="delete";return b},
+      eq(c,v){st.f.push(r=>r[c]===v||String(r[c])===String(v));return b},in(c,a){st.f.push(r=>a.includes(r[c]));return b},
+      order(){return b},limit(){return b},single(){st.one=true;return b},
+      then(res,rej){let o;try{o=run()}catch(e){o=err(String(e.message||e))}return Promise.resolve(o).then(res,rej)}
+    };
+    return b;
+  }
+  const rpc=async(fn,a)=>{
+    if(fn==="top_contributor_year")return {data:"Gilney",error:null};
+    if(fn==="submit_payment_claim"){
+      const g=db.games.find(x=>x.id===a.p_game),pt=g&&g.participants.find(x=>x.member===meRow.name);
+      if(!pt)return err("Você não participa deste jogo");
+      if(a.p_claimed<=pt.paid||a.p_claimed>g.parcelas)return err(`Informe um número de parcelas entre ${pt.paid+1} e ${g.parcelas}`);
+      db.payment_claims=db.payment_claims.filter(c=>!(c.game_id===a.p_game&&c.member===meRow.name&&c.status==="pending"));
+      db.payment_claims.unshift({id:++nid,game_id:a.p_game,member:meRow.name,claimed:a.p_claimed,receipts:a.p_receipts,status:"pending",note:null,created_at:iso(0),created_by:meRow.id});
+      return {data:nid,error:null};
+    }
+    if(fn==="edit_proposal"){
+      const p=db.proposals.find(x=>x.id===a.p_id);if(!p)return err("Votação não encontrada");
+      Object.assign(p,{name:a.p_name,price:a.p_price,parcelas:a.p_parcelas});if(a.p_set_img)p.img=a.p_img;if(a.p_reset)p.votes=[];
+      return {data:null,error:null};
+    }
+    return err("Indisponível na demonstração");
+  };
+  return {from:table,rpc,auth:realSb.auth};
+}
+
 /* ---------- login ---------- */
 $("d").value=today();
 async function enter(session){
   const {data,error}=await sb.from("profiles").select("*").eq("id",session.user.id).single();
   if(error||!data){await sb.auth.signOut();$("le").textContent="Perfil não encontrado. Fale com o administrador.";return}
-  me=data;document.body.classList.toggle("member",!isAdmin());$("lg").hidden=true;$("app").hidden=false;
-  await loadFrames();await loadAll();$("gpay").value=me.name;if(!me.avatar||me.avatar.startsWith("emo:"))openAvatar();
+  if(data.role==="demo"){DEMO=true;if(!MEMBERS.includes("Teste"))MEMBERS.push("Teste");me=Object.assign({},data,{name:"Teste",role:"member",avatar:"img:ciri.png",pw_changed:true});sb=demoClient(me);$("demob").hidden=false}
+  else me=data;
+  document.body.classList.toggle("member",!isAdmin());$("lg").hidden=true;$("app").hidden=false;
+  await loadFrames();await loadAll();$("gpay").value=me.name;
+  if(!me.pw_changed)openPw(true);else afterPw();
 }
 $("lf").addEventListener("submit",async e=>{
   e.preventDefault();$("le").textContent="";
@@ -1259,7 +1372,7 @@ $("lf").addEventListener("submit",async e=>{
   await enter(data.session);
 });
 if(sb)sb.auth.getSession().then(({data})=>{if(data.session)enter(data.session)});
-const idle=()=>{const a=document.activeElement;return !me||document.hidden||pend>0||!$("md").hidden||!$("av").hidden||!$("pxm").hidden||!$("edm").hidden||!$("gm").hidden||(a&&/INPUT|SELECT|TEXTAREA/.test(a.tagName))};
+const idle=()=>{const a=document.activeElement;return !me||document.hidden||pend>0||!$("md").hidden||!$("av").hidden||!$("pxm").hidden||!$("edm").hidden||!$("gm").hidden||!$("pw").hidden||(a&&/INPUT|SELECT|TEXTAREA/.test(a.tagName))};
 document.addEventListener("visibilitychange",()=>{if(!idle())loadAll()});
 setInterval(()=>{if(!idle())loadAll()},45000);
 </script>
