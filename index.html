@@ -359,11 +359,11 @@ function summaryRender(){
 function contribRender(){
   const now=new Date().getFullYear(),yrs=new Set([now]);games.forEach(g=>yrs.add(g.year));if(!yrs.has(cy))cy=now;
   const tot={};visNames().forEach(n=>tot[n]=0);
-  games.forEach(g=>{if(g.year!==cy)return;g.members.forEach(m=>{if(m in tot)tot[m]+=per(g)*Math.min(pg(g,m),g.parcelas)})});
+  games.forEach(g=>{if(g.year!==cy)return;g.members.forEach(m=>{if(m in tot&&pg(g,m)>0)tot[m]+=g.total/nOf(g)})});
   const sum=Object.values(tot).reduce((a,b)=>a+b,0),mx=Math.max(...Object.values(tot),0.01);
   $("ct").innerHTML=`<h2>Contribuído em <select id="cy" aria-label="Ano">${[...yrs].sort().map(y=>`<option ${y===cy?"selected":""}>${y}</option>`).join("")}</select></h2>
   ${Object.keys(tot).map(n=>`<div class="cr"><span>${av(n,24)}${n}</span><div class="cb"><i style="width:${tot[n]/mx*100}%"></i></div><b>${brl(tot[n])}</b></div>`).join("")}
-  <div class="cs"><span>Total do ano</span><b>${brl(sum)}</b></div><p class="ch">Soma do que já foi pago dos jogos adicionados em ${cy}.</p>`;
+  <div class="cs"><span>Total do ano</span><b>${brl(sum)}</b></div><p class="ch">Parte de cada um nos jogos que começaram a ser pagos em ${cy}. O valor conta inteiro no ano em que o jogo foi adicionado, mesmo que as parcelas passem para o ano seguinte.</p>`;
 }
 function schedLine(g){
   if(!g.start)return isAdmin()?`<div class="sch">Sem data da 1ª parcela. Definir: <input type="date" class="sd" data-id="${g.id}" aria-label="Data da primeira parcela"></div>`:"";
