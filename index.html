@@ -122,7 +122,7 @@ details.addg>summary{cursor:pointer;font:700 18px var(--hd)}
 .adm2{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}.adm2 input{width:auto;padding:7px 11px}
 #lg{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(800px 500px at 20% 10%,var(--glow),transparent 60%),var(--bg);z-index:50}
 .lgc{width:100%;max-width:380px;padding:30px 26px;background:var(--card);border:1px solid var(--line);border-radius:var(--r)}.lgc h1{font-size:30px;margin-bottom:6px}
-#md,#av,#pxm,#edm,#gm,#pw{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px;z-index:40;overflow:auto}
+#md,#av,#pxm,#edm,#gm,#pw,#bq{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px;z-index:40;overflow:auto}
 .mbox{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;width:100%;max-width:760px;max-height:100%;overflow:auto}
 .mact{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}.mact button.pri{background:var(--ac);color:var(--act);border-color:var(--ac)}#rn{color:var(--ow);font-size:13px}
 .avg{display:flex;flex-wrap:wrap;gap:14px;margin:10px 0 18px}.avb{background:none;border:3px solid transparent;border-radius:50%;padding:0;cursor:pointer}.avb:hover,.avb:focus-visible{border-color:var(--ac)}
@@ -432,6 +432,15 @@ label,.links2,.links2 button{font-size:14px}
 .pqw{display:flex;align-items:center;gap:8px;min-width:110px}
 .pqt{flex:1;min-width:200px}
 .clb{font-weight:700}
+/* ===== Etiquetas de orçamento ===== */
+.nob{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:4px 12px;border-radius:99px;font:700 13px/1.25 var(--hd);font-style:normal;letter-spacing:.2px;white-space:nowrap}
+.nob::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}
+.nob.w{background:color-mix(in srgb,var(--ow) 22%,transparent);color:#ffa3b5;border:1px solid color-mix(in srgb,var(--ow) 55%,transparent)}
+:root[data-theme="light"] .nob.w{color:var(--ow)}
+.mh>div{display:flex;flex-direction:column;align-items:flex-start;gap:5px}
+.mh h3{margin:0}
+.bn.bnone{display:flex;align-items:center;justify-content:center;text-align:center;margin-top:12px;padding:11px 14px;border-radius:10px;background:var(--card2);border:1px dashed color-mix(in srgb,var(--ow) 55%,var(--line));font:600 14px/1.4 var(--hd);color:var(--tx)}
+.bqi{width:100%}.bqi input{width:100%!important}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -554,6 +563,13 @@ label,.links2,.links2 button{font-size:14px}
 </div></details>
 <div class="savebar"><button class="add" id="spix" type="button">Salvar alterações</button><button id="avx" type="button">Fechar</button><button class="del" id="out" type="button">Sair da conta</button></div>
 </div></div>
+<div id="bq" hidden role="dialog" aria-modal="true" aria-label="Definir orçamento mensal"><div class="mbox" style="max-width:440px">
+<h2>Defina seu orçamento mensal</h2>
+<p class="mt">Informe o máximo que você pode gastar <b>por mês</b> com as parcelas dos jogos. É com ele que o site avisa se uma nova compra cabe no seu mês. Mínimo de <b>R$ 20</b> e máximo de <b>R$ 1.000</b>. Você pode mudar quando quiser.</p>
+<label for="bqi">Orçamento mensal (R$)</label>
+<div class="bi bqi"><span>R$</span><input type="number" id="bqi" min="20" max="1000" step="1" inputmode="decimal" placeholder="Ex.: 150" aria-describedby="bqe"></div>
+<div class="err" id="bqe" role="alert"></div>
+<div class="mact"><button class="pri" id="bqs" type="button">Salvar orçamento</button><button id="bqx" type="button">Agora não</button></div></div></div>
 <div id="pw" hidden role="dialog" aria-modal="true" aria-label="Trocar senha"><div class="mbox" style="max-width:420px"><h2 id="pwt">Trocar senha</h2>
 <p class="mt" id="pwp">Escolha uma senha nova, com pelo menos 8 caracteres. Anote em um lugar seguro: não dá para recuperar por e-mail.</p>
 <label for="pw1">Nova senha</label><div class="pwf"><input type="password" id="pw1" autocomplete="new-password"><button type="button" class="eye" data-eye="pw1" aria-label="Mostrar senha">Mostrar</button></div>
@@ -576,7 +592,7 @@ label,.links2,.links2 button{font-size:14px}
 <script>
 const SUPABASE_URL="https://viawxlfqhjqgglqrqjdd.supabase.co",SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpYXd4bGZxaGpxZ2dscXJxamRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzMjA2OTAsImV4cCI6MjEwNjg5NjY5MH0.n2Iz2vQoJdpw6sS9d14vTUYgWgN_jUMAZ4NrxjToQg0";
 const EMAIL_DOMAIN="familiasteam.app";
-const BUDGET_MAX=1000;
+const BUDGET_MAX=1000,BUDGET_MIN=20;
 const MEMBERS=["Marllon","Keren","Borges","Jonathan","Gilney","Luiz"];
 let sb=window.supabase&&/^https?:/.test(SUPABASE_URL)?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;
 const realSb=sb;let DEMO=false;
@@ -707,15 +723,15 @@ function statsRender(){const s=stats();
   <div class="stat"><small>Parcelas por mês</small><b>${brl(s.month)}</b></div>
   <div class="stat"><small>Jogos em aberto</small><b>${s.open}</b></div>`}
 function budgetRender(){
-  const M=calc(me.name).mon,B=budgets[me.name]||0,over=B>0&&M>B;
+  const M=calc(me.name).mon,B=hasBudget()?budgets[me.name]:0,over=B>0&&M>B;
   $("bd").innerHTML=`<div class="rw"><div><small>Seu total por mês</small><b class="big ${over?"ow":""}">${brl(M)}</b></div>
-  <div><small>Seu orçamento mensal</small><div class="bi"><span>R$</span><input type="number" id="bgt" min="0" max="${BUDGET_MAX}" step="1" inputmode="decimal" value="${B||""}" placeholder="definir" aria-label="Orçamento mensal"></div></div></div>
-  ${B>0?`<div class="bar"><i style="width:${Math.min(100,M/B*100)}%;background:${over?"var(--ow)":"var(--ac)"}"></i></div><div class="bn ${over?"ow":""}">${over?`Passou ${brl(M-B)} do orçamento`:`Sobram ${brl(B-M)} no mês`}</div>`:`<div class="bn">Defina o máximo que você pode gastar por mês (até R$ 1.000).</div>`}`;
+  <div><small>Seu orçamento mensal</small><div class="bi"><span>R$</span><input type="number" id="bgt" min="${BUDGET_MIN}" max="${BUDGET_MAX}" step="1" inputmode="decimal" value="${B||""}" placeholder="20 a 1000" aria-label="Orçamento mensal"></div></div></div>
+  ${B>0?`<div class="bar"><i style="width:${Math.min(100,M/B*100)}%;background:${over?"var(--ow)":"var(--ac)"}"></i></div><div class="bn ${over?"ow":""}">${over?`Passou ${brl(M-B)} do orçamento`:`Sobram ${brl(B-M)} no mês`}</div>`:`<div class="bn bnone">Defina o máximo que você pode gastar por mês: de ${brl(BUDGET_MIN)} a ${brl(BUDGET_MAX)}.</div>`}`;
 }
 function summaryRender(){
   const adm=isAdmin();$("smh").textContent=adm?"Resumo por membro":"Meu resumo";
   $("sm").innerHTML=visNames().map(n=>{const c=calc(n),b=budgets[n]||0,over=b>0&&c.mon>b;
-    return `<div class="mc"><div class="mh">${av(n,40)}<div><h3>${n}</h3>${adm?(b>0?`<small class="mt">orçamento ${brl(b)}${over?" · <i class='tag w'>acima</i>":""}</small>`:`<i class="tag w">sem orçamento</i>`):""}</div></div>
+    return `<div class="mc"><div class="mh">${av(n,40)}<div><h3>${n}</h3>${b>=BUDGET_MIN?`<small class="mt">orçamento ${brl(b)}${over?` · <span class="nob w">Acima</span>`:""}</small>`:`<span class="nob w">Sem orçamento</span>`}</div></div>
     <div class="fl">Falta pagar</div><b class="fp ${c.rest>0.004?"ow":"pd"}">${brl(c.rest)}</b><div class="mt">Por mês: ${brl(c.mon)}</div></div>`}).join("");
 }
 function contribRender(){
@@ -815,12 +831,25 @@ $("fp").addEventListener("change",async e=>{const f=e.target.files[0];e.target.v
 $("fch").addEventListener("click",e=>{const b=e.target.closest("button[data-f]");if(!b)return;gf=b.dataset.f;document.querySelectorAll("#fch button").forEach(x=>x.classList.toggle("on",x===b));gridRender()});
 $("gs").addEventListener("input",e=>{gq=e.target.value.trim().toLowerCase();gridRender()});
 $("ct").addEventListener("change",e=>{if(e.target.id==="cy"){cy=+e.target.value;contribRender()}});
+let bqSkip=false;
+const hasBudget=()=>(budgets[me.name]||0)>=BUDGET_MIN;
+async function saveBudget(v){
+  if(!(v>=BUDGET_MIN&&v<=BUDGET_MAX))return `O orçamento deve ficar entre ${brl(BUDGET_MIN)} e ${brl(BUDGET_MAX)} por mês.`;
+  const val=Math.round(v*100)/100,r=await sb.from("budgets").upsert({user_id:me.id,monthly:val});
+  if(r.error)return "Não foi possível salvar o orçamento. Tente de novo.";
+  budgets[me.name]=val;budgetRender();summaryRender();voteRender();return "";
+}
+function askBudget(){
+  if(hasBudget()||bqSkip||!$("pw").hidden||!$("av").hidden||!$("bq").hidden)return;
+  $("bqi").value="";$("bqe").textContent="";$("bq").hidden=false;
+  setTimeout(()=>{try{$("bqi").focus()}catch(_){}},60);
+}
+$("bqs").onclick=async()=>{const m=await saveBudget(parseFloat($("bqi").value));if(m){$("bqe").textContent=m;return}$("bq").hidden=true;toast("Orçamento salvo.",true)};
+$("bqx").onclick=()=>{bqSkip=true;$("bq").hidden=true};
+$("bqi").addEventListener("keydown",e=>{if(e.key==="Enter")$("bqs").onclick()});
 $("bd").addEventListener("change",async e=>{
-  if(e.target.id!=="bgt")return;const v=parseFloat(e.target.value);
-  if(v>BUDGET_MAX){toast(`O orçamento máximo é ${brl(BUDGET_MAX)} por mês.`);budgetRender();return}
-  const val=v>=0?v:null;
-  const r=await sb.from("budgets").upsert({user_id:me.id,monthly:val});if(r.error){toast("Não foi possível salvar o orçamento.");return}
-  budgets[me.name]=val;budgetRender();summaryRender();voteRender();
+  if(e.target.id!=="bgt")return;
+  const m=await saveBudget(parseFloat(e.target.value));if(m){toast(m);budgetRender()}
 });
 
 /* ---------- formulário de novo jogo ---------- */
@@ -1138,9 +1167,10 @@ $("spix").onclick=async()=>{
   Object.assign(me,r.data[0]);const pf=prof(me.name);if(pf)Object.assign(pf,r.data[0]);
   pixUnlock=false;pixRender();prvRender();renderAll();toast("Perfil salvo.",true);
 };
-$("meb").onclick=openAvatar;$("avx").onclick=()=>{$("av").hidden=true};
+$("meb").onclick=openAvatar;function closeAvm(){$("av").hidden=true;askBudget()}
+$("avx").onclick=closeAvm;
 $("av").addEventListener("click",async e=>{
-  if(e.target===$("av")){$("av").hidden=true;return}
+  if(e.target===$("av")){closeAvm();return}
   const b=e.target.closest(".avb");if(!b)return;
   const a=b.dataset.a,r=await sb.from("profiles").update({avatar:a}).eq("id",me.id).select("id,avatar");
   if(r.error){toast("Não foi possível salvar o avatar: "+r.error.message);return}
@@ -1224,7 +1254,7 @@ function saveFile(name,data){const u=URL.createObjectURL(data),a=document.create
 $("rpng").onclick=()=>{if(!curRep)return;curRep.c.toBlob(b=>{if(b)saveFile(`relatorio-${slug(curRep.g.name)}.png`,b)},"image/png")};
 $("rpdf").onclick=()=>{if(!curRep)return;try{saveFile(`relatorio-${slug(curRep.g.name)}.pdf`,pdfFrom(curRep.c))}catch(e){note("Não foi possível gerar o PDF.")}};
 $("rclose").onclick=()=>{$("md").hidden=true};$("md").addEventListener("click",e=>{if(e.target===$("md"))$("md").hidden=true});
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("md").hidden=true;$("av").hidden=true;$("pxm").hidden=true;closeEdit();closeGame();$("lbx").hidden=true}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("md").hidden=true;$("av").hidden=true;$("pxm").hidden=true;closeEdit();closeGame();$("lbx").hidden=true;if(!$("bq").hidden){$("bq").hidden=true;bqSkip=true}}});
 
 $("prf").onclick=()=>openAvatar();$("pwb").onclick=()=>openPw(false);$("pwb2").onclick=()=>openPw(false);$("out2").onclick=()=>$("out").click();
 
@@ -1433,7 +1463,7 @@ document.addEventListener("click",e=>{
 function resetEyes(){document.querySelectorAll(".eye").forEach(b=>{const i=$(b.dataset.eye);if(i)i.type="password";b.textContent="Mostrar"})}
 
 /* ---------- troca de senha ---------- */
-function afterPw(){if(!me.avatar||me.avatar.startsWith("emo:"))openAvatar()}
+function afterPw(){if(!me.avatar||me.avatar.startsWith("emo:"))openAvatar();else askBudget()}
 function openPw(first){
   if(DEMO){toast("A troca de senha não está disponível no modo demonstração.");return}
   $("pw1").value="";$("pw2").value="";$("pwe").textContent="";resetEyes();$("pwn").hidden=!first;
@@ -1554,7 +1584,7 @@ $("lf").addEventListener("submit",async e=>{
   await enter(data.session);
 });
 if(sb)sb.auth.getSession().then(({data})=>{if(data.session)enter(data.session)});
-const idle=()=>{const a=document.activeElement;return !me||document.hidden||pend>0||!$("md").hidden||!$("av").hidden||!$("pxm").hidden||!$("edm").hidden||!$("gm").hidden||!$("pw").hidden||(a&&/INPUT|SELECT|TEXTAREA/.test(a.tagName))};
+const idle=()=>{const a=document.activeElement;return !me||document.hidden||pend>0||!$("md").hidden||!$("av").hidden||!$("pxm").hidden||!$("edm").hidden||!$("gm").hidden||!$("pw").hidden||!$("bq").hidden||(a&&/INPUT|SELECT|TEXTAREA/.test(a.tagName))};
 document.addEventListener("visibilitychange",()=>{if(!idle())loadAll()});
 setInterval(()=>{if(!idle())loadAll()},45000);
 </script>
