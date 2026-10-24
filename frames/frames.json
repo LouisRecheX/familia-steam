@@ -1,8 +1,26 @@
 [
   {
-    "id": "premium-member",
-    "name": "Premium Member",
-    "file": "premium-member.png",
-    "unlock": "top"
+    "id": "Moldura 1",
+    "name": "Moldura 1",
+    "file": "1.gif",
+    "unlock": "all"
+  },
+  {
+    "id": "Moldura 2",
+    "name": "Moldura 2",
+    "file": "2.gif",
+    "unlock": "all"
+  },
+  {
+    "id": "Moldura 3",
+    "name": "Moldura 3",
+    "file": "3.gif",
+    "unlock": "all"
+  },
+  {
+    "id": "Moldura 1",
+    "name": "Moldura 1",
+    "file": "4.png",
+    "unlock": "all"
   }
 ]
