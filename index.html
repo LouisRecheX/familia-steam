@@ -459,6 +459,78 @@ a.pillb{display:inline-flex;align-items:center;text-decoration:none;color:var(--
 .wqp{display:grid;gap:8px;margin-top:10px}
 .nob.ok{background:color-mix(in srgb,var(--pd) 22%,transparent);color:var(--pd);border:1px solid color-mix(in srgb,var(--pd) 55%,transparent)}
 @media(max-width:560px){.ssit{flex-wrap:wrap}.ssa{width:100%}.sst{width:72px;height:27px}}
+/* ===== Card do jogo mais limpo ===== */
+.myb{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0 4px;display:grid;gap:10px}
+.myb.ok,.myb.pay{gap:6px}
+.myh{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px}
+.myh small{width:100%;color:var(--mut);font:700 12.5px var(--bd);text-transform:uppercase;letter-spacing:.5px}
+.myv{font:800 28px/1.1 var(--hd)}
+.myd{color:var(--mut);font-size:14px}.myd.ow{color:var(--ow);font-weight:700}
+.sim{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sim button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--tx);font:700 19px/1 var(--bd);cursor:pointer}
+.sim button:disabled{opacity:.35;cursor:default}
+.sim button:not(:disabled):hover{border-color:var(--ac)}
+.simn{min-width:20px;text-align:center;font:800 17px var(--hd)}
+.simt{margin-left:auto;font:800 18px var(--hd)}
+.mya{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.payc{flex:1;min-width:190px;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--yl);color:#1b1500;border:0;border-radius:12px;padding:12px 16px;font:800 15px var(--hd);cursor:pointer;transition:transform .15s,box-shadow .15s}
+.payc:hover{transform:translateY(-1px);box-shadow:0 8px 20px color-mix(in srgb,var(--yl) 40%,transparent)}
+.payc .pxi{height:18px;margin:0}
+.prg{margin-top:12px}
+.prl{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:8px}
+.prl .stk{margin:0}
+.gact{margin-top:14px}.gact button{flex:1}
+@media(max-width:820px){.sech{display:none}}
+/* ===== Painel estilo dashboard ===== */
+.kpiw{margin:18px 0 14px}
+.dh{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.dht{display:flex;align-items:center;gap:10px}.dht h2{margin:0;font-size:22px}
+.vbadge{display:inline-flex;align-items:center;gap:5px;font:700 12px var(--bd);color:#60a5fa;background:color-mix(in srgb,#3b82f6 16%,transparent);border:1px solid color-mix(in srgb,#3b82f6 40%,transparent);padding:3px 9px;border-radius:99px}
+.dhc select,.tbc select,.tbc input{width:auto;min-width:150px;padding:8px 12px;border-radius:10px;font-size:14px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden}
+.kpi{padding:16px 18px;display:flex;flex-direction:column;gap:6px;border-left:1px solid var(--line)}
+.kpi:first-child{border-left:0}
+.kpi small{color:var(--mut);font:600 13px var(--bd)}
+.kv{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.kv b{font:700 24px/1.1 var(--hd);letter-spacing:.2px}
+.kpi.hot .kv b{color:var(--ow)}
+.dl{font:700 12px var(--bd);padding:2px 8px;border-radius:7px}
+.dl.up{color:#4ade80;background:color-mix(in srgb,#22c55e 16%,transparent)}
+.dl.dn{color:#f87171;background:color-mix(in srgb,#ef4444 16%,transparent)}
+:root[data-theme="light"] .dl.up{color:#15803d}:root[data-theme="light"] .dl.dn{color:#b91c1c}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi:nth-child(3){border-left:0}.kpi:nth-child(n+3){border-top:1px solid var(--line)}}
+@media(max-width:420px){.kv b{font-size:20px}.kpi{padding:14px}}
+/* cartões de jogo com cara de cartão de mídia */
+.gc{border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.gc .cv{margin:10px 10px 0;border-radius:10px;overflow:hidden}
+.gb h3{margin:0 0 6px;font-size:17px;line-height:1.25}
+.gml{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.gml b{font:700 16px var(--hd)}
+.gms{font-size:13.5px;margin-top:2px}
+/* tabela */
+.tbw{margin-top:22px}
+.tbh{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.tbh h2{margin:0;font-size:19px}
+.tbc{display:flex;gap:8px;flex-wrap:wrap}
+.tbs{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.gt{width:100%;border-collapse:collapse;font-size:14px;min-width:980px}
+.gt th{position:sticky;top:0;background:var(--card2);text-align:left;font:600 12.5px var(--bd);color:var(--mut);white-space:nowrap;padding:0}
+.gt th button{all:unset;cursor:pointer;display:flex;align-items:center;gap:6px;padding:11px 12px;width:100%;box-sizing:border-box}
+.gt th.n button{justify-content:flex-end}
+.gt th button:focus-visible{outline:2px solid var(--ac);outline-offset:-2px}
+.sk{opacity:.6;font-size:10px}
+.gt td{padding:10px 12px;border-top:1px solid var(--line);white-space:nowrap;vertical-align:middle}
+.gt td.n{text-align:right;font-variant-numeric:tabular-nums}
+.gt td.ow{color:var(--ow);font-weight:700}
+.gt tbody tr{cursor:pointer;transition:background .15s}
+.gt tbody tr:hover,.gt tbody tr:focus-visible{background:color-mix(in srgb,var(--ac) 9%,transparent);outline:none}
+.gt .c1{position:sticky;left:0;background:var(--card);z-index:1;min-width:230px;max-width:300px;white-space:normal}
+.gt th.c1{background:var(--card2);z-index:2}
+.gtn{display:flex;align-items:center;gap:10px}
+.gtn img,.gti{width:44px;height:30px;border-radius:6px;object-fit:cover;flex:none;background:var(--card2);display:inline-flex;align-items:center;justify-content:center;font-size:15px}
+.gtn b{display:block;line-height:1.25}.gtn small{font-size:12.5px}
+.mbar{display:inline-block;width:64px;height:7px;border-radius:99px;background:var(--card2);overflow:hidden;vertical-align:middle;margin-right:6px}
+.mbar i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),#4ade80)}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -496,7 +568,7 @@ a.pillb{display:inline-flex;align-items:center;text-decoration:none;color:var(--
 
 <div id="t-jg" class="tab">
 <section class="hero" id="hero"></section>
-<section class="stats" id="top"></section>
+<section class="kpiw" id="top"></section>
 <section class="panel" id="pq" hidden></section>
 <div class="duo"><section class="bdg" id="bd"></section><section class="panel" id="ct"></section></div>
 <div class="sec"><h2 id="smh">Resumo por membro</h2></div>
@@ -515,10 +587,11 @@ a.pillb{display:inline-flex;align-items:center;text-decoration:none;color:var(--
 <div class="err" id="err" role="alert"></div>
 <button class="add" type="submit">Adicionar jogo</button></form>
 </details>
-<div class="sec"><h2>Jogos</h2>
+<div class="sec"><h2 class="sech">Jogos</h2>
 <div class="fch" id="fch"><button data-f="open" class="on">Em aberto</button><button data-f="all">Todos</button><button data-f="done">Finalizados</button></div>
 <input type="text" id="gs" placeholder="Buscar jogo" style="max-width:220px" aria-label="Buscar jogo"></div>
 <div class="gg" id="gg"></div>
+<section class="panel tbw" id="gtw"><div class="tbh"><h2>Todos os jogos</h2><div class="tbc"><input type="search" id="gts" placeholder="Pesquisar…" aria-label="Pesquisar na tabela"><select id="gtf" aria-label="Filtrar situação"><option value="all">Todas as situações</option><option value="open">Em aberto</option><option value="done">Finalizados</option></select></div></div><div class="tbs"><table class="gt" id="gt"></table></div></section>
 <section class="finw" id="finw" hidden><div class="sec"><h2>Jogos finalizados</h2></div><div id="fin"></div></section>
 </div>
 
@@ -701,7 +774,7 @@ const visNames=()=>isAdmin()?MEMBERS:[me.name];
 /* ---------- renderização ---------- */
 function renderAll(){
   $("meb").innerHTML=av(me.name,30);$("uav").innerHTML=avf(me.name,64);$("uname").textContent=me.name;{const h=new Date().getHours();$("hi").textContent=h<12?"Bom dia,":h<18?"Boa tarde,":"Boa noite,"}
-  heroRender();statsRender();pqRender();budgetRender();summaryRender();contribRender();finRender();gridRender();voteRender();wishRender();notifRender();pfRender();if(gmId)gmRender();
+  heroRender();statsRender();pqRender();tableRender();budgetRender();summaryRender();contribRender();finRender();gridRender();voteRender();wishRender();notifRender();pfRender();if(gmId)gmRender();
 }
 let heroI=0,heroN=0,heroT=null,heroHold=false;
 function heroShow(i){
@@ -736,12 +809,58 @@ $("hero").addEventListener("click",e=>{
 });
 ["mouseenter","focusin"].forEach(t=>$("hero").addEventListener(t,()=>{heroHold=true}));
 ["mouseleave","focusout"].forEach(t=>$("hero").addEventListener(t,()=>{heroHold=false}));
-function statsRender(){const s=stats();
-  $("top").innerHTML=`<div class="stat"><small>${isAdmin()?"Jogos":"Meus jogos"}</small><b>${games.length}</b></div>
-  <div class="stat"><small>${isAdmin()?"Total comprado":"Minha parte do total"}</small><b>${brl(s.bought)}</b></div>
-  <div class="stat hot"><small>Falta pagar</small><b>${brl(s.rest)}</b></div>
-  <div class="stat"><small>Parcelas por mês</small><b>${brl(s.month)}</b></div>
-  <div class="stat"><small>Jogos em aberto</small><b>${s.open}</b></div>`}
+let ky=new Date().getFullYear(),gtSort={k:"due",d:1},gtQ="",gtF="all";
+function kStats(y){let bought=0,paid=0,rest=0,cnt=0;const V=visNames();
+  games.forEach(g=>{if(y!=="all"&&g.year!==y)return;const p=per(g);let any=false;
+    g.members.forEach(m=>{if(!V.includes(m))return;any=true;const k=pg(g,m);bought+=p*g.parcelas;paid+=p*k;rest+=p*(g.parcelas-k)});if(any)cnt++});
+  return{bought,paid,rest,cnt}}
+const dPct=(a,b)=>b>0?(a-b)/b*100:null;
+const dChip=v=>v===null||!isFinite(v)?"":`<span class="dl ${v>=0?"up":"dn"}">${v>=0?"▲":"▼"} ${Math.abs(v).toLocaleString("pt-BR",{maximumFractionDigits:1})}%</span>`;
+function statsRender(){
+  const yrs=[...new Set([new Date().getFullYear(),...games.map(g=>g.year).filter(Boolean)])].sort((a,b)=>b-a);
+  if(ky!=="all"&&!yrs.includes(ky))ky=yrs[0];
+  const c=kStats(ky),pv=ky==="all"?null:kStats(ky-1),adm=isAdmin(),mon=adm?stats().month:calc(me.name).mon,per0=ky==="all"?"em todos os anos":"em "+ky;
+  const t=new Date();
+  $("top").innerHTML=`<div class="dh"><div class="dht"><h2>Painel</h2><span class="vbadge"><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="currentColor"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Atualizado ${String(t.getHours()).padStart(2,"0")}:${String(t.getMinutes()).padStart(2,"0")}</span></div>
+  <div class="dhc"><select id="ky" aria-label="Período">${yrs.map(y=>`<option value="${y}" ${ky===y?"selected":""}>${y}</option>`).join("")}<option value="all" ${ky==="all"?"selected":""}>Todos os anos</option></select></div></div>
+  <div class="kpis">
+   <div class="kpi"><small>${adm?"Total comprado":"Sua parte nos jogos"} ${per0}</small><div class="kv"><b>${brl(c.bought)}</b>${pv?dChip(dPct(c.bought,pv.bought)):""}</div><span class="mt">${c.cnt} jogo${c.cnt!==1?"s":""}</span></div>
+   <div class="kpi"><small>${adm?"Já pago":"Você já pagou"} ${per0}</small><div class="kv"><b>${brl(c.paid)}</b>${pv?dChip(dPct(c.paid,pv.paid)):""}</div><span class="mt">${c.bought?Math.round(c.paid/c.bought*100):0}% do total</span></div>
+   <div class="kpi hot"><small>Falta pagar ${per0}</small><div class="kv"><b>${brl(c.rest)}</b></div><span class="mt">${adm?"de todos os membros":"da sua parte"}</span></div>
+   <div class="kpi"><small>${adm?"Parcelas por mês (todos)":"Sua parcela por mês"}</small><div class="kv"><b>${brl(mon)}</b></div><span class="mt">somando os jogos em aberto</span></div>
+  </div>`;
+}
+$("top").addEventListener("change",e=>{if(e.target.id!=="ky")return;ky=e.target.value==="all"?"all":+e.target.value;statsRender();tableRender()});
+
+/* ---------- tabela "Todos os jogos" ---------- */
+function gtRow(g){
+  const adm=isAdmin(),p=per(g),done=isDone(g),V=adm?g.members:g.members.filter(m=>m===me.name);
+  const tot=g.parcelas*V.length,paid=V.reduce((x,m)=>x+pg(g,m),0),rest=V.reduce((x,m)=>x+p*(g.parcelas-pg(g,m)),0),pct=tot?paid/tot*100:0;
+  let due=null;if(g.start&&!done){if(adm)due=due0(g,nextK(g));else if(V.length&&pg(g,me.name)<g.parcelas)due=due0(g,pre(g,me.name))}
+  return{g,p,done,paid,tot,rest,pct,due};
+}
+const due0=(g,k)=>due(g,k);
+function tableRender(){
+  const adm=isAdmin();
+  let L=games.filter(g=>(ky==="all"||g.year===ky)&&(gtF==="all"||(gtF==="done")===isDone(g))&&(!gtQ||g.name.toLowerCase().includes(gtQ))).map(gtRow);
+  const K={name:r=>r.g.name.toLowerCase(),year:r=>r.g.year||0,total:r=>r.g.total,parc:r=>r.g.parcelas,per:r=>r.p,paid:r=>r.pct,rest:r=>r.rest,due:r=>r.due?r.due.getTime():9e15,payer:r=>(r.g.payer||"~").toLowerCase()}[gtSort.k];
+  L.sort((a,b)=>{const x=K(a),y=K(b);return (x>y?1:x<y?-1:0)*gtSort.d});
+  const H=(k,l,cls)=>`<th class="${cls||""}"><button type="button" data-sk="${k}" aria-label="Ordenar por ${l}">${l}<span class="sk">${gtSort.k===k?(gtSort.d>0?"▲":"▼"):"↕"}</span></button></th>`;
+  const today=new Date();today.setHours(0,0,0,0);
+  $("gt").innerHTML=`<thead><tr>${H("name","Jogo","c1")}${H("year","Ano")}${H("total","Valor total","n")}${H("parc","Parcelas","n")}${H("per",adm?"Parcela p/ pessoa":"Sua parcela","n")}${H("paid",adm?"Pagas":"Suas pagas","n")}${H("rest",adm?"Falta":"Você deve","n")}${H("due","Próx. vencimento")}${H("payer","Pagador")}<th>Progresso</th></tr></thead>
+  <tbody>${L.length?L.map(r=>`<tr data-id="${r.g.id}" tabindex="0"><td class="c1"><div class="gtn">${r.g.img?`<img src="${r.g.img}" alt="">`:`<span class="gti">🎮</span>`}<div><b>${esc(r.g.name)}</b><small class="mt">${r.done?"Quitado":"Em aberto"} · ${r.g.members.length} pessoas</small></div></div></td>
+  <td>${r.g.year||"—"}</td><td class="n">${brl(r.g.total)}</td><td class="n">${r.g.parcelas}x</td><td class="n">${brl(r.p)}</td><td class="n">${r.paid}/${r.tot}</td><td class="n${r.rest>0.004?" ow":""}">${brl(r.rest)}</td>
+  <td class="${r.due&&r.due<today?"ow":""}">${r.done?"Quitado":r.due?fmt(r.due)+(r.due<today?" · vencida":""):"—"}</td><td>${r.g.payer?esc(r.g.payer):"—"}</td>
+  <td><span class="mbar" title="${Math.round(r.pct)}% pago"><i style="width:${r.pct}%"></i></span><small class="mt">${Math.round(r.pct)}%</small></td></tr>`).join(""):`<tr><td colspan="10" class="mt" style="padding:18px">Nenhum jogo com esses filtros.</td></tr>`}</tbody>`;
+}
+$("gt").addEventListener("click",e=>{
+  const b=e.target.closest("[data-sk]");if(b){const k=b.dataset.sk;gtSort=gtSort.k===k?{k,d:-gtSort.d}:{k,d:1};tableRender();return}
+  const tr=e.target.closest("tr[data-id]");if(tr)openGame(+tr.dataset.id);
+});
+$("gt").addEventListener("keydown",e=>{if(e.key==="Enter"){const tr=e.target.closest("tr[data-id]");if(tr)openGame(+tr.dataset.id)}});
+$("gts").addEventListener("input",e=>{gtQ=e.target.value.trim().toLowerCase();tableRender()});
+$("gtf").addEventListener("change",e=>{gtF=e.target.value;tableRender()});
+
 function budgetRender(){
   const M=calc(me.name).mon,B=hasBudget()?budgets[me.name]:0,over=B>0&&M>B;
   $("bd").innerHTML=`<div class="rw"><div><small>Seu total por mês</small><b class="big ${over?"ow":""}">${brl(M)}</b></div>
@@ -780,17 +899,35 @@ function payHtml(g){
   const body=mine?`Você é o pagador deste jogo. Os outros enviam as parcelas para você.`:`Pague a parcela para <b>${esc(g.payer)}</b> · ${p.pix?`${pixIc()} <b class="pk">${esc(p.pix)}</b> <button class="cpy" data-pix="${esc(p.pix)}">Copiar</button> <button class="cpy" data-pay="${g.id}"><img class="pxi" src="img/pix.png" alt="" onerror="this.remove()">Pagar parcela</button>`:`<span class="ow">Pix ainda não cadastrado</span>`}`;
   return `<div class="pix">${isDone(g)?"":body+" "+claimBtn(g)+" "}${isAdmin()?`<span class="mt">Pagador: ${payerSel(g)}</span>`:""}</div>`;
 }
+const simN={};
+function myBox(g){
+  if(!g.members.includes(me.name)||g.payer===me.name)return"";
+  const p=per(g),left=g.parcelas-pg(g,me.name);
+  if(left<=0)return `<div class="myb ok"><span class="nob ok">Você quitou a sua parte deste jogo</span></div>`;
+  const n=Math.min(Math.max(simN[g.id]||1,1),left),k=pre(g,me.name),t=new Date();t.setHours(0,0,0,0);
+  const d=g.start?due(g,k):null,late=d&&d<t,tot=Math.round(p*n*100)/100,pf=prof(g.payer)||{};
+  const nums=[];for(let i=1;i<=g.parcelas&&nums.length<n;i++)if(!paidAt(g,me.name,i-1))nums.push(i);
+  const pay=g.payer?(pf.pix?`<button class="payc" data-pay="${g.id}" data-n="${n}"><img class="pxi" src="img/pix.png" alt="" onerror="this.remove()">Pagar ${brl(tot)} via Pix</button><button class="cpy" data-pix="${esc(pf.pix)}" title="Copiar a chave Pix de ${esc(g.payer)}">Copiar chave</button>`:`<span class="mt">${esc(g.payer)} ainda não cadastrou o Pix.</span>`):`<span class="mt">Pagador ainda não definido.</span>`;
+  return `<div class="myb"><div class="myh"><small>Sua parcela do mês</small><b class="myv">${brl(p)}</b><span class="myd${late?" ow":""}">${d?`vence ${fmt(d)} · ${k+1}ª de ${g.parcelas}${late?" · vencida":""}`:"sem data definida"}</span></div>
+  <div class="sim"><span class="mt">Simular pagar</span><button type="button" data-sim="-" data-id="${g.id}" aria-label="Menos uma parcela" ${n<=1?"disabled":""}>−</button><b class="simn">${n}</b><button type="button" data-sim="+" data-id="${g.id}" aria-label="Mais uma parcela" ${n>=left?"disabled":""}>+</button><span class="mt">parcela${n>1?"s":""} (${n>1?"":"a "}${listPt(nums)}ª)</span><b class="simt">${brl(tot)}</b></div>
+  <div class="mya">${pay}</div>${g.payer?`<small class="mt">Para <b>${esc(g.payer)}</b>${left>1?` · faltam ${left} parcelas, ${brl(Math.round(p*left*100)/100)} no total`:" · última parcela"}</small>`:""}</div>`;
+}
+function payerNote(g){
+  if(g.payer!==me.name||isDone(g))return"";
+  const others=g.members.filter(m=>m!==me.name&&pg(g,m)<g.parcelas);
+  return `<div class="myb pay"><div class="myh"><small>Você é o pagador</small><span>${others.length?`Recebe ${brl(per(g)*others.length)} por mês de ${others.length} pessoa${others.length>1?"s":""}`:"Todos já pagaram a parte deles"}</span></div></div>`;
+}
 function cardHtml(g){
   const p=per(g),all=g.parcelas*g.members.length,paidN=g.members.reduce((s,m)=>s+pg(g,m),0),rest=g.members.reduce((s,m)=>s+p*(g.parcelas-pg(g,m)),0),done=isDone(g);
-  return `<article class="gc"><div class="cv">${g.img?`<img src="${g.img}" alt="${esc(g.name)}">`:`<div class="noph">Sem foto</div>`}${done?`<span class="bdgq">QUITADO</span>`:""}${(()=>{const np=claimsOf(g.id).filter(c=>c.status==="pending").length;return np?`<span class="pdg">${isAdmin()?np+" pedido"+(np>1?"s":"")+" de pagamento":"pagamento em análise"}</span>`:""})()}<button class="exp" data-a="open" data-id="${g.id}" aria-label="Ver detalhes" title="Ver detalhes">${EXPI}</button></div>
-  <div class="gb"><h3>${esc(g.name)}</h3><div class="mt">${brl(g.total)} · ${g.parcelas}x de ${brl(g.total/g.parcelas)}</div>
-  ${schedLine(g)}${payHtml(g)}<div class="bar"><i style="width:${all?paidN/all*100:0}%"></i></div>
-  <div class="pr">${all?Math.round(paidN/all*100):0}% pago · ${isAdmin()?"falta":"falta pagar"} <u class="ow">${brl(rest)}</u></div>
-  <div class="stk">${g.members.slice(0,5).map(m=>av(m,24)).join("")}${g.members.length>5?`<span class="more">+${g.members.length-5}</span>`:""}<span class="mt">${paidN}/${all} parcelas pagas</span></div>
-  <div class="btns"><button data-a="all" data-id="${g.id}">Virou o mês: +1 parcela p/ todos</button>
-  <button data-a="photo" data-id="${g.id}">${g.img?"Trocar foto":"Anexar foto"}</button>${g.img?`<button data-a="rmphoto" data-id="${g.id}">Remover foto</button>`:""}
-  <button data-a="rep" data-id="${g.id}">Relatório</button><button data-a="edit" data-id="${g.id}">Editar</button>${delBtns(g)}</div></div></article>`;
+  const mine=myBox(g),np=claimsOf(g.id).filter(c=>c.status==="pending").length;
+  return `<article class="gc"><div class="cv">${g.img?`<img src="${g.img}" alt="${esc(g.name)}">`:`<div class="noph">Sem foto</div>`}${done?`<span class="bdgq">QUITADO</span>`:""}${np?`<span class="pdg">${isAdmin()?np+" pedido"+(np>1?"s":"")+" de pagamento":"pagamento em análise"}</span>`:""}<button class="exp" data-a="open" data-id="${g.id}" aria-label="Ver detalhes" title="Ver detalhes">${EXPI}</button></div>
+  <div class="gb"><h3>${esc(g.name)}</h3><div class="gml"><span class="mt">Valor total</span><b>${brl(g.total)}</b></div><div class="mt gms">${g.parcelas}x de ${brl(g.total/g.parcelas)} · ${nOf(g)} pessoas</div>
+  ${mine||schedLine(g)}${payerNote(g)}
+  <div class="prg"><div class="bar"><i style="width:${all?paidN/all*100:0}%"></i></div>
+  <div class="prl"><span class="stk">${g.members.slice(0,5).map(m=>av(m,24)).join("")}${g.members.length>5?`<span class="more">+${g.members.length-5}</span>`:""}</span><span class="mt">${all?Math.round(paidN/all*100):0}% pago · falta <u class="ow">${brl(rest)}</u></span></div></div>
+  <div class="btns gact"><button data-a="open" data-id="${g.id}">${isAdmin()?"Detalhes e gerenciar":"Ver detalhes"}</button>${canClaim(g)?`<button data-a="claim" data-id="${g.id}">Informar parcela paga</button>`:""}</div></div></article>`;
 }
+
 function gridRender(){
   let L=games.filter(g=>gf==="all"||(gf==="done")===isDone(g));if(gq)L=L.filter(g=>g.name.toLowerCase().includes(gq));
   $("gg").innerHTML=L.length?L.map(cardHtml).join(""):`<div class="empty">${games.length?"Nenhum jogo neste filtro.":"Nenhum jogo cadastrado ainda."}</div>`;
@@ -1268,14 +1405,18 @@ function pixCode(key,amount,name){
   let p=emv("00","01")+emv("01","11")+emv("26",acc)+emv("52","0000")+emv("53","986")+emv("54",amount.toFixed(2))+emv("58","BR")+emv("59",ascii(name).slice(0,25)||"FAMILIA STEAM")+emv("60","BRASIL")+emv("62",emv("05","***"))+"6304";
   return p+crc16(p);
 }
-function openPix(g){
+function openPix(g,n){
   const pf=prof(g.payer)||{};if(!pf.pix){toast("O pagador ainda não cadastrou o Pix.");return}
-  const amt=per(g),code=pixCode(pf.pix,amt,g.payer);
-  $("pxt").textContent=g.name;$("pxs").textContent=`Pagar ${brl(amt)} para ${g.payer}`;$("pxc").value=code;
+  n=Math.max(1,Math.floor(n||1));const amt=Math.round(per(g)*n*100)/100,code=pixCode(pf.pix,amt,g.payer);
+  $("pxt").textContent=g.name;$("pxs").textContent=`Pagar ${brl(amt)}${n>1?` (${n} parcelas)`:""} para ${g.payer}`;$("pxc").value=code;
   let q="";if(window.qrcode){try{const qr=qrcode(0,"M");qr.addData(code);qr.make();q=qr.createImgTag(5,6)}catch(_){}}
   $("pxq").innerHTML=q||`<span style="color:#333;font-size:13px">QR code indisponível. Use o código abaixo.</span>`;$("pxm").hidden=false;
 }
-$("gg").addEventListener("click",e=>{const b=e.target.closest("[data-pay]");if(b){const g=games.find(x=>x.id==b.dataset.pay);if(g)openPix(g)}});
+$("gg").addEventListener("click",async e=>{
+  const b=e.target.closest("[data-pay]");if(b){const g=games.find(x=>x.id==b.dataset.pay);if(g)openPix(g,+b.dataset.n||1);return}
+  const sm=e.target.closest("[data-sim]");if(sm){const g=games.find(x=>x.id==sm.dataset.id);if(!g)return;const left=g.parcelas-pg(g,me.name);simN[g.id]=Math.min(Math.max((simN[g.id]||1)+(sm.dataset.sim==="+"?1:-1),1),Math.max(left,1));gridRender();return}
+  const cp=e.target.closest(".cpy[data-pix]");if(cp){try{await navigator.clipboard.writeText(cp.dataset.pix);toast("Chave Pix copiada.",true)}catch(_){toast("Copie manualmente: "+cp.dataset.pix,true)}}
+});
 $("pxcp").onclick=async()=>{try{await navigator.clipboard.writeText($("pxc").value);toast("Código Pix copiado. Cole no app do banco.",true)}catch(_){$("pxc").select();toast("Selecione e copie o código.",true)}};
 $("pxx").onclick=()=>{$("pxm").hidden=true};$("pxm").addEventListener("click",e=>{if(e.target===$("pxm"))$("pxm").hidden=true});
 
@@ -1453,7 +1594,7 @@ function gmRender(){
     <div class="mt">Solicitado em ${dtm(c.created_at)}${c.reviewed_at?` · ${c.status==="approved"?"aprovado":"recusado"} em ${dtm(c.reviewed_at)}${rv?" por "+esc(rv.name):""}`:""}</div>${c.note?`<div class="mt">Motivo: ${esc(c.note)}</div>`:""}<div class="rcs">${rcThumbs(c.receipts)||`<span class="mt">Sem comprovante</span>`}</div>
     ${adm&&c.status==="pending"?`<div class="cra"><input type="text" id="cn-${c.id}" placeholder="Motivo (se recusar)" maxlength="120"><button class="pillb" data-clm="ok" data-id="${c.id}">Aprovar</button><button class="pillb del" data-clm="no" data-id="${c.id}">Recusar</button></div>`:""}
     ${!adm&&c.status==="pending"?`<button class="pillb del" data-clm="cancel" data-id="${c.id}">Cancelar pedido</button>`:""}</div>`}).join("");
-  const tools=`<div class="btns gmt"><button data-a="rep" data-id="${g.id}">Relatório</button>${adm?`<button data-a="all" data-id="${g.id}">Virou o mês: +1 parcela p/ todos</button><button data-a="photo" data-id="${g.id}">${g.img?"Trocar foto":"Anexar foto"}</button>${g.img?`<button data-a="rmphoto" data-id="${g.id}">Remover foto</button>`:""}<button data-a="edit" data-id="${g.id}">Editar</button>${delBtns(g)}`:""}</div>`;
+  const tools=`<div class="btns gmt"><button data-a="rep" data-id="${g.id}">Relatório</button>${adm?`<button data-a="photo" data-id="${g.id}">${g.img?"Trocar foto":"Anexar foto"}</button>${g.img?`<button data-a="rmphoto" data-id="${g.id}">Remover foto</button>`:""}<button data-a="edit" data-id="${g.id}">Editar</button>${delBtns(g)}`:""}</div>`;
   $("gmb").innerHTML=`<div class="gmh">${g.img?`<img src="${g.img}" alt="">`:`<div class="noph">Sem foto</div>`}<div class="gmt2"><h2>${esc(g.name)}</h2><div class="pills"><span class="pill">${done?"QUITADO":"EM ANDAMENTO"}</span>${pend.length?`<span class="pill alt">${pend.length} pedido${pend.length>1?"s":""} em análise</span>`:""}</div></div></div>
   <div class="kvs"><div><small>Valor total</small><b>${brl(g.total)}</b></div><div><small>Parcelas</small><b>${g.parcelas}x de ${brl(g.total/g.parcelas)}</b></div><div><small>${adm?"Parcela por pessoa":"Sua parcela"}</small><b>${brl(p)}</b></div><div><small>Dividido entre</small><b>${nOf(g)} pessoas</b></div><div><small>1ª parcela</small><b>${g.start?fmt(due(g,0)):"—"}</b></div><div><small>Última parcela</small><b>${g.start?fmt(due(g,g.parcelas-1)):"—"}</b></div><div><small>Próximo vencimento</small><b>${done?"Quitado":k0!==null?fmt(due(g,k0))+" ("+(k0+1)+"ª)":"—"}</b></div><div><small>${adm?"Falta pagar (todos)":"Falta pagar"}</small><b class="ow">${brl(rest)}</b></div></div>
   ${pixBox}<div class="bar"><i style="width:${all?paidN/all*100:0}%"></i></div>
