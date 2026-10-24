@@ -2,25 +2,25 @@
   {
     "id": "premium-caveira",
     "name": "Premium: Caveira",
-    "file": "premium1.png",
+    "file": "premium1.gif",
     "unlock": "top"
   },
   {
     "id": "premium-dragao",
     "name": "Premium: Dragão dourado",
-    "file": "premium2.png",
+    "file": "premium2.WEBP",
     "unlock": "top"
   },
   {
     "id": "premium-anjo",
     "name": "Premium: Anjo dourado",
-    "file": "premium3.png",
+    "file": "premium3.WEBP",
     "unlock": "top"
   },
   {
     "id": "premium-sombra",
     "name": "Premium: Sombra roxa",
-    "file": "premium4.png",
+    "file": "premium4.WEBP",
     "unlock": "top"
   },
   {
