@@ -1,32 +1,32 @@
 [
   {
-    "id": "premium-1",
-    "name": "Premium Member",
-    "file": "premium1.jpg",
-    "unlock": "all"
+    "id": "premium-caveira",
+    "name": "Premium: Caveira",
+    "file": "premium1.png",
+    "unlock": "top"
   },
   {
-    "id": "premium-2",
-    "name": "Premium Member",
-    "file": "premium2.jpg",
-    "unlock": "all"
+    "id": "premium-dragao",
+    "name": "Premium: Dragão dourado",
+    "file": "premium2.png",
+    "unlock": "top"
   },
   {
-    "id": "premium-3",
-    "name": "Premium Member",
-    "file": "premium3.jpg",
-    "unlock": "all"
+    "id": "premium-anjo",
+    "name": "Premium: Anjo dourado",
+    "file": "premium3.png",
+    "unlock": "top"
   },
   {
-    "id": "premium-4",
-    "name": "Premium Member",
-    "file": "premium4.jpg",
-    "unlock": "all"
+    "id": "premium-sombra",
+    "name": "Premium: Sombra roxa",
+    "file": "premium4.png",
+    "unlock": "top"
   },
   {
     "id": "cc1",
     "name": "cc1",
-    "file": "cc1.webp",
+    "file": "cc1.png",
     "unlock": "all"
   },
   {
