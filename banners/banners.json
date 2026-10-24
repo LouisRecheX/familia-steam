@@ -26,7 +26,7 @@
   {
     "id": "cc1",
     "name": "cc1",
-    "file": "cc1.png",
+    "file": "cc1.webp",
     "unlock": "all"
   },
   {
@@ -93,24 +93,6 @@
     "id": "cc12",
     "name": "cc12",
     "file": "cc12.webp",
-    "unlock": "all"
-  },
-  {
-    "id": "cc13",
-    "name": "cc13",
-    "file": "cc13.webp",
-    "unlock": "all"
-  },
-  {
-    "id": "cc14",
-    "name": "cc14",
-    "file": "cc14.webp",
-    "unlock": "all"
-  },
-  {
-    "id": "cc15",
-    "name": "cc15",
-    "file": "cc15.webp",
     "unlock": "all"
   }
 ]
