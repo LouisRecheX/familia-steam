@@ -1,27 +1,27 @@
 [
   {
-    "id": "premium-member",
+    "id": "premium-1",
     "name": "Premium Member",
-    "file": "premium1.gif",
-    "unlock": "top"
+    "file": "premium1.jpg",
+    "unlock": "all"
   },
   {
-    "id": "premium-member",
+    "id": "premium-2",
     "name": "Premium Member",
-    "file": "premium2.webp",
-    "unlock": "top"
+    "file": "premium2.jpg",
+    "unlock": "all"
   },
   {
-    "id": "premium-member",
+    "id": "premium-3",
     "name": "Premium Member",
-    "file": "premium3.webp",
-    "unlock": "top"
+    "file": "premium3.jpg",
+    "unlock": "all"
   },
   {
-    "id": "premium-member",
+    "id": "premium-4",
     "name": "Premium Member",
-    "file": "premium4.webp",
-    "unlock": "top"
+    "file": "premium4.jpg",
+    "unlock": "all"
   },
   {
     "id": "cc1",
