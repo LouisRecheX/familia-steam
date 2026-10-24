@@ -521,19 +521,19 @@ a.pillb{display:inline-flex;align-items:center;text-decoration:none;color:var(--
 .tbh h2{margin:0;font-size:19px}
 .tbc{display:flex;gap:8px;flex-wrap:wrap}
 .tbs{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
-.gt{width:100%;border-collapse:collapse;font-size:14px;min-width:980px}
-.gt th{position:sticky;top:0;background:var(--card2);text-align:left;font:600 12.5px var(--bd);color:var(--mut);white-space:nowrap;padding:0}
-.gt th button{all:unset;cursor:pointer;display:flex;align-items:center;gap:6px;padding:11px 12px;width:100%;box-sizing:border-box}
-.gt th.n button{justify-content:flex-end}
-.gt th button:focus-visible{outline:2px solid var(--ac);outline-offset:-2px}
+.gtab{width:100%;border-collapse:collapse;font-size:14px;min-width:980px}
+.gtab th{position:sticky;top:0;background:var(--card2);text-align:left;font:600 12.5px var(--bd);color:var(--mut);white-space:nowrap;padding:0}
+.gtab th button{all:unset;cursor:pointer;display:flex;align-items:center;gap:6px;padding:11px 12px;width:100%;box-sizing:border-box}
+.gtab th.n button{justify-content:flex-end}
+.gtab th button:focus-visible{outline:2px solid var(--ac);outline-offset:-2px}
 .sk{opacity:.6;font-size:10px}
-.gt td{padding:10px 12px;border-top:1px solid var(--line);white-space:nowrap;vertical-align:middle}
-.gt td.n{text-align:right;font-variant-numeric:tabular-nums}
-.gt td.ow{color:var(--ow);font-weight:700}
-.gt tbody tr{cursor:pointer;transition:background .15s}
-.gt tbody tr:hover,.gt tbody tr:focus-visible{background:color-mix(in srgb,var(--ac) 9%,transparent);outline:none}
-.gt .c1{position:sticky;left:0;background:var(--card);z-index:1;min-width:230px;max-width:300px;white-space:normal}
-.gt th.c1{background:var(--card2);z-index:2}
+.gtab td{padding:10px 12px;border-top:1px solid var(--line);white-space:nowrap;vertical-align:middle}
+.gtab td.n{text-align:right;font-variant-numeric:tabular-nums}
+.gtab td.ow{color:var(--ow);font-weight:700}
+.gtab tbody tr{cursor:pointer;transition:background .15s}
+.gtab tbody tr:hover,.gtab tbody tr:focus-visible{background:color-mix(in srgb,var(--ac) 9%,transparent);outline:none}
+.gtab .c1{position:sticky;left:0;background:var(--card);z-index:1;min-width:230px;max-width:300px;white-space:normal}
+.gtab th.c1{background:var(--card2);z-index:2}
 .gtn{display:flex;align-items:center;gap:10px}
 .gtn img,.gti{width:44px;height:30px;border-radius:6px;object-fit:cover;flex:none;background:var(--card2);display:inline-flex;align-items:center;justify-content:center;font-size:15px}
 .gtn b{display:block;line-height:1.25}.gtn small{font-size:12.5px}
@@ -635,7 +635,7 @@ button.del,.pillb.del{color:var(--ow)}
 
 /* tabela */
 .tbs{border-radius:18px;border-color:var(--sbd)}
-.gt .c1{background:var(--card)}
+.gtab .c1{background:var(--card)}
 
 /* ----- reforço: vence as regras antigas de vidro (que usavam :is com peso maior) ----- */
 html body:not(#_) .btns button,html body:not(#_) .btns2 button,html body:not(#_) .pillb,html body:not(#_) a.pillb,html body:not(#_) .mact button,html body:not(#_) .cpy,html body:not(#_) .links2 button,html body:not(#_) .lk button,html body:not(#_) .savebar button:not(.add),html body:not(#_) .cnav button,html body:not(#_) .chip span{background:var(--btn);border:1px solid var(--sbd);color:var(--tx);border-radius:999px;box-shadow:none;transform:none;-webkit-backdrop-filter:none;backdrop-filter:none}
@@ -676,6 +676,29 @@ html body:not(#_) .ic:hover{background:var(--btnh)}
 html body:not(#_) .gact{display:flex;flex-wrap:wrap;gap:8px}
 html body:not(#_) .gact button{flex:1 1 auto;white-space:nowrap}
 .stp,.sim .simt{justify-self:end}
+.gms .gmp{color:var(--tx);font-weight:700}
+.mh>div{min-width:0;flex:1}
+.mc .nob{font-size:12px;padding:3px 10px;white-space:normal;max-width:100%;line-height:1.2}
+/* ===== card direto e simples ===== */
+.cm{display:flex;flex-direction:column;gap:3px;margin:4px 0 14px}
+.cm small{font:700 12px var(--bd);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.cm>b{font:800 32px/1.05 var(--hd);letter-spacing:-.025em}
+.cm>b em{font:600 15px var(--bd);color:var(--mut);font-style:normal;margin-left:4px;letter-spacing:0}
+.cm>span{font-size:14px;line-height:1.4}
+.cm>span.ow{color:var(--ow);font-weight:600}
+.okt{color:var(--pd);font-weight:700}
+.crow{margin:0;padding-top:12px;border-top:1px solid var(--sbd);display:grid;gap:8px}
+.crow>div{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:15px}
+.crow dt{color:var(--mut)}
+.crow dd{margin:0;font-weight:700;font-variant-numeric:tabular-nums}
+.crow .hl dd{font:800 17px var(--hd)}
+html body:not(#_) .cact{display:flex;gap:8px;margin-top:16px}
+html body:not(#_) .cta{flex:1;width:auto;margin:0;min-height:46px;border-radius:14px}
+html body:not(#_) .dbtn{background:var(--btn);border:1px solid var(--sbd);color:var(--tx);border-radius:14px;min-height:46px;padding:0 16px;font:600 15px var(--bd);cursor:pointer}
+html body:not(#_) .dbtn:hover{background:var(--btnh)}
+html body:not(#_) .dbtn.wide{flex:1}
+#gmb .myb{margin-top:0}
+html body:not(#_) .tbc select,html body:not(#_) .dhc select{padding-right:40px}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -736,7 +759,7 @@ html body:not(#_) .gact button{flex:1 1 auto;white-space:nowrap}
 <div class="fch" id="fch"><button data-f="open" class="on">Em aberto</button><button data-f="all">Todos</button><button data-f="done">Finalizados</button></div>
 <input type="text" id="gs" placeholder="Buscar jogo" style="max-width:220px" aria-label="Buscar jogo"></div>
 <div class="gg" id="gg"></div>
-<section class="panel tbw" id="gtw"><div class="tbh"><h2>Todos os jogos</h2><div class="tbc"><input type="search" id="gts" placeholder="Pesquisar…" aria-label="Pesquisar na tabela"><select id="gtf" aria-label="Filtrar situação"><option value="all">Todas as situações</option><option value="open">Em aberto</option><option value="done">Finalizados</option></select></div></div><div class="tbs"><table class="gt" id="gt"></table></div></section>
+<section class="panel tbw" id="gtw"><div class="tbh"><h2>Todos os jogos</h2><div class="tbc"><input type="search" id="gts" placeholder="Pesquisar…" aria-label="Pesquisar na tabela"><select id="gtf" aria-label="Filtrar situação"><option value="all">Todas as situações</option><option value="open">Em aberto</option><option value="done">Finalizados</option></select></div></div><div class="tbs"><table class="gtab" id="gt"></table></div></section>
 <section class="finw" id="finw" hidden><div class="sec"><h2>Jogos finalizados</h2></div><div id="fin"></div></section>
 </div>
 
@@ -1055,7 +1078,7 @@ function myBox(g){
   const pay=g.payer?(pf.pix?`<button class="payc" data-pay="${g.id}" data-n="${n}"><img class="pxi" src="img/pix.png" alt="" onerror="this.remove()">Pagar ${brl(tot)} via Pix</button><button class="cpy" data-pix="${esc(pf.pix)}" title="Copiar a chave Pix de ${esc(g.payer)}">Copiar chave</button>`:`<span class="mt">${esc(g.payer)} ainda não cadastrou o Pix.</span>`):`<span class="mt">Pagador ainda não definido.</span>`;
   return `<div class="myb"><div class="myh"><small>Sua parcela do mês</small><b class="myv">${brl(p)}</b><span class="myd${late?" ow":""}">${d?`vence ${fmt(d)} · ${k+1}ª de ${g.parcelas}${late?" · vencida":""}`:"sem data definida"}</span></div>
   <div class="sim"><span class="siml">Simular pagamento</span><div class="stp"><button type="button" data-sim="-" data-id="${g.id}" aria-label="Menos uma parcela" ${n<=1?"disabled":""}>−</button><b class="simn">${n}</b><button type="button" data-sim="+" data-id="${g.id}" aria-label="Mais uma parcela" ${n>=left?"disabled":""}>+</button></div><span class="sims">${n>1?n+" parcelas":"1 parcela"} · ${listPt(nums)}ª</span><b class="simt">${brl(tot)}</b></div>
-  <div class="mya">${pay}</div>${g.payer?`<small class="mt">Para <b>${esc(g.payer)}</b>${left>1?` · faltam ${left} parcelas, ${brl(Math.round(p*left*100)/100)} no total`:" · última parcela"}</small>`:""}</div>`;
+  <div class="mya">${pay}</div>${g.payer?`<small class="mt">Para <b>${esc(g.payer)}</b> · ${left>1?`você ainda paga <b>${left} parcelas</b> (${brl(Math.round(p*left*100)/100)})`:"é a sua <b>última parcela</b>"}</small>`:""}</div>`;
 }
 function payerNote(g){
   if(g.payer!==me.name||isDone(g))return"";
@@ -1063,14 +1086,25 @@ function payerNote(g){
   return `<div class="myb pay"><div class="myh"><small>Você é o pagador</small><span>${others.length?`Recebe ${brl(per(g)*others.length)} por mês de ${others.length} pessoa${others.length>1?"s":""}`:"Todos já pagaram a parte deles"}</span></div></div>`;
 }
 function cardHtml(g){
-  const p=per(g),all=g.parcelas*g.members.length,paidN=g.members.reduce((s,m)=>s+pg(g,m),0),rest=g.members.reduce((s,m)=>s+p*(g.parcelas-pg(g,m)),0),done=isDone(g);
-  const mine=myBox(g),np=claimsOf(g.id).filter(c=>c.status==="pending").length;
-  return `<article class="gc"><div class="cv">${g.img?`<img src="${g.img}" alt="${esc(g.name)}">`:`<div class="noph">Sem foto</div>`}${done?`<span class="bdgq">QUITADO</span>`:""}${np?`<span class="pdg">${isAdmin()?np+" pedido"+(np>1?"s":"")+" de pagamento":"pagamento em análise"}</span>`:""}<button class="exp" data-a="open" data-id="${g.id}" aria-label="Ver detalhes" title="Ver detalhes">${EXPI}</button></div>
-  <div class="gb"><h3>${esc(g.name)}</h3><div class="gml"><span class="mt">Valor total</span><b>${brl(g.total)}</b></div><div class="mt gms">${g.parcelas}x de ${brl(g.total/g.parcelas)} · ${nOf(g)} pessoas</div>
-  ${mine||schedLine(g)}${payerNote(g)}
-  <div class="prg"><div class="bar"><i style="width:${all?paidN/all*100:0}%"></i></div>
-  <div class="prl"><span class="stk">${g.members.slice(0,5).map(m=>av(m,24)).join("")}${g.members.length>5?`<span class="more">+${g.members.length-5}</span>`:""}</span><span class="mt">${all?Math.round(paidN/all*100):0}% pago · falta <u class="ow">${brl(rest)}</u></span></div></div>
-  <div class="btns gact"><button data-a="open" data-id="${g.id}">${isAdmin()?"Detalhes e gerenciar":"Ver detalhes"}</button>${canClaim(g)?`<button data-a="claim" data-id="${g.id}">Informar parcela paga</button>`:""}</div></div></article>`;
+  const p=per(g),adm=isAdmin(),mine=g.members.includes(me.name),payer=g.payer===me.name,np=claimsOf(g.id).filter(c=>c.status==="pending").length,done=isDone(g);
+  const t=new Date();t.setHours(0,0,0,0);let main="";const rows=[];
+  if(mine&&!payer){
+    const left=g.parcelas-pg(g,me.name),k=pre(g,me.name),d=g.start&&left>0?due(g,k):null,late=d&&d<t;
+    main=`<div class="cm"><small>Sua parte</small><b>${brl(p*g.parcelas)}</b><span class="${late?"ow":"mt"}">${left>0?`${g.parcelas}x de ${brl(p)} · faltam <b>${left}</b> de ${g.parcelas}${d?` · próxima ${fmt(d)}${late?" (vencida)":""}`:""}`:`<span class="okt">✓ Sua parte está quitada</span>`}</span></div>`;
+    rows.push(["Preço do jogo",brl(g.total)]);
+    if(left>0)rows.push(["Para quitar tudo agora",brl(Math.round(p*left*100)/100),"hl"]);
+  }else if(payer){
+    const others=g.members.filter(m=>m!==me.name&&pg(g,m)<g.parcelas),recv=g.members.filter(m=>m!==me.name).reduce((x,m)=>x+p*(g.parcelas-pg(g,m)),0);
+    main=`<div class="cm"><small>Você é o pagador</small><b>${brl(p*others.length)}<em>/mês</em></b><span class="mt">${others.length?`a receber de ${others.length} pessoa${others.length>1?"s":""}`:"todos já pagaram a parte deles"}</span></div>`;
+    rows.push(["Preço do jogo",brl(g.total)],["Falta receber",brl(recv),"hl"]);
+  }else{
+    const rest=g.members.reduce((x,m)=>x+p*(g.parcelas-pg(g,m)),0);
+    main=`<div class="cm"><small>Cada pessoa paga</small><b>${brl(p*g.parcelas)}</b><span class="mt">${g.parcelas}x de ${brl(p)} · ${nOf(g)} pessoas</span></div>`;
+    rows.push(["Preço do jogo",brl(g.total)],["Falta pagar (todos)",brl(rest),"hl"]);
+  }
+  const acts=canClaim(g)?`<button class="add cta" data-a="claim" data-id="${g.id}">Informar pagamento</button><button class="dbtn" data-a="open" data-id="${g.id}">Detalhes</button>`:`<button class="dbtn wide" data-a="open" data-id="${g.id}">${adm?"Detalhes e gerenciar":"Ver detalhes"}</button>`;
+  return `<article class="gc"><div class="cv">${g.img?`<img src="${g.img}" alt="${esc(g.name)}">`:`<div class="noph">Sem foto</div>`}${done?`<span class="bdgq">QUITADO</span>`:""}${np?`<span class="pdg">${adm?np+" pedido"+(np>1?"s":"")+" de pagamento":"pagamento em análise"}</span>`:""}<button class="exp" data-a="open" data-id="${g.id}" aria-label="Ver detalhes" title="Ver detalhes">${EXPI}</button></div>
+  <div class="gb"><h3>${esc(g.name)}</h3>${main}<dl class="crow">${rows.map(([l,v,c])=>`<div class="${c||""}"><dt>${l}</dt><dd>${v}</dd></div>`).join("")}</dl><div class="cact">${acts}</div></div></article>`;
 }
 
 function gridRender(){
@@ -1742,7 +1776,7 @@ function gmRender(){
   const tools=`<div class="btns gmt"><button data-a="rep" data-id="${g.id}">Relatório</button>${adm?`<button data-a="photo" data-id="${g.id}">${g.img?"Trocar foto":"Anexar foto"}</button>${g.img?`<button data-a="rmphoto" data-id="${g.id}">Remover foto</button>`:""}<button data-a="edit" data-id="${g.id}">Editar</button>${delBtns(g)}`:""}</div>`;
   $("gmb").innerHTML=`<div class="gmh">${g.img?`<img src="${g.img}" alt="">`:`<div class="noph">Sem foto</div>`}<div class="gmt2"><h2>${esc(g.name)}</h2><div class="pills"><span class="pill">${done?"QUITADO":"EM ANDAMENTO"}</span>${pend.length?`<span class="pill alt">${pend.length} pedido${pend.length>1?"s":""} em análise</span>`:""}</div></div></div>
   <div class="kvs"><div><small>Valor total</small><b>${brl(g.total)}</b></div><div><small>Parcelas</small><b>${g.parcelas}x de ${brl(g.total/g.parcelas)}</b></div><div><small>${adm?"Parcela por pessoa":"Sua parcela"}</small><b>${brl(p)}</b></div><div><small>Dividido entre</small><b>${nOf(g)} pessoas</b></div><div><small>1ª parcela</small><b>${g.start?fmt(due(g,0)):"—"}</b></div><div><small>Última parcela</small><b>${g.start?fmt(due(g,g.parcelas-1)):"—"}</b></div><div><small>Próximo vencimento</small><b>${done?"Quitado":k0!==null?fmt(due(g,k0))+" ("+(k0+1)+"ª)":"—"}</b></div><div><small>${adm?"Falta pagar (todos)":"Falta pagar"}</small><b class="ow">${brl(rest)}</b></div></div>
-  ${pixBox}<div class="bar"><i style="width:${all?paidN/all*100:0}%"></i></div>
+  ${(mineIn&&g.payer!==me.name)?`<h4>Pagar</h4>${myBox(g)}`:pixBox}<div class="bar"><i style="width:${all?paidN/all*100:0}%"></i></div>
   <h4>Calendário das parcelas</h4>${calendar(g)||`<p class="mt">Sem data da 1ª parcela.</p>`}
   <h4>${adm?"Pagamentos por pessoa":"Seu pagamento"}</h4>${rows||`<p class="mt">Você não participa deste jogo.</p>`}
   ${form}${hist?`<h4>Pedidos de pagamento</h4>${hist}`:""}${tools}`;
@@ -1782,7 +1816,8 @@ $("gm").addEventListener("click",async e=>{
   const rm=e.target.closest("[data-rm]");if(rm){rcDraft.splice(+rm.dataset.rm,1);rcpRender();return}
   const cp=e.target.closest(".cpy[data-pix]");
   if(cp){try{await navigator.clipboard.writeText(cp.dataset.pix);toast("Chave Pix copiada.",true)}catch(_){toast("Copie manualmente: "+cp.dataset.pix,true)}return}
-  const py=e.target.closest("[data-pay]");if(py){const g=games.find(x=>x.id==py.dataset.pay);if(g)openPix(g)}
+  const sm=e.target.closest("[data-sim]");if(sm){const g=games.find(x=>x.id==sm.dataset.id);if(!g)return;const left=g.parcelas-pg(g,me.name);simN[g.id]=Math.min(Math.max((simN[g.id]||1)+(sm.dataset.sim==="+"?1:-1),1),Math.max(left,1));gmRender();return}
+  const py=e.target.closest("[data-pay]");if(py){const g=games.find(x=>x.id==py.dataset.pay);if(g)openPix(g,+py.dataset.n||1)}
 });
 $("gm").addEventListener("click",onAct);
 $("gm").addEventListener("change",e=>{const c=e.target.closest&&e.target.closest(".ip input");if(!c)return;const v=+c.value;c.checked?selIp.add(v):selIp.delete(v);const g=games.find(x=>x.id===gmId);if(g)ipSum(g)});
