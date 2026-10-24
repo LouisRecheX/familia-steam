@@ -727,6 +727,8 @@ html body:not(#_) .subnav button:focus-visible,html body:not(#_) .jnav button:fo
 .mc .bgp b{font-size:17px}
 .bgp.none{background:color-mix(in srgb,var(--ow) 12%,transparent);border-color:color-mix(in srgb,var(--ow) 45%,transparent)}
 .bgp.none small{color:var(--ow)}.bgp.none b{font:700 13.5px var(--bd);color:var(--ow)}
+.frb.miss{border-color:color-mix(in srgb,var(--ow) 60%,transparent)!important}
+.missi{display:block;font:600 11.5px var(--bd);color:var(--ow);padding:8px 4px;word-break:break-all}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -1454,17 +1456,28 @@ function chkAv(img){const b=img.closest("button"),c=b.parentNode;b.remove();if(!
 const PLAT=[["steam","Steam","steam"],["epic","Epic Games","epicgames"],["xbox","Xbox","xbox"],["riot","Riot Games","riotgames"],["battlenet","Battle.net","battlenet"],["ubisoft","Ubisoft Connect","ubisoft"],["playstation","PlayStation","playstation"]];
 const PALS=["#22d3ee","#8b5cf6","#ec4899","#34d399","#f97316","#ef4444","#3b82f6","#facc15"];
 const hexOk=c=>/^#[0-9a-fA-F]{6}$/.test(c||"");
-async function loadList(url){try{const r=await fetch(url,{cache:"no-store"});if(r.ok){
-  const seen={},L=(await r.json()).filter(f=>f&&/^[a-z0-9-]{1,40}$/.test(f.id)&&/^[a-z0-9._-]+$/i.test(f.file)),orig=new Set(L.map(f=>f.id));
+const listBad=[];
+async function loadList(url){
+  let raw;
+  try{const r=await fetch(url,{cache:"no-store"});if(!r.ok)return[];raw=await r.json()}
+  catch(_){listBad.push(`${url}: tem um erro de escrita (vírgula sobrando, aspas faltando…), então nada dele foi carregado`);return[]}
+  if(!Array.isArray(raw))return[];
+  const L=raw.filter(f=>{
+    if(!f||typeof f!=="object")return false;
+    if(!/^[a-z0-9-]{1,40}$/.test(f.id||"")){listBad.push(`${url}: o id "${f.id}" não vale (use só letras minúsculas, números e hífen)`);return false}
+    if(!/^[a-z0-9._-]+$/i.test(f.file||"")){listBad.push(`${url}: o nome de arquivo "${f.file}" não vale (sem espaço, acento ou parênteses)`);return false}
+    return true});
+  const seen={},orig=new Set(L.map(f=>f.id));
   return L.map(f=>{
-    let id=f.id;if(seen[id]){let n=2;while(seen[id.slice(0,36)+"-"+n]||orig.has(id.slice(0,36)+"-"+n))n++;id=id.slice(0,36)+"-"+n;console.warn(`${url}: o id "${f.id}" está repetido; usando "${id}" para ${f.file}`)}
+    let id=f.id;
+    if(seen[id]){let n=2;while(seen[id.slice(0,36)+"-"+n]||orig.has(id.slice(0,36)+"-"+n))n++;id=id.slice(0,36)+"-"+n;listBad.push(`${url}: o id "${f.id}" está repetido (usei "${id}" para ${f.file}; corrija no arquivo)`)}
     seen[id]=1;return id===f.id?f:Object.assign({},f,{id});
   });
-}}catch(_){}return[]}
+}
 function dedupe(list,arq){const seen=new Set(),dup=new Set();const out=list.filter(f=>{if(seen.has(f.id)){dup.add(f.id);return false}seen.add(f.id);return true});
   if(dup.size&&isAdmin())setTimeout(()=>toast(`Em ${arq}, ${dup.size>1?"os ids":"o id"} "${[...dup].join('", "')}" ${dup.size>1?"aparecem":"aparece"} mais de uma vez. Só a primeira vale: dê um id diferente para cada item.`,false,12000),800);
   return out}
-async function loadFrames(){const [a,b,c]=await Promise.all([loadList("frames/frames.json"),loadList("banners/banners.json"),loadList("ornaments/ornaments.json")]);FRAMES=dedupe(a,"frames.json");BANNERS=dedupe(b,"banners.json");ORNS=dedupe(c,"ornaments.json")}
+async function loadFrames(){listBad.length=0;const [a,b,c]=await Promise.all([loadList("frames/frames.json"),loadList("banners/banners.json"),loadList("ornaments/ornaments.json")]);FRAMES=dedupe(a,"frames.json");BANNERS=dedupe(b,"banners.json");ORNS=dedupe(c,"ornaments.json");if(listBad.length&&isAdmin())setTimeout(()=>toast("Atenção nas listas: "+listBad.slice(0,3).join(" | ")+(listBad.length>3?` (e mais ${listBad.length-3})`:""),false,15000),1600)}
 const unlockOk=(d,name)=>!d||d.unlock!=="top"||topMember===name;
 const assetOf=(list,id,name)=>{const d=id?list.find(x=>x.id===id):null;return d&&unlockOk(d,name)?d:null};
 const eligible=(list,id)=>assetOf(list,id,me.name)?id:null;
@@ -1530,7 +1543,7 @@ function draft(){
   return Object.assign({},me,{nick:(($("nk").value||"").trim().slice(0,24))||null,nstyle:{f:$("nkf").value,fx:$("nkx").value,c1:nc1,c2:nc2},tags,palette:selPal,palette2:selPal2,frame:fr,banner:eligible(BANNERS,selBanner),ornament:eligible(ORNS,selOrn),pix:pixLocked()?me.pix:(($("mpix").value||"").trim()||null)});
 }
 function pickRender(el,list,sel,dir,cls){
-  el.innerHTML=`<button type="button" class="frb ${!sel?"on":""}" data-f="">Nenhum</button>`+list.map(f=>{const ok=unlockOk(f,me.name);return `<button type="button" class="frb ${sel===f.id?"on":""}" data-f="${esc(f.id)}" ${ok?"":"disabled"} title="${ok?esc(f.name):"Exclusivo de quem mais contribuiu no ano"}"><img class="${cls}" src="${dir}/${esc(f.file)}" alt="" onerror="this.closest('button').remove()"><small>${esc(f.name)}${ok?"":" 🔒"}</small></button>`}).join("");
+  el.innerHTML=`<button type="button" class="frb ${!sel?"on":""}" data-f="">Nenhum</button>`+list.map(f=>{const ok=unlockOk(f,me.name);return `<button type="button" class="frb ${sel===f.id?"on":""}" data-f="${esc(f.id)}" ${ok?"":"disabled"} title="${ok?esc(f.name):"Exclusivo de quem mais contribuiu no ano"}"><img class="${cls}" src="${dir}/${esc(f.file)}" alt="" onerror="${isAdmin()?`this.closest('button').classList.add('miss');this.replaceWith(Object.assign(document.createElement('span'),{className:'missi',textContent:'Não encontrei ${esc(dir)}/${esc(f.file)}'}))`:`this.closest('button').remove()`}"><small>${esc(f.name)}${ok?"":" 🔒"}</small></button>`}).join("");
   prvRender();
 }
 const bnRender=()=>pickRender($("mbn"),BANNERS,selBanner,"banners","thb");
