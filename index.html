@@ -2024,7 +2024,11 @@ $("av").addEventListener("click",async e=>{
     if(r.error||!r.data||r.data.error){$("ntr").textContent="Não foi possível enviar o teste agora.";return}
     const d=r.data,parts=[];
     parts.push(d.aparelhos?`Aparelhos: ${d.push} de ${d.aparelhos} receberam o aviso.`:"Nenhum aparelho com avisos ativos.");
-    if(d.email==="cadastrado")parts.push(d.emailConfigurado?(d.mail?"E-mail enviado.":"O e-mail não pôde ser enviado."):"O envio de e-mail ainda não foi configurado pelo administrador.");
+    if(d.pushErro)parts.push("Aviso no aparelho: "+d.pushErro+".");
+    if(d.email!=="cadastrado")parts.push("Nenhum e-mail salvo: digite o e-mail acima e toque em Salvar e-mail.");
+    else if(!d.emailConfigurado)parts.push("O envio de e-mail não está configurado no servidor"+(d.gmailUserOk===false&&d.gmailSenhaOk===false?" (faltam GMAIL_USER e GMAIL_APP_PASSWORD).":d.gmailUserOk===false?" (falta GMAIL_USER).":d.gmailSenhaOk===false?" (falta GMAIL_APP_PASSWORD).":"."));
+    else if(d.mail)parts.push("E-mail enviado: confira a caixa de entrada e o spam.");
+    else{const er=d.mailErro||"";parts.push("O e-mail não saiu. "+(/535|not accepted|credential|auth|password|login/i.test(er)?"O Gmail recusou o login: confira se GMAIL_USER é o e-mail completo e se GMAIL_APP_PASSWORD é a senha de app de 16 letras, não a senha normal.":/tempo|timeout|demor/i.test(er)?"O Gmail não respondeu a tempo. Tente de novo.":er?"Motivo: "+er:"Motivo desconhecido."))}
     $("ntr").textContent=parts.join(" ");
   }
 });
