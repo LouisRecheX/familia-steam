@@ -739,6 +739,73 @@ html body:not(#_) .subnav button:focus-visible,html body:not(#_) .jnav button:fo
 .bdf label{margin:0;color:var(--tx);font-weight:600}
 html body:not(#_) .bdf select{width:auto;min-width:120px;min-height:40px}
 html body:not(#_) #mem{width:100%;box-sizing:border-box}
+/* ===== Minhas informações: abas, linhas e cartões ===== */
+.avbox{max-width:620px;padding:0;display:flex;flex-direction:column;overflow:hidden}
+.avtop{padding:16px 20px 0;flex:none}
+.avhd{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.avhd h2{margin:0;font:800 21px var(--hd);letter-spacing:-.02em}
+.avha{display:flex;align-items:center;gap:8px}
+html body:not(#_) .prvt{background:var(--btn);border:1px solid var(--sbd);color:var(--mut);border-radius:999px;padding:6px 12px;min-height:32px;font:600 13px var(--bd);cursor:pointer}
+html body:not(#_) .prvt[aria-pressed="true"]{color:var(--tx);background:color-mix(in srgb,var(--ac) 20%,transparent);border-color:color-mix(in srgb,var(--ac) 45%,transparent)}
+html body:not(#_) .avc{width:34px;height:34px;border-radius:50%;border:1px solid var(--sbd);background:var(--btn);color:var(--tx);font-size:20px;line-height:1;cursor:pointer;padding:0}
+html body:not(#_) .avc:hover,html body:not(#_) .prvt:hover{background:var(--btnh)}
+.avbox .prvw{position:static;max-height:none;overflow:visible;padding:0 0 12px;margin:0;border:0;background:transparent}
+.avbox .prvw[hidden]{display:none}
+.avbox .pcard.mini .pch{height:38px}
+.avbox .pcard.mini .pcav{margin-top:-26px}
+.avbox .pcard.mini .pcb{padding:0 14px 10px}
+.avbox .pcard.mini .pcn{margin:2px 0 0}
+.avbox .pcard.mini .gts,.avbox .pcard.mini .pcp{display:none}
+.avtabs{display:flex;gap:2px;padding:4px;background:var(--btn);border:1px solid var(--sbd);border-radius:16px;margin-bottom:0}
+html body:not(#_) .avt{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 6px;border:0;border-radius:12px;background:transparent;color:var(--mut);font:600 13.5px var(--bd);cursor:pointer;box-shadow:none;transform:none;transition:background .15s,color .15s}
+html body:not(#_) .avt:hover{color:var(--tx);background:color-mix(in srgb,var(--tx) 6%,transparent)}
+html body:not(#_) .avt.on{background:var(--card);color:var(--tx);box-shadow:0 1px 6px rgba(0,0,0,.28)}
+.avt.on svg{color:var(--ac)}
+.avt span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.avbody{flex:1 1 auto;min-height:0;overflow-y:auto;padding:14px 20px 8px;-webkit-overflow-scrolling:touch}
+.grp2{background:var(--fld);border:1px solid var(--sbd);border-radius:18px;overflow:hidden}
+.avbox .acc{margin:0;background:transparent;border:0;border-radius:0;border-top:1px solid var(--sbd)}
+.avbox .grp2>.acc:first-child{border-top:0}
+.avbox .acc>summary{padding:14px 16px;gap:12px;min-height:52px;box-sizing:border-box;font:600 15.5px var(--bd);align-items:center;transition:background .15s}
+.avbox .acc>summary:hover{background:color-mix(in srgb,var(--tx) 4%,transparent)}
+.avbox .acc>summary:focus-visible{outline:2px solid var(--ac);outline-offset:-2px}
+.avbox .acc>summary::after{content:"";width:8px;height:8px;border-right:2px solid var(--mut);border-bottom:2px solid var(--mut);transform:rotate(45deg);margin:0 4px 3px 2px;flex:none;transition:transform .2s;color:transparent}
+.avbox .acc[open]>summary::after{transform:rotate(-135deg);margin-top:5px}
+.avbox .acc[open]>summary{background:color-mix(in srgb,var(--ac) 8%,transparent)}
+.rt{flex:none}
+.rv{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:0;max-width:55%;color:var(--mut);font:500 14px var(--bd);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.rv .av{vertical-align:middle}
+.sws{width:34px;height:18px;border-radius:99px;border:1px solid rgba(255,255,255,.25);flex:none}
+.avbox .accb{padding:4px 16px 16px}
+.avbox .accb>label:first-child{margin-top:8px}
+.card2{background:var(--fld);border:1px solid var(--sbd);border-radius:18px;padding:16px;margin-bottom:12px}
+.card2 .ch2{margin:0 0 4px;font:700 15.5px var(--hd);letter-spacing:-.01em}
+.card2 .cs2{margin:0 0 12px;font-size:14px;line-height:1.45}
+.card2 .pixlk{margin:0}
+.card2 input[type=text],.card2 input[type=email]{width:100%;box-sizing:border-box}
+.card2 .idn{margin-top:10px}
+.bgrow{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+.bgrow .bi{flex:1;min-width:150px}
+.bgrow .bi input{width:100%!important}
+.bgrow .pillb{min-height:46px}
+.avbox .savebar{position:static;flex:none;margin:0;padding:12px 20px 16px;border-top:1px solid var(--sbd);background:transparent;align-items:center}
+.avbox .savebar .add{flex:1 1 auto;min-width:120px}
+.dirty{display:inline-flex;align-items:center;gap:6px;color:var(--yl);font:700 13px var(--bd);white-space:nowrap}
+.dirty i{width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block}
+@media(max-width:560px){
+  .avtop{padding:14px 14px 0}.avbody{padding:12px 14px 6px}.avbox .savebar{padding:10px 14px calc(12px + env(safe-area-inset-bottom,0px))}
+  html body:not(#_) .avt{flex-direction:column;gap:3px;padding:8px 2px;font-size:11.5px}
+  .avt svg{width:19px;height:19px}
+  .rv{max-width:48%}
+}
+/* ajustes finos da janela */
+html body:not(#_) .avt{flex:1 1 auto;padding:9px 10px;gap:6px;font-size:13px}
+.avhd h2{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.avbox .accb input[type=text],.avbox .accb input[type=email],.avbox .accb input[type=number],.avbox .accb select,.avbox .card2 select{width:100%;box-sizing:border-box}
+@media(max-width:560px){.avhd h2{font-size:18px}html body:not(#_) .avt{padding:8px 2px}}
+.avbox .cust{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.avbox .cust .pillb{min-height:38px;height:auto;align-self:center;padding:7px 14px}
+.avbox .savebar.solo #avx{flex:1}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -834,46 +901,42 @@ html body:not(#_) #mem{width:100%;box-sizing:border-box}
 <input type="file" id="fp" accept="image/*" hidden>
 <input type="file" id="rcf" accept="image/*" multiple hidden>
 <div id="av" hidden role="dialog" aria-modal="true" aria-label="Minhas informações"><div class="mbox avbox">
-<h2>Minhas informações</h2>
-<div class="prvw"><small class="mt">Pré-visualização do seu cartão (atualiza enquanto você edita)</small><div id="mprv"></div></div>
-<details class="acc" open><summary>Pix e gametags</summary><div class="accb">
-<label for="mpix">Minha chave Pix (e-mail, CPF, telefone ou chave aleatória)</label>
-<div id="pixlk" class="pixlk" hidden><div><b id="pixv"></b><small class="mt">Chave já cadastrada. Cada pessoa tem uma única chave Pix.</small></div><button type="button" class="pillb" id="pixchg">Trocar chave</button></div>
-<input type="text" id="mpix" placeholder="Ex.: seuemail@gmail.com" autocomplete="off">
-<label>Gamertags (deixe em branco o que você não usa)</label>
-<div class="tgrid" id="mtags"></div>
-</div></details>
-<details class="acc"><summary>Apelido e fonte do nome</summary><div class="accb">
-<label for="nk">Apelido na família (aparece no seu cartão)</label>
-<input type="text" id="nk" maxlength="24" placeholder="Ex.: Galdino" autocomplete="off">
-<label>Fonte do apelido (toque para escolher)</label>
-<div class="fchips" id="nkfc"></div><select id="nkf" hidden></select>
-<div class="row"><div><label for="nkx">Efeito</label><select id="nkx"></select></div></div>
-<div class="nkp" id="nkp"></div>
-<label>Como vai ficar o seu nome</label>
-<div class="nkpv" id="nkpv"></div>
-</div></details>
-<details class="acc"><summary>Cor do cartão</summary><div class="accb"><div class="pal" id="mpal"></div></div></details>
-<details class="acc"><summary>Moldura, banner e ornamento</summary><div class="accb">
-<label>Moldura do avatar</label><div class="frs" id="mfr"></div>
-<label>Banner do cartão (imagem do topo)</label><div class="frs" id="mbn"></div>
-<label>Ornamento do cartão (cantos decorados)</label><div class="frs" id="mor"></div>
-</div></details>
-<details class="acc"><summary>Avatar</summary><div class="accb"><div class="avg" id="avj"></div><p class="mt" id="avh">Nenhum avatar de jogo encontrado. Veja no LEIA-ME como montar a pasta avatars.</p></div></details>
-<details class="acc"><summary>Avisos de vencimento</summary><div class="accb">
-<p class="mt" style="margin-top:4px">Você recebe um aviso <b>10 dias antes</b>, <b>5 dias antes</b> e <b>no dia</b> do vencimento de cada parcela dos seus jogos, com o valor e a chave Pix de quem paga.</p>
-<label>Avisos neste aparelho</label><div class="ntf" id="ntf"></div>
-<label for="mem">E-mail para avisos (opcional)</label>
-<input type="email" id="mem" placeholder="seuemail@gmail.com" autocomplete="email">
+<header class="avtop">
+<div class="avhd"><h2>Minhas informações</h2><div class="avha"><button type="button" class="prvt" id="prvt" aria-pressed="true" title="Mostrar ou esconder a prévia do cartão">Prévia</button><button type="button" class="avc" id="avc" aria-label="Fechar">×</button></div></div>
+<div class="prvw" id="prvw"><div id="mprv"></div></div>
+<nav class="avtabs" role="tablist" id="avtabs" aria-label="Seções"><button type="button" role="tab" class="avt on" data-tab="look" aria-selected="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.3 0 2-.8 2-1.8 0-.6-.3-1-.6-1.4-.3-.4-.4-.8-.4-1.2 0-1 .8-1.6 1.8-1.6H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="14.5" cy="7" r="1"/></svg><span>Aparência</span></button><button type="button" role="tab" class="avt" data-tab="prof" aria-selected="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Perfil</span></button><button type="button" role="tab" class="avt" data-tab="pay" aria-selected="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10.5h18"/><path d="M7 15h3"/></svg><span>Pagamento</span></button><button type="button" role="tab" class="avt" data-tab="ntf" aria-selected="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17v-6a6 6 0 1 1 12 0v6l1.5 2h-15z"/><path d="M10 21h4"/></svg><span>Avisos</span></button><button type="button" role="tab" class="avt" data-tab="acc" aria-selected="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Conta</span></button></nav>
+</header>
+<div class="avbody">
+<section class="tp" data-tp="look" role="tabpanel"><div class="grp2">
+<details class="acc"><summary><span class="rt">Avatar</span><span class="rv" id="rv-avatar"></span></summary><div class="accb"><div class="avg" id="avj"></div><p class="mt" id="avh">Nenhum avatar de jogo encontrado. Veja no LEIA-ME como montar a pasta avatars.</p></div></details>
+<details class="acc"><summary><span class="rt">Cor do cartão</span><span class="rv" id="rv-pal"></span></summary><div class="accb"><div class="pal" id="mpal"></div></div></details>
+<details class="acc"><summary><span class="rt">Moldura do avatar</span><span class="rv" id="rv-fr"></span></summary><div class="accb"><div class="frs" id="mfr"></div></div></details>
+<details class="acc"><summary><span class="rt">Banner do cartão</span><span class="rv" id="rv-bn"></span></summary><div class="accb"><div class="frs" id="mbn"></div></div></details>
+<details class="acc"><summary><span class="rt">Ornamento dos cantos</span><span class="rv" id="rv-or"></span></summary><div class="accb"><div class="frs" id="mor"></div></div></details>
+</div></section>
+<section class="tp" data-tp="prof" role="tabpanel" hidden><div class="grp2">
+<details class="acc"><summary><span class="rt">Apelido e fonte</span><span class="rv" id="rv-nk"></span></summary><div class="accb"><label for="nk">Apelido na família</label><input type="text" id="nk" maxlength="24" placeholder="Ex.: Galdino" autocomplete="off"><label>Fonte (toque para escolher)</label><div class="fchips" id="nkfc"></div><select id="nkf" hidden></select><div class="row"><div><label for="nkx">Efeito</label><select id="nkx"></select></div></div><div class="nkp" id="nkp"></div><label>Como vai ficar o seu nome</label><div class="nkpv" id="nkpv"></div></div></details>
+<details class="acc"><summary><span class="rt">Gametags</span><span class="rv" id="rv-tg"></span></summary><div class="accb"><p class="mt" style="margin:4px 0 0">Deixe em branco o que você não usa.</p><div class="tgrid" id="mtags"></div></div></details>
+</div></section>
+<section class="tp" data-tp="pay" role="tabpanel" hidden>
+<div class="card2"><h3 class="ch2">Chave Pix</h3><p class="mt cs2">É para ela que os outros enviam as parcelas quando você é o pagador de um jogo.</p>
+<div id="pixlk" class="pixlk" hidden><div><b id="pixv"></b><small class="mt">Cada pessoa tem uma única chave Pix.</small></div><button type="button" class="pillb" id="pixchg">Trocar chave</button></div>
+<input type="text" id="mpix" placeholder="E-mail, CPF, telefone ou chave aleatória" autocomplete="off" aria-label="Minha chave Pix"></div>
+<div class="card2"><h3 class="ch2">Orçamento mensal</h3><p class="mt cs2">O máximo que você pode gastar por mês com parcelas (de R$ 20 a R$ 1.000).</p>
+<div class="bgrow"><div class="bi"><span>R$</span><input type="number" id="bgm" min="20" max="1000" step="1" inputmode="decimal" placeholder="Ex.: 150" aria-label="Orçamento mensal em reais"></div><button type="button" class="pillb pri" id="bgms">Salvar orçamento</button></div><div class="mt" id="bgr" role="status"></div></div>
+</section>
+<section class="tp" data-tp="ntf" role="tabpanel" hidden>
+<div class="card2"><h3 class="ch2">Neste aparelho</h3><p class="mt cs2">Aviso <b>10 dias antes</b>, <b>5 dias antes</b> e <b>no dia</b> de cada parcela, com o valor e a chave Pix de quem paga.</p><div class="ntf" id="ntf"></div></div>
+<div class="card2"><h3 class="ch2">Por e-mail</h3><input type="email" id="mem" placeholder="seuemail@gmail.com" autocomplete="email" aria-label="E-mail para avisos">
 <label class="ckl"><input type="checkbox" id="memon" checked> Receber os avisos também por e-mail</label>
-<div class="ntb"><button type="button" class="pillb" id="mems">Salvar e-mail</button><button type="button" class="pillb" id="ntt">Enviar aviso de teste</button></div>
-<div class="mt" id="ntr" role="status"></div>
-</div></details>
-<details class="acc"><summary>Contas vinculadas e senha</summary><div class="accb">
-<label>Contas vinculadas (entrar sem digitar a senha)</label><div class="idn" id="idn"></div>
-<button type="button" class="pillb" id="pwb2" style="margin-top:12px">Trocar minha senha</button>
-</div></details>
-<div class="savebar"><button class="add" id="spix" type="button">Salvar alterações</button><button id="avx" type="button">Fechar</button><button class="del" id="out" type="button">Sair da conta</button></div>
+<div class="ntb"><button type="button" class="pillb" id="mems">Salvar e-mail</button><button type="button" class="pillb" id="ntt">Enviar aviso de teste</button></div><div class="mt" id="ntr" role="status"></div></div>
+</section>
+<section class="tp" data-tp="acc" role="tabpanel" hidden>
+<div class="card2"><h3 class="ch2">Entrar sem digitar a senha</h3><div class="idn" id="idn"></div></div>
+<div class="card2"><h3 class="ch2">Segurança</h3><div class="ntb" style="margin-top:0"><button type="button" class="pillb" id="pwb2">Trocar minha senha</button><button type="button" class="pillb del" id="out">Sair da conta</button></div></div>
+</section>
+</div>
+<footer class="savebar"><button class="add" id="spix" type="button">Salvar alterações</button><span class="dirty" id="dirty" hidden><i></i>Não salvo</span><button id="avx" type="button">Fechar</button></footer>
 </div></div>
 <div id="bq" hidden role="dialog" aria-modal="true" aria-label="Definir orçamento mensal"><div class="mbox" style="max-width:440px">
 <h2>Defina seu orçamento mensal</h2>
@@ -1574,7 +1637,22 @@ function nkfRender(){
   $("nkfc").innerHTML=NFONTS.map(([k,l,f])=>`<button type="button" class="fchip ${k===cur?"on":""}" data-k="${k}" style="font-family:${f}" title="${l}">${esc(txt)}<small>${l}</small></button>`).join("");
 }
 $("nkfc").addEventListener("click",e=>{const b=e.target.closest(".fchip");if(!b)return;$("nkf").value=b.dataset.k;prvRender()});
-function prvRender(){const d=draft();$("mprv").innerHTML=pcard(me.name,d,true,true);const pv=$("nkpv");if(pv)pv.innerHTML=nameHtml(me.name,d);nkfRender()}
+const nmOf=(L,id,vazio)=>{const f=L.find(x=>x.id===id);return f?esc(f.name):vazio};
+function rowVals(d){
+  const set=(id,h)=>{const e=$(id);if(e)e.innerHTML=h};
+  set("rv-avatar",av(me.name,26));
+  set("rv-pal",`<span class="sws" style="background:linear-gradient(135deg,${hexOk(selPal)?selPal:"#22d3ee"},${hexOk(selPal2)?selPal2:shade(hexOk(selPal)?selPal:"#22d3ee",.4)})"></span>`);
+  set("rv-fr",nmOf(FRAMES,d.frame,"Nenhuma"));set("rv-bn",nmOf(BANNERS,d.banner,"Nenhum"));set("rv-or",nmOf(ORNS,d.ornament,"Nenhum"));
+  const nf=NFONTS.find(f=>f[0]===$("nkf").value);set("rv-nk",d.nick?`<span style="font-family:${nf?nf[2]:"inherit"}">${esc(d.nick)}</span>`:"Sem apelido");
+  const n=Object.keys(d.tags||{}).length;set("rv-tg",n?`${n} conta${n>1?"s":""}`:"Nenhuma");
+}
+let avBase=null;
+function avSaveVis(){const k=(document.querySelector("#av [data-tab].on")||{dataset:{}}).dataset.tab,dt=$("dirty"),sujo=dt&&!dt.hidden,sp=$("spix");if(sp)sp.hidden=(k==="ntf"||k==="acc")&&!sujo;const sv=document.querySelector("#av .savebar");if(sv)sv.classList.toggle("solo",!!(sp&&sp.hidden))}
+const avSnap=d=>JSON.stringify([d.nick,d.nstyle,d.tags,d.palette,d.palette2,d.frame,d.banner,d.ornament,($("mpix").hidden?"":$("mpix").value)]);
+function prvRender(){
+  const d=draft();$("mprv").innerHTML=pcard(me.name,d,true,true);const pv=$("nkpv");if(pv)pv.innerHTML=nameHtml(me.name,d);nkfRender();
+  rowVals(d);const dt=$("dirty");if(dt)dt.hidden=avBase===null||avSnap(d)===avBase;avSaveVis();
+}
 $("av").addEventListener("input",e=>{if(e.target.matches&&e.target.matches("input"))prvRender()});
 const frOk=f=>f.unlock!=="top"||topMember===me.name;
 function frRender(){
@@ -1651,6 +1729,12 @@ async function openAvatar(){
   const by={};list.forEach(x=>{const g=x.game||"Outros";(by[g]=by[g]||[]).push(x)});
   $("avj").innerHTML=Object.keys(by).map(g=>`<div class="grp" style="width:100%"><div class="mt">${esc(g)}</div><div class="avg" style="margin:8px 0 0">`+by[g].map(x=>{const ne=!/\.(png|jpe?g|webp|gif)$/i.test(x.file),f=esc(x.file)+(ne?".png":"");return `<button class="avb" data-a="img:${f}" aria-label="${esc(x.name||x.file)}" title="${esc(x.name||x.file)}"><img class="av" style="width:72px;height:72px" src="avatars/${f}" ${ne?`data-b="${esc(x.file)}" data-n="0"`:""} alt="${esc(x.name||x.file)}" onerror="nextExt(this)"></button>`}).join("")+`</div></div>`).join("");
   $("avh").hidden=!!list.length;
+  $("bgm").value=hasBudget()?budgets[me.name]:"";$("bgr").textContent="";
+  avBase=avSnap(draft());prvRender();
+  const semAv=!me.avatar||me.avatar.startsWith("emo:");
+  avTab(semAv?"look":(avLast()||"look"));
+  document.querySelectorAll("#av details.acc").forEach(d=>{d.open=false});
+  if(semAv){const f=document.querySelector("#av details.acc");if(f)f.open=true}
 }
 $("spix").onclick=async()=>{
   const tags={};PLAT.forEach(([k])=>{const v=($("tg-"+k).value||"").trim().slice(0,40);if(v)tags[k]=v});
@@ -1660,17 +1744,23 @@ $("spix").onclick=async()=>{
   if(r.error){toast("Não foi possível salvar o perfil: "+r.error.message);return}
   if(!r.data||!r.data.length){toast("O banco não aceitou a alteração (permissão).");return}
   Object.assign(me,r.data[0]);const pf=prof(me.name);if(pf)Object.assign(pf,r.data[0]);
-  pixUnlock=false;pixRender();prvRender();renderAll();toast("Perfil salvo.",true);
+  pixUnlock=false;pixRender();avBase=avSnap(draft());prvRender();renderAll();toast("Perfil salvo.",true);
 };
 $("meb").onclick=openAvatar;function closeAvm(){$("av").hidden=true;askBudget()}
-$("avx").onclick=closeAvm;
+let avWarn=0;
+function avTryClose(){
+  const dt=$("dirty");
+  if(dt&&!dt.hidden&&Date.now()>avWarn){avWarn=Date.now()+4000;toast("Há alterações não salvas. Toque em Fechar de novo para descartar.",false,4000);return}
+  avBase=null;closeAvm();
+}
+$("avx").onclick=avTryClose;$("avc").onclick=avTryClose;
 $("av").addEventListener("click",async e=>{
-  if(e.target===$("av")){closeAvm();return}
+  if(e.target===$("av")){avTryClose();return}
   const b=e.target.closest(".avb");if(!b)return;
   const a=b.dataset.a,r=await sb.from("profiles").update({avatar:a}).eq("id",me.id).select("id,avatar");
   if(r.error){toast("Não foi possível salvar o avatar: "+r.error.message);return}
   if(!r.data||!r.data.length){toast("O banco não aceitou a troca de avatar (permissão). Rode o SQL de correção.");return}
-  me.avatar=a;const pf=prof(me.name);if(pf)pf.avatar=a;$("av").hidden=true;renderAll();toast("Avatar atualizado.",true);
+  me.avatar=a;const pf=prof(me.name);if(pf)pf.avatar=a;renderAll();prvRender();toast("Avatar atualizado.",true);
 });
 $("out").onclick=async()=>{await sb.auth.signOut();location.reload()};
 
@@ -1956,7 +2046,29 @@ $("idn").addEventListener("click",async e=>{
   if(u){const i=($("idn")._ids||[]).find(x=>x.provider===u.dataset.unl);if(!i)return;const r=await sb.auth.unlinkIdentity(i);if(r.error)return toast("Não foi possível desvincular: "+r.error.message);toast("Conta desvinculada.",true);identRender()}
 });
 
-$("av").addEventListener("toggle",e=>{const d=e.target;if(d.classList&&d.classList.contains("acc")&&d.open)document.querySelectorAll("#av details.acc").forEach(x=>{if(x!==d)x.open=false})},true);
+const avLast=()=>{try{return localStorage.getItem("fs-avtab")}catch(_){return null}};
+let prvOff=false;try{prvOff=localStorage.getItem("fs-prvoff")==="1"}catch(_){}
+function avTab(k){
+  document.querySelectorAll("#av [data-tab]").forEach(b=>{const on=b.dataset.tab===k;b.classList.toggle("on",on);b.setAttribute("aria-selected",on?"true":"false")});
+  document.querySelectorAll("#av [data-tp]").forEach(p=>{p.hidden=p.dataset.tp!==k});
+  $("prvw").hidden=!(k==="look"||k==="prof")||prvOff;
+  const pt=$("prvt");pt.hidden=!(k==="look"||k==="prof");pt.setAttribute("aria-pressed",prvOff?"false":"true");
+  try{localStorage.setItem("fs-avtab",k)}catch(_){}
+  const bd=document.querySelector("#av .avbody");if(bd)bd.scrollTop=0;avSaveVis();
+}
+$("avtabs").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(b)avTab(b.dataset.tab)});
+$("avtabs").addEventListener("keydown",e=>{
+  if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft")return;
+  const t=[...document.querySelectorAll("#av [data-tab]")],i=t.findIndex(x=>x.classList.contains("on"));
+  const n=t[(i+(e.key==="ArrowRight"?1:t.length-1))%t.length];if(n){avTab(n.dataset.tab);n.focus()}
+});
+$("prvt").onclick=()=>{prvOff=!prvOff;try{localStorage.setItem("fs-prvoff",prvOff?"1":"0")}catch(_){}const k=(document.querySelector("#av [data-tab].on")||{dataset:{}}).dataset.tab;avTab(k||"look")};
+$("bgms").onclick=async()=>{const m=await saveBudget(parseFloat($("bgm").value));$("bgr").textContent=m||"Orçamento salvo.";$("bgr").className="mt"+(m?" ow":" okt")};
+$("av").addEventListener("toggle",e=>{
+  const d=e.target;if(!(d.classList&&d.classList.contains("acc")&&d.open))return;
+  document.querySelectorAll("#av details.acc").forEach(x=>{if(x!==d)x.open=false});
+  setTimeout(()=>{try{d.scrollIntoView({block:"nearest",behavior:"smooth"})}catch(_){}},60);
+},true);
 /* ---------- ver / ocultar senha ---------- */
 document.addEventListener("click",e=>{
   const b=e.target.closest(".eye");if(!b)return;
