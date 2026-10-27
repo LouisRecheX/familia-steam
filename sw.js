@@ -1,6 +1,6 @@
 // Família Steam: cache simples para o app abrir rápido e funcionar como instalado.
 // Dados (Supabase), Discord e bibliotecas externas NUNCA passam por aqui: só arquivos do próprio site.
-const V = "fs-v2";
+const V = "fs-v3";
 const SHELL = ["./", "index.html", "manifest.json", "icons/icon-192.png", "icons/icon-512.png"];
 
 self.addEventListener("install", e => {
@@ -41,4 +41,26 @@ self.addEventListener("fetch", e => {
       return hit || net;
     })
   );
+});
+
+// Avisos de vencimento (push): mostra a notificação e abre o jogo ao tocar.
+self.addEventListener("push", e => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (_) { d = { title: "Família Steam", body: e.data ? e.data.text() : "" }; }
+  e.waitUntil(self.registration.showNotification(d.title || "Família Steam", {
+    body: d.body || "",
+    icon: "icons/icon-192.png",
+    badge: "icons/icon-192.png",
+    tag: d.tag || "familia-steam",
+    data: { url: d.url || "./" }
+  }));
+});
+
+self.addEventListener("notificationclick", e => {
+  e.notification.close();
+  const url = new URL((e.notification.data && e.notification.data.url) || "./", self.registration.scope).href;
+  e.waitUntil(self.clients.matchAll({ type: "window", includeUncontrolled: true }).then(list => {
+    for (const c of list) { if (c.url.startsWith(self.registration.scope) && "navigate" in c) return c.navigate(url).then(w => w && w.focus()); }
+    return self.clients.openWindow(url);
+  }));
 });
