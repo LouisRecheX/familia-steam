@@ -813,7 +813,7 @@ html body:not(#_) .avt{flex:1 1 auto;padding:9px 10px;gap:6px;font-size:13px}
    ===================================================================== */
 body{overflow-x:clip}
 /* ----- pop-up de notificações (folha estilo One UI) ----- */
-html.nf-open,html.nf-open body{overflow:hidden;overscroll-behavior:none}
+html.nf-open{overflow:hidden;overscroll-behavior:none}
 html.nf-open .tb{z-index:50}
 #nfbk{position:fixed;inset:0;z-index:45;background:rgba(2,6,16,.42);-webkit-backdrop-filter:blur(8px) saturate(140%);backdrop-filter:blur(8px) saturate(140%);touch-action:none;animation:nfFade .18s ease-out}
 :root[data-theme="light"] #nfbk{background:rgba(15,23,42,.22)}
@@ -1077,6 +1077,20 @@ html[data-lay="posters"] .wgrid{grid-template-columns:repeat(auto-fill,minmax(20
 .hb .nxt{display:block;margin-top:2px;color:rgba(255,255,255,.7);font-size:13.5px}
 .hero .ow{color:#ff9a9a}
 html body:not(#_) .hero .hnext .ow,html body:not(#_) .hero .hb .ow{color:#ff9a9a;font-weight:700}
+.lnk{all:unset;cursor:pointer;display:inline-block;margin:10px 0 0;color:var(--ac);font:600 14px var(--bd);text-decoration:underline;text-underline-offset:3px}
+.lnk:hover{filter:brightness(1.2)}.lnk:focus-visible{outline:2px solid var(--ac);outline-offset:3px;border-radius:4px}
+#ff .lnk{margin-top:14px}
+#ff #fp2 .lnk{display:block;margin-top:12px}
+#fc{text-align:center;letter-spacing:.45em;font-size:24px;font-weight:800;padding-left:.45em}
+#ff .add{margin-top:12px}
+#ff[hidden],#lf[hidden]{display:none}
+/* painel de notificações fora do cabeçalho: sempre visível, em qualquer posição da rolagem */
+html body:not(#_) #nf{position:fixed;top:68px;right:max(16px,env(safe-area-inset-right,0px));left:auto;width:min(400px,calc(100vw - 24px));z-index:60}
+@media(max-width:640px){html body:not(#_) #nf{left:10px;right:10px;top:70px;width:auto}}
+.emcur{margin:2px 0 12px;font-size:15px;overflow-wrap:anywhere}
+#emc{text-align:center;letter-spacing:.4em;font-size:22px;font-weight:800;padding-left:.4em}
+#emchg .pillb,#emfirst .pillb{margin-top:2px}
+#emf1 .pillb,#emf2 .ntb{margin-top:10px}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -1087,9 +1101,28 @@ html body:not(#_) .hero .hnext .ow,html body:not(#_) .hero .hb .ow{color:#ff9a9a
 <h1><img class="logo big" src="img/steam.png" alt="" onerror="this.remove()">Família Steam</h1><p class="mt">Entre com seu usuário e senha.</p>
 <label for="lu">Usuário</label><input type="text" id="lu" autocomplete="username" autocapitalize="none" placeholder="ex.: luiz">
 <label for="lp">Senha</label><div class="pwf"><input type="password" id="lp" autocomplete="current-password"><button type="button" class="eye" data-eye="lp" aria-label="Mostrar senha">Mostrar</button></div>
+<button type="button" class="lnk" id="fgt">Esqueci minha senha</button>
 <div class="err" id="le" role="alert"></div>
 <button class="add" type="submit">Entrar</button>
-<div class="oauth" id="oauth"></div></form></div>
+<div class="oauth" id="oauth"></div></form>
+<form class="lgc" id="ff" hidden autocomplete="off">
+<h1>Esqueci minha senha</h1>
+<p class="mt" id="fm">Digite o seu usuário. Enviamos um código de 6 dígitos para o e-mail que você cadastrou.</p>
+<div id="fp1">
+<label for="fu">Usuário</label><input type="text" id="fu" autocapitalize="none" autocomplete="username" placeholder="ex.: jonathan">
+<div class="err" id="fe1" role="alert"></div>
+<button class="add" type="button" id="fs1">Enviar código</button>
+</div>
+<div id="fp2" hidden>
+<label for="fc">Código de 6 dígitos</label><input type="text" id="fc" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="000000">
+<label for="fn1">Nova senha (mínimo de 8 caracteres)</label><div class="pwf"><input type="password" id="fn1" autocomplete="new-password"><button type="button" class="eye" data-eye="fn1" aria-label="Mostrar senha">Mostrar</button></div>
+<label for="fn2">Repita a nova senha</label><div class="pwf"><input type="password" id="fn2" autocomplete="new-password"><button type="button" class="eye" data-eye="fn2" aria-label="Mostrar senha">Mostrar</button></div>
+<div class="err" id="fe2" role="alert"></div>
+<button class="add" type="button" id="fs2">Trocar senha</button>
+<button type="button" class="lnk" id="fre">Não recebi o código: enviar de novo</button>
+</div>
+<button type="button" class="lnk" id="fbk">← Voltar para o login</button>
+</form></div>
 
 <div class="shell" id="app" hidden>
 <aside class="sb" id="sb">
@@ -1109,7 +1142,6 @@ html body:not(#_) .hero .hnext .ow,html body:not(#_) .hero .hb .ow{color:#ff9a9a
 <header class="tb"><h1 id="pgt">Jogos</h1>
 <div class="nr"><button class="pillb" id="inst" hidden>Instalar app</button><button class="ic" id="dsp" aria-label="Opções de exibição" aria-haspopup="dialog" aria-expanded="false" title="Exibição"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button><button class="ic" id="th" aria-label="Alternar tema claro e escuro">◐</button>
 <button class="ic" id="bell" aria-label="Notificações" aria-haspopup="dialog" aria-expanded="false"><img id="bellimg" class="bellimg" src="img/no-notification.png" alt="" onerror="this.replaceWith(document.createTextNode('🔔'))"><span id="bc" hidden></span></button>
-<div id="nf" hidden role="dialog" aria-label="Notificações"></div>
 
 <button class="ic" id="meb" aria-label="Meu avatar"></button></div></header>
 <div class="demob" id="demob" hidden>Modo demonstração: tudo aqui é fictício e nada do que você fizer é salvo. Use à vontade para testar.</div>
@@ -1201,9 +1233,17 @@ html body:not(#_) .hero .hnext .ow,html body:not(#_) .hero .hb .ow{color:#ff9a9a
 </section>
 <section class="tp" data-tp="ntf" role="tabpanel" hidden>
 <div class="card2"><h3 class="ch2">Neste aparelho</h3><p class="mt cs2">Aviso <b>10 dias antes</b>, <b>5 dias antes</b> e <b>no dia</b> de cada parcela, com o valor e a chave Pix de quem paga.</p><div class="ntf" id="ntf"></div></div>
-<div class="card2"><h3 class="ch2">Por e-mail</h3><input type="email" id="mem" placeholder="seuemail@gmail.com" autocomplete="email" aria-label="E-mail para avisos">
+<div class="card2"><h3 class="ch2">E-mail dos avisos</h3>
+<div id="emcur" class="emcur"></div>
+<div id="emfirst" hidden><input type="email" id="mem" placeholder="seuemail@gmail.com" autocomplete="email" aria-label="E-mail para avisos"><div class="ntb"><button type="button" class="pillb pri" id="mems">Salvar e-mail</button></div></div>
+<div id="emchg" hidden>
+<button type="button" class="pillb" id="emtg">Trocar e-mail</button>
+<div id="emf1" hidden><label for="emn">Novo e-mail</label><input type="email" id="emn" placeholder="novoemail@gmail.com" autocomplete="off"><p class="mt cs2" style="margin-top:8px">Por segurança, enviamos um código de 6 dígitos para o e-mail <b id="emat"></b> (o atual). Só depois de digitar o código o novo e-mail passa a valer.</p><button type="button" class="pillb pri" id="emps">Enviar código</button></div>
+<div id="emf2" hidden><p class="mt cs2" id="emmsg"></p><label for="emc">Código de 6 dígitos</label><input type="text" id="emc" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="000000"><div class="ntb"><button type="button" class="pillb pri" id="emcs">Confirmar e trocar</button><button type="button" class="pillb" id="emre">Enviar outro código</button></div></div>
+</div>
+<div class="err" id="emer" role="alert"></div>
 <label class="ckl"><input type="checkbox" id="memon" checked> Receber os avisos também por e-mail</label>
-<div class="ntb"><button type="button" class="pillb" id="mems">Salvar e-mail</button><button type="button" class="pillb" id="ntt">Enviar aviso de teste</button></div><div class="mt" id="ntr" role="status"></div></div>
+<div class="ntb"><button type="button" class="pillb" id="ntt">Enviar aviso de teste</button></div><div class="mt" id="ntr" role="status"></div></div>
 </section>
 <section class="tp" data-tp="acc" role="tabpanel" hidden>
 <div class="card2"><h3 class="ch2">Entrar sem digitar a senha</h3><div class="idn" id="idn"></div></div>
@@ -1232,6 +1272,7 @@ html body:not(#_) .hero .hnext .ow,html body:not(#_) .hero .hb .ow{color:#ff9a9a
 <label for="pw2">Repita a nova senha</label><div class="pwf"><input type="password" id="pw2" autocomplete="new-password"><button type="button" class="eye" data-eye="pw2" aria-label="Mostrar senha">Mostrar</button></div>
 <div class="err" id="pwe" role="alert"></div>
 <div class="mact"><button class="pri" id="pws">Salvar nova senha</button><button id="pwx">Agora não</button><button id="pwn" hidden>Não perguntar de novo</button></div></div></div>
+<div id="nf" hidden role="dialog" aria-label="Notificações"></div>
 <div id="dspp" hidden role="dialog" aria-label="Opções de exibição">
 <div class="dph"><b>Exibição</b><button type="button" class="dpx" data-dx aria-label="Fechar">×</button></div>
 <div class="dpg"><div class="dpl">Jogos em</div><div class="seg" data-vk="lay" role="group"><button type="button" data-v="cards" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="18" rx="2.2"/><rect x="13" y="3" width="8" height="18" rx="2.2"/></svg>Cartões</button><button type="button" data-v="posters" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="5" height="8" rx="1.3"/><rect x="9.5" y="3" width="5" height="8" rx="1.3"/><rect x="16" y="3" width="5" height="8" rx="1.3"/><rect x="3" y="13" width="5" height="8" rx="1.3"/><rect x="9.5" y="13" width="5" height="8" rx="1.3"/><rect x="16" y="13" width="5" height="8" rx="1.3"/></svg>Capas</button><button type="button" data-v="list" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4.5" cy="6" r="1.2"/><circle cx="4.5" cy="12" r="1.2"/><circle cx="4.5" cy="18" r="1.2"/></svg>Lista</button></div></div>
@@ -2453,6 +2494,54 @@ $("av").addEventListener("toggle",e=>{
   document.querySelectorAll("#av details.acc").forEach(x=>{if(x!==d)x.open=false});
   setTimeout(()=>{try{d.scrollIntoView({block:"nearest",behavior:"smooth"})}catch(_){}},60);
 },true);
+/* ---------- esqueci minha senha (código por e-mail) ---------- */
+let fgUser="";
+const FGMSG={
+  nao_encontrado:"Não encontramos esse usuário. Escreva como no login (por exemplo, jonathan).",
+  sem_email:"Esse usuário ainda não tem e-mail cadastrado. Peça ao administrador para redefinir a sua senha.",
+  limite:"Muitos pedidos seguidos. Tente de novo em 1 hora ou fale com o administrador.",
+  falha_envio:"Não foi possível enviar o e-mail agora. Tente de novo em instantes ou fale com o administrador.",
+  erro:"Algo deu errado. Confira a internet e tente de novo."
+};
+function fgStep(n){$("fp1").hidden=n!==1;$("fp2").hidden=n!==2;$("fe1").textContent="";$("fe2").textContent=""}
+function fgShow(on){
+  $("lf").hidden=on;$("ff").hidden=!on;
+  if(on){fgStep(1);$("fm").textContent="Digite o seu usuário. Enviamos um código de 6 dígitos para o e-mail que você cadastrou.";$("fu").value=($("lu").value||"").trim().toLowerCase();setTimeout(()=>$("fu").focus(),60)}
+}
+async function fgInvoke(body){try{const r=await sb.functions.invoke("recuperar-senha",{body});return r.data||null}catch(_){return null}}
+async function fgPedir(){
+  const u=$("fu").value.trim().toLowerCase();$("fe1").textContent="";
+  if(!/^[a-z0-9]{2,24}$/.test(u))return void($("fe1").textContent="Digite só letras e números, como no login (por exemplo, jonathan).");
+  if(!sb)return void($("fe1").textContent=FGMSG.erro);
+  $("fs1").disabled=true;$("fs1").textContent="Enviando…";
+  const d=await fgInvoke({mode:"pedir",usuario:u});
+  $("fs1").disabled=false;$("fs1").textContent="Enviar código";
+  if(!d||!d.ok)return void($("fe1").textContent=(d&&FGMSG[d.motivo])||FGMSG.erro);
+  fgUser=u;fgStep(2);$("fm").textContent=`Enviamos um código de 6 dígitos para ${d.email}. Ele vale 10 minutos. Veja também a caixa de spam.`;
+  $("fc").value="";$("fn1").value="";$("fn2").value="";setTimeout(()=>$("fc").focus(),60);
+}
+async function fgTrocar(){
+  const c=$("fc").value.replace(/\D/g,""),a=$("fn1").value,b=$("fn2").value,er=m=>{$("fe2").textContent=m};er("");
+  if(c.length!==6)return er("Digite o código de 6 dígitos que chegou no e-mail.");
+  if(a.length<8)return er("A nova senha precisa ter pelo menos 8 caracteres.");
+  if(a!==b)return er("As senhas não conferem.");
+  $("fs2").disabled=true;$("fs2").textContent="Trocando…";
+  const d=await fgInvoke({mode:"trocar",usuario:fgUser,codigo:c,senha:a});
+  $("fs2").disabled=false;$("fs2").textContent="Trocar senha";
+  if(!d)return er(FGMSG.erro);
+  if(d.ok){fgShow(false);$("lu").value=fgUser;$("lp").value="";$("le").textContent="";toast("Senha alterada! Entre com a nova senha.",true);setTimeout(()=>$("lp").focus(),60);return}
+  const M={codigo_invalido:d.restantes>=0?`Código incorreto. ${d.restantes===1?"Resta 1 tentativa":"Restam "+d.restantes+" tentativas"}.`:"Código incorreto.",expirado:"O código expirou ou já foi usado. Toque em \"Não recebi o código\" para pedir outro.",tentativas:"Muitas tentativas erradas. Peça um novo código.",senha_fraca:"A nova senha precisa ter pelo menos 8 caracteres.",senha_igual:"A nova senha precisa ser diferente da atual.",falha_senha:"Não foi possível trocar a senha agora. Tente de novo."};
+  er(M[d.motivo]||FGMSG.erro);
+}
+$("fgt").onclick=()=>fgShow(true);
+$("fbk").onclick=()=>fgShow(false);
+$("fs1").onclick=fgPedir;$("fs2").onclick=fgTrocar;
+$("fre").onclick=()=>{fgStep(1);$("fu").value=fgUser;$("fm").textContent="Vamos enviar um novo código para o e-mail cadastrado.";fgPedir()};
+$("ff").addEventListener("submit",e=>e.preventDefault());
+$("fu").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();fgPedir()}});
+["fc","fn1","fn2"].forEach(i=>$(i).addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();fgTrocar()}}));
+$("fc").addEventListener("input",()=>{$("fc").value=$("fc").value.replace(/\D/g,"").slice(0,6)});
+
 /* ---------- ver / ocultar senha ---------- */
 document.addEventListener("click",e=>{
   const b=e.target.closest(".eye");if(!b)return;
@@ -2498,21 +2587,63 @@ async function pushOff(){
     toast("Avisos desativados neste aparelho.",true)}catch(_){toast("Não foi possível desativar.")}
   ntfRender();
 }
-async function contactLoad(){
-  if(DEMO){$("mem").value="";$("mem").disabled=true;return}
-  const r=await sb.from("user_contacts").select("email,email_on").eq("user_id",me.id);const c=(r.data||[])[0]||{};
-  $("mem").value=c.email||"";$("memon").checked=c.email_on!==false;$("ntr").textContent="";
+let emCur="",emNovo="";
+const maskEm=e=>{const [l,d]=String(e).split("@");return (l||"").slice(0,2)+"***@"+(d||"")};
+function emUi(){
+  $("emcur").innerHTML=emCur?`Seu e-mail: <b>${esc(emCur)}</b>`:`<span class="mt">Nenhum e-mail cadastrado ainda.</span>`;
+  $("emfirst").hidden=!!emCur;$("emchg").hidden=!emCur;$("emf1").hidden=true;$("emf2").hidden=true;$("emtg").hidden=false;
+  $("emer").textContent="";$("emat").textContent=emCur?maskEm(emCur):"";$("memon").disabled=!emCur;
 }
+async function contactLoad(){
+  if(DEMO){emCur="";$("mem").disabled=true;$("memon").disabled=true;$("emfirst").hidden=false;$("emchg").hidden=true;$("emcur").innerHTML='<span class="mt">Indisponível no modo demonstração.</span>';return}
+  const r=await sb.from("user_contacts").select("email,email_on").eq("user_id",me.id);const c=(r.data||[])[0]||{};
+  emCur=c.email||"";$("memon").checked=c.email_on!==false;$("mem").value="";$("ntr").textContent="";emUi();
+}
+const EMMSG={email_invalido:"Digite um e-mail válido, como nome@gmail.com.",igual:"Esse já é o seu e-mail atual.",sem_atual:"Você ainda não tem e-mail cadastrado: use o campo para cadastrar.",limite:"Muitos pedidos seguidos. Tente de novo em 1 hora ou fale com o administrador.",falha_envio:"Não foi possível enviar o código agora. Tente de novo em instantes.",login:"Entre de novo na conta e tente outra vez.",erro:"Algo deu errado. Confira a internet e tente de novo."};
+async function emInvoke(body){try{const r=await sb.functions.invoke("trocar-email",{body});return r.data||null}catch(_){return null}}
+async function emPedir(reenvio){
+  const novo=(reenvio?emNovo:$("emn").value).trim().toLowerCase(),er=m=>{$("emer").textContent=m};er("");
+  if(DEMO)return toast("Indisponível no modo demonstração.");
+  if(!emailOk(novo))return er(EMMSG.email_invalido);
+  if(novo===emCur.toLowerCase())return er(EMMSG.igual);
+  $("emps").disabled=true;$("emre").disabled=true;
+  const d=await emInvoke({mode:"pedir",novo});
+  $("emps").disabled=false;$("emre").disabled=false;
+  if(!d||!d.ok)return er((d&&EMMSG[d.motivo])||EMMSG.erro);
+  emNovo=novo;$("emf1").hidden=true;$("emf2").hidden=false;$("emc").value="";
+  $("emmsg").textContent=`Enviamos um código de 6 dígitos para ${d.atual} (o e-mail atual). Ele vale 10 minutos. Veja também a caixa de spam. Novo e-mail: ${maskEm(novo)}.`;
+  setTimeout(()=>$("emc").focus(),60);
+}
+async function emConfirmar(){
+  const c=$("emc").value.replace(/\D/g,""),er=m=>{$("emer").textContent=m};er("");
+  if(c.length!==6)return er("Digite o código de 6 dígitos que chegou no e-mail atual.");
+  $("emcs").disabled=true;const d=await emInvoke({mode:"confirmar",codigo:c});$("emcs").disabled=false;
+  if(!d)return er(EMMSG.erro);
+  if(d.ok){emCur=d.novo;emUi();$("ntr").textContent="E-mail trocado. Avisamos o e-mail antigo e o novo.";toast("E-mail trocado.",true);return}
+  er({codigo_invalido:d.restantes>=0?`Código incorreto. ${d.restantes===1?"Resta 1 tentativa":"Restam "+d.restantes+" tentativas"}.`:"Código incorreto.",expirado:"O código expirou ou já foi usado. Toque em \"Enviar outro código\".",tentativas:"Muitas tentativas erradas. Peça um novo código."}[d.motivo]||EMMSG.erro);
+}
+$("av").addEventListener("change",async e=>{
+  if(e.target.id!=="memon")return;
+  const on=e.target.checked,r=await sb.rpc("set_email_on",{p_on:on});
+  if(r.error){e.target.checked=!on;return toast("Não foi possível salvar. Tente de novo.")}
+  $("ntr").textContent=on?"Avisos por e-mail ligados.":"Avisos por e-mail desligados.";
+});
+$("av").addEventListener("keydown",e=>{if(e.key!=="Enter")return;if(e.target.id==="emn"){e.preventDefault();emPedir(false)}else if(e.target.id==="emc"){e.preventDefault();emConfirmar()}else if(e.target.id==="mem"){e.preventDefault();$("mems").click()}});
+$("av").addEventListener("input",e=>{if(e.target.id==="emc")e.target.value=e.target.value.replace(/\D/g,"").slice(0,6)});
 $("av").addEventListener("click",async e=>{
   if(e.target.closest("#ntOn"))return pushOn();
   if(e.target.closest("#ntOff"))return pushOff();
   if(e.target.closest("#mems")){
     if(DEMO)return toast("Indisponível no modo demonstração.");
-    const v=$("mem").value.trim().toLowerCase();if(!v)return toast("O e-mail é obrigatório para receber os avisos. Digite um e-mail para salvar.");if(!emailOk(v))return toast("Confira o e-mail digitado.");
-    const r=await sb.from("user_contacts").upsert({user_id:me.id,email:v||null,email_on:$("memon").checked,updated_at:new Date().toISOString()});
-    if(r.error)return toast("Não foi possível salvar o e-mail.");
-    $("ntr").textContent="E-mail salvo.";return;
+    const v=$("mem").value.trim().toLowerCase();if(!emailOk(v))return toast("Digite um e-mail válido, como nome@gmail.com.");
+    const r=await sb.rpc("set_first_email",{p_email:v});
+    if(r.error)return toast(/Já existe/.test(r.error.message)?"Já existe um e-mail cadastrado. Use \"Trocar e-mail\".":"Não foi possível salvar o e-mail.");
+    emCur=v;emUi();$("ntr").textContent="E-mail salvo.";return;
   }
+  if(e.target.closest("#emtg")){$("emtg").hidden=true;$("emf1").hidden=false;$("emn").value="";$("emer").textContent="";setTimeout(()=>$("emn").focus(),60);return}
+  if(e.target.closest("#emps"))return emPedir(false);
+  if(e.target.closest("#emre"))return emPedir(true);
+  if(e.target.closest("#emcs"))return emConfirmar();
   if(e.target.closest("#ntt")){
     if(DEMO)return toast("Indisponível no modo demonstração.");
     $("ntr").textContent="Enviando…";
@@ -2544,7 +2675,7 @@ async function emqSave(){
   const v=$("emqi").value.trim().toLowerCase();
   if(!emailOk(v)){$("emqe").textContent="Digite um e-mail válido, como nome@gmail.com.";return}
   $("emqs").disabled=true;$("emqe").textContent="";
-  const r=await sb.from("user_contacts").upsert({user_id:me.id,email:v,email_on:true,updated_at:new Date().toISOString()});
+  const r=await sb.rpc("set_first_email",{p_email:v});
   $("emqs").disabled=false;
   if(r.error){$("emqe").textContent="Não foi possível salvar agora. Confira a internet e tente de novo.";return}
   $("emq").hidden=true;toast("E-mail salvo.",true);afterPw();
