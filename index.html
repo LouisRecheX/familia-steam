@@ -1091,6 +1091,10 @@ html body:not(#_) #nf{position:fixed;top:68px;right:max(16px,env(safe-area-inset
 #emc{text-align:center;letter-spacing:.4em;font-size:22px;font-weight:800;padding-left:.4em}
 #emchg .pillb,#emfirst .pillb{margin-top:2px}
 #emf1 .pillb,#emf2 .ntb{margin-top:10px}
+.hb .hwho{display:grid;gap:3px;margin:6px 0 2px;font-size:14.5px;line-height:1.4;color:rgba(255,255,255,.86)}
+.hb .hwho b{color:#fff}
+html body:not(#_) .hero .hwho .ow,html body:not(#_) .hero .hwho .ow b{color:#ff9a9a}
+.pill.okp{background:rgba(48,209,88,.25)!important;color:#c6f7d3!important;border:1px solid rgba(48,209,88,.5)}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -1403,21 +1407,66 @@ function heroTimer(){
 }
 function dueInfo(d){const t=new Date();t.setHours(0,0,0,0);const n=Math.round((t-d)/864e5);return{late:n>0,today:n===0,days:n}}
 const agoTxt=n=>n===1?"há 1 dia":`há ${n} dias`;
+const nomes=(a,max=3)=>{const v=a.slice(0,max).map(esc);if(a.length>max)return v.join(", ")+` e mais ${a.length-max}`;return v.length>1?v.slice(0,-1).join(", ")+" e "+v[v.length-1]:(v[0]||"")};
+const pessoas=n=>n+" pessoa"+(n>1?"s":"");
+/* Para cada jogo: o que está pendente PARA MIM e (se eu for o administrador ou o pagador) o que está pendente dos OUTROS */
+function heroItem(g){
+  const adm=isAdmin(),mine=g.members.includes(me.name),payer=g.payer===me.name,pp=per(g);
+  let my=null;
+  if(mine&&!payer&&pg(g,me.name)<g.parcelas){const k=pre(g,me.name),d=due(g,k);my={k,d,di:dueInfo(d),left:g.parcelas-pg(g,me.name)}}
+  let oth=null;
+  if(adm||payer){
+    const items=g.members.filter(m=>m!==g.payer&&m!==me.name&&pg(g,m)<g.parcelas).map(m=>{const k=pre(g,m),d=due(g,k);return{m,k,d,di:dueInfo(d)}});
+    if(items.length){
+      const late=items.filter(x=>x.di.late),today=items.filter(x=>x.di.today),soon=items.filter(x=>!x.di.late&&!x.di.today);
+      const first=items.slice().sort((x,y)=>x.d-y.d)[0],rest=items.reduce((t,x)=>t+pp*(g.parcelas-pg(g,x.m)),0);
+      oth={items,late,today,soon,first,rest};
+    }
+  }
+  if(!my&&!oth)return null;
+  const ref=my&&oth?(my.d<=oth.first.d?my:oth.first):(my||oth.first);
+  return{g,my,oth,d:ref.d,di:ref.di,pp};
+}
 function heroRender(){
-  const L=games.filter(g=>!isDone(g)&&g.members.length&&g.start).map(g=>{const k=nextK(g),d=due(g,k);return{g,k,d,di:dueInfo(d)}}).sort((a,b)=>a.d-b.d),S=L.slice(0,3);
+  const adm=isAdmin();
+  const L=games.filter(g=>!isDone(g)&&g.members.length&&g.start).map(heroItem).filter(Boolean).sort((a,b)=>a.d-b.d),S=L.slice(0,3);
   heroN=S.length;
-  if(!S.length){clearInterval(heroT);heroT=null;$("hero").innerHTML=`<div class="hmain"><div class="hslides"><div class="hs on"><div class="hcov"><div class="noph">Sem foto</div></div><div class="hb"><div class="pills"><span class="pill">TUDO EM DIA</span></div><h2>Nenhuma parcela em aberto</h2><p>Quando houver um jogo em andamento, o próximo vencimento aparece aqui.</p></div></div></div></div>`;return}
+  if(!S.length){
+    clearInterval(heroT);heroT=null;
+    const temJogo=games.some(g=>!isDone(g));
+    $("hero").innerHTML=`<div class="hmain"><div class="hslides"><div class="hs on"><div class="hcov"><div class="noph">Sem foto</div></div><div class="hb"><div class="pills"><span class="pill okp">TUDO EM DIA</span></div><h2>${adm?"Nenhuma pendência no momento":"Você não tem parcelas em aberto"}</h2><p>${temJogo?(adm?"Todas as parcelas dos jogos em andamento estão pagas ou ainda não venceram.":"As suas parcelas estão pagas. Quando surgir uma nova, ela aparece aqui."):"Quando houver um jogo em andamento, as pendências aparecem aqui."}</p></div></div></div></div>`;return
+  }
   if(heroI>=S.length)heroI=0;
-  const slide=(x,i)=>{const g=x.g,pf=prof(g.payer)||{},canPay=g.payer&&g.payer!==me.name&&pf.pix;
+  const slide=(x,i)=>{
+    const g=x.g,my=x.my,oth=x.oth,pf=prof(g.payer)||{},canPay=!!(my&&g.payer&&pf.pix);
+    let pill,late;
+    if(my){late=my.di.late;pill=my.di.late?"SUA PARCELA ESTÁ EM ATRASO":my.di.today?"SUA PARCELA VENCE HOJE":(i===0?"SUA PRÓXIMA PARCELA":"VENCE EM "+fmt(my.d))}
+    else{late=oth.late.length>0;pill=oth.late.length?`ATRASO DE ${pessoas(oth.late.length).toUpperCase()}`:oth.today.length?`VENCE HOJE · ${pessoas(oth.today.length).toUpperCase()}`:(i===0?"PRÓXIMO VENCIMENTO":"VENCE EM "+fmt(oth.first.d))}
+    const meLine=my?`<p>Sua <b>${my.k+1}ª parcela</b> de ${g.parcelas}: ${my.di.late?`venceu em <b>${fmt(my.d)}</b> · <b class="ow">${agoTxt(my.di.days)}</b>`:my.di.today?`<b>vence hoje</b>`:`vence em <b>${fmt(my.d)}</b>`}${g.payer?` · pagar para <b>${esc(g.payer)}</b>`:""}</p>${(()=>{if(my.k+1>=g.parcelas)return"";const nd=due(g,my.k+1);return my.di.late&&!dueInfo(nd).late?`<small class="nxt">A seguinte (${my.k+2}ª) vence em ${fmt(nd)}</small>`:""})()}`:"";
+    const grp=[];
+    if(oth){
+      const dl=oth.late.length?oth.late.slice().sort((p,q)=>p.d-q.d)[0]:null;
+      if(oth.late.length)grp.push(`<span class="ow"><b>Em atraso (${oth.late.length}):</b> ${nomes(oth.late.map(t=>t.m))} · desde ${fmt(dl.d)}, ${agoTxt(dl.di.days)}</span>`);
+      if(oth.today.length)grp.push(`<span><b>Vencem hoje (${oth.today.length}):</b> ${nomes(oth.today.map(t=>t.m))}</span>`);
+      if(oth.soon.length){const ds=oth.soon.slice().sort((p,q)=>p.d-q.d)[0];grp.push(`<span><b>A vencer (${oth.soon.length}):</b> ${nomes(oth.soon.map(t=>t.m))} · a partir de ${fmt(ds.d)}</span>`)}
+    }
+    const whoLine=grp.length?`<div class="hwho">${grp.join("")}</div>`:"";
+    const stats=my?`<div><b>${brl(x.pp)}</b><small>sua parcela</small></div><div><b>${brl(x.pp*my.left)}</b><small>falta da sua parte</small></div>`:`<div><b>${brl(x.pp)}</b><small>por pessoa</small></div><div><b>${brl(oth.rest)}</b><small>${g.payer===me.name?"falta você receber":"falta pagar (pendentes)"}</small></div>`;
+    const faces=oth?oth.items.slice(0,6).map(t=>av(t.m,28)).join(""):(g.payer?av(g.payer,28):"");
     return `<div class="hs${i===heroI?" on":""}" aria-hidden="${i===heroI?"false":"true"}"><div class="hcov">${g.img?`<img src="${g.img}" alt="">`:`<div class="noph">Sem foto</div>`}</div>
-    <div class="hb"><div class="pills"><span class="pill${x.di.late?" late":""}">${x.di.late?(i===0?"EM ATRASO":"VENCIDA EM "+fmt(x.d)):x.di.today?"VENCE HOJE":(i===0?"PRÓXIMO VENCIMENTO":"VENCE EM "+fmt(x.d))}</span><span class="pill alt">${L.length} jogo${L.length>1?"s":""} em aberto</span></div>
-    <h2>${esc(g.name)}</h2><p>Parcela ${x.k+1} de ${g.parcelas} · ${x.di.late?`venceu em <b>${fmt(x.d)}</b> · <b class="ow">${agoTxt(x.di.days)}</b>`:x.di.today?`<b>vence hoje</b>`:`vence em <b>${fmt(x.d)}</b>`}</p>${(()=>{if(x.k+1>=g.parcelas)return"";const nd=due(g,x.k+1),ni=dueInfo(nd);return x.di.late&&!ni.late?`<small class="nxt">A seguinte (${x.k+2}ª) vence em ${fmt(nd)}</small>`:""})()}
-    <div class="hstats"><div><b>${brl(per(g))}</b><small>${isAdmin()?"por pessoa":"sua parcela"}</small></div><div><b>${brl(g.total)}</b><small>total do jogo</small></div></div>
-    <div class="hact">${canPay?`<button class="yel" data-pay="${g.id}">Pagar parcela</button>`:""}<span class="stk">${g.members.slice(0,6).map(m=>av(m,28)).join("")}</span></div></div></div>`};
+    <div class="hb"><div class="pills"><span class="pill${late?" late":""}">${pill}</span><span class="pill alt">${L.length} jogo${L.length>1?"s":""} com pendência</span></div>
+    <h2>${esc(g.name)}</h2>${meLine}${whoLine}
+    <div class="hstats">${stats}</div>
+    <div class="hact">${canPay?`<button class="yel" data-pay="${g.id}">Pagar parcela</button>`:""}<span class="stk">${faces}</span></div></div></div>`};
+  const lado=x=>{
+    if(x.my)return{sub:`Sua ${x.my.k+1}ª · ${fmt(x.my.d)}${x.my.di.late?` · <span class="ow">vencida ${agoTxt(x.my.di.days)}</span>`:x.my.di.today?` · <span class="ow">hoje</span>`:""}`,val:brl(x.pp)};
+    const n=x.oth.items.length;return{sub:`${pessoas(n)} · ${fmt(x.oth.first.d)}${x.oth.late.length?` · <span class="ow">${x.oth.late.length} em atraso</span>`:""}`,val:brl(x.oth.rest)};
+  };
   $("hero").innerHTML=`<div class="hmain"><div class="hslides">${S.map(slide).join("")}</div>${S.length>1?`<div class="hdots" role="tablist">${S.map((x,i)=>`<button type="button" class="hdot${i===heroI?" on":""}" data-hs="${i}" aria-label="Mostrar ${esc(x.g.name)}"></button>`).join("")}</div>`:""}</div>
-  <div class="hnext"><small class="eb">PRÓXIMAS PARCELAS</small>${S.map((x,i)=>`<div class="hi${i===heroI?" cur":""}"><div><b>${esc(x.g.name)}</b><small>${fmt(x.d)} · ${x.k+1}/${x.g.parcelas}${x.di.late?` · <span class="ow">vencida ${agoTxt(x.di.days)}</span>`:x.di.today?` · <span class="ow">hoje</span>`:""}</small></div><span>${brl(per(x.g))}</span></div>`).join("")}</div>`;
+  <div class="hnext"><small class="eb">${adm?"PENDÊNCIAS":"SUAS PARCELAS"}</small>${S.map((x,i)=>{const l=lado(x);return `<div class="hi${i===heroI?" cur":""}"><div><b>${esc(x.g.name)}</b><small>${l.sub}</small></div><span>${l.val}</span></div>`}).join("")}</div>`;
   heroTimer();
 }
+
 $("hero").addEventListener("click",e=>{
   const d=e.target.closest("[data-hs]");if(d){heroShow(+d.dataset.hs);heroTimer();return}
   const b=e.target.closest("[data-pay]");if(b){const g=games.find(x=>x.id==b.dataset.pay);if(g)openPix(g)}
