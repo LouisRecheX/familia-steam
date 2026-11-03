@@ -17,7 +17,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script>try{document.documentElement.dataset.theme=localStorage.getItem("tema")||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}</script>
-<script>try{const v=JSON.parse(localStorage.getItem("fs-view")||"{}"),r=document.documentElement.dataset;r.lay=["cards","posters","list"].includes(v.lay)?v.lay:"cards";r.zoom=[85,90,100,110,125].includes(+v.zoom)?String(+v.zoom):"100";r.dens=v.dens==="cmp"?"cmp":"cmf";r.fx=v.fx===false?"off":"on"}catch(e){}</script>
+<script>try{const v=JSON.parse(localStorage.getItem("fs-view")||"{}"),r=document.documentElement.dataset;r.lay=["cards","posters","list"].includes(v.lay)?v.lay:"cards";r.zoom=[85,90,100,110,125].includes(+v.zoom)?String(+v.zoom):"100";r.dens=v.dens==="cmp"?"cmp":"cmf";r.fx=v.fx===false?"off":(v.fx===true?"on":((navigator.deviceMemory&&navigator.deviceMemory<=2)||(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<=2)?"off":"on"))}catch(e){}</script>
 <style>
 :root{--bg:#0d0e0d;--card:#181918;--card2:#242524;--line:rgba(255,255,255,.09);--tx:#f3f5ef;--mut:#99a094;--ac:#8bd400;--act:#0b1200;--pd:#8bd400;--ow:#ff6b5e;--glow:rgba(139,212,0,.11);--hd:'Space Grotesk','Inter',system-ui,sans-serif;--bd:'Inter',system-ui,sans-serif;--r:8px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
 :root[data-theme="light"]{--bg:#f1f3ee;--card:#fff;--card2:#eceee8;--line:rgba(0,0,0,.09);--tx:#12140f;--mut:#636a5e;--ac:#5f9f00;--act:#fff;--pd:#3f8a00;--ow:#d63a2e;--glow:rgba(95,159,0,.12);color-scheme:light}
@@ -1176,6 +1176,99 @@ html[data-fx="off"] body:not(#_) :is(.ic,.pillb,a.pillb,.btns button,.btns2 butt
 html[data-fx="off"] body:not(#_) :is(.add,.payc,.yel,.pillb.pri,.mact button.pri,.cta,.vsw button.on,.seg button.on,.nfc button.on,.prvt[aria-pressed="true"]){background:var(--ac);box-shadow:none}
 html[data-fx="off"] body:not(#_) .payc{background:var(--yl)}
 @media(prefers-reduced-transparency:reduce){html body:not(#_) :is(.tb,.sb,.jnav,.exp,.tb .ic){-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--card)}}
+
+/* =====================================================================
+   ACESSIBILIDADE E DESEMPENHO
+   ===================================================================== */
+/* botão principal: azul mais fundo para o texto branco passar no contraste (mín. 4,5:1) */
+:root{--gl-pri:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0) 40%),linear-gradient(180deg,#2070e2,#0846a0)}
+html body:not(#_) .dsc{background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0) 45%),#4752c4}
+/* selos e setas com contraste suficiente */
+:root[data-theme="light"] .vbadge{color:#1d4ed8}
+.sk{color:#8b96ac}
+:root[data-theme="light"] .sk{color:#5f6a7d}
+:root[data-theme="light"] .pill.gold{background:#f2b933;color:#2b1b00}
+/* selos sobre as capas: fundo mais firme (o texto branco fica legível mesmo sobre capa clara) e sem desfoque (são muitos) */
+.ptc2{background:rgba(8,12,24,.74);-webkit-backdrop-filter:none;backdrop-filter:none}
+.ptc2.ok{background:rgba(10,80,40,.9);border-color:rgba(48,209,88,.7)}
+.ptc2.red{background:rgba(130,20,30,.92);border-color:rgba(255,120,120,.75)}
+.ptc2.amb{background:rgba(110,80,0,.92);border-color:rgba(255,214,10,.7)}
+/* foco por teclado visível em qualquer elemento clicável */
+[tabindex="0"]:focus-visible,a:focus-visible,.pt:focus-visible,.lr:focus-visible,.gtab tr:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.gtab tr:focus-visible{outline-offset:-2px}
+#av .mbox:focus,#gm .mbox:focus,.mbox:focus{outline:none}
+/* aparelho fraco ou efeitos desligados: nenhum desfoque em lugar nenhum (inclusive o fundo das janelas) */
+html[data-fx="off"] *,html[data-fx="off"] *::before,html[data-fx="off"] *::after{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html[data-fx="off"] :is(#av,#bq,#edm,#gm,#md,#pw,#pxm,#emq,#lbx,#nfbk){background:rgba(2,6,16,.8)}
+html[data-fx="off"][data-theme="light"] :is(#av,#bq,#edm,#gm,#md,#pw,#pxm,#emq,#lbx,#nfbk){background:rgba(15,23,42,.5)}
+@media(prefers-reduced-transparency:reduce){
+  *,*::before,*::after{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  :is(#av,#bq,#edm,#gm,#md,#pw,#pxm,#emq,#lbx,#nfbk){background:rgba(2,6,16,.8)}
+}
+/* quem pede menos movimento: sem animações nem transições */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+/* toque: o "levantar ao passar o dedo" fica preso na tela; só em aparelho com mouse */
+@media(hover:none){
+  .pt:hover,.lr:hover,.gc:hover,.add:hover,.yel:hover,.payc:hover,.cta:hover,.btns button:hover,.dbtn:hover,.pillb:hover{transform:none!important;filter:none!important}
+}
+html body:not(#_) .exp{-webkit-backdrop-filter:none;backdrop-filter:none;background:linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,.1)),rgba(8,12,24,.62)}
+.sk{opacity:1!important}
+html[data-fx="off"] body:not(#_) :is(.add,.yel,.pillb.pri,.mact button.pri,.cta,.lra .cta.sm,.vsw button.on,.seg button.on,.nfc button.on,.prvt[aria-pressed="true"]){background:#1a64d0;color:#fff;border-color:transparent;box-shadow:none}
+html[data-fx="off"] body:not(#_) .sw2[aria-checked="true"]{background:#1a64d0}
+
+/* =====================================================================
+   CAMADAS, BORDAS DE LUZ E TIPOGRAFIA FLUIDA
+   (inspirado em Linear, Stripe, Apple e Raycast)
+   ===================================================================== */
+:root{
+  /* fundo em camadas: cinza-azulado profundo (nunca preto puro); cada nível sobe um degrau de tom */
+  --bg:#080d19;--card:#0f1729;--card2:#151e34;--e3:#1a2540;
+  --line:rgba(150,172,222,.14);
+  /* borda de 1px em degradê: acende no canto de cima e some no meio, como vidro fumê */
+  --gb:linear-gradient(145deg,rgba(255,255,255,.27),rgba(255,255,255,.07) 36%,rgba(255,255,255,.025) 62%,rgba(255,255,255,.13));
+  /* sombras profundas e difusas */
+  --sh-deep:0 30px 60px -26px rgba(0,0,0,.7),0 16px 30px -18px rgba(0,0,0,.55);
+  /* tipografia fluida: encolhe sozinha em tela estreita */
+  --fs-kpi:clamp(22px,1.1vw + 17px,30px);--fs-main:clamp(26px,1.3vw + 20px,34px);--fs-dlg:clamp(20px,1vw + 16px,25px);
+}
+:root[data-theme="light"]{
+  --bg:#e9eef6;--card:#ffffff;--card2:#f1f5fb;--e3:#ffffff;
+  --line:rgba(15,27,51,.11);
+  --gb:linear-gradient(145deg,rgba(15,27,51,.2),rgba(15,27,51,.06) 38%,rgba(15,27,51,.04) 64%,rgba(15,27,51,.12));
+  --sh-deep:0 30px 60px -30px rgba(50,50,93,.32),0 16px 32px -22px rgba(0,0,0,.22);
+}
+/* cartões: preenchimento sólido por cima de uma borda em degradê */
+html body:not(#_) :is(.gc,.kpi,.panel,.bdg,.mc,.wc,.fc,.vcard,.lr,.card2){
+  border:1px solid transparent;background-origin:border-box;background-clip:padding-box,padding-box,border-box;
+  background-image:linear-gradient(180deg,var(--s1),var(--s2)),linear-gradient(var(--card),var(--card)),var(--gb);
+  background-color:transparent;box-shadow:var(--sh-deep),inset 0 1px 0 rgba(255,255,255,.05)}
+html[data-theme="light"] body:not(#_) :is(.gc,.kpi,.panel,.bdg,.mc,.wc,.fc,.vcard,.lr,.card2){box-shadow:var(--sh-deep),inset 0 1px 0 #fff}
+/* janelas e pop-ups: o degrau mais alto */
+html body:not(#_) :is(.mbox,#dspp,#nf){
+  border:1px solid transparent;background-origin:border-box;background-clip:padding-box,border-box;
+  background-image:linear-gradient(var(--e3),var(--e3)),var(--gb);background-color:transparent;box-shadow:0 40px 90px -30px rgba(0,0,0,.75),0 20px 40px -24px rgba(0,0,0,.5)}
+html[data-theme="light"] body:not(#_) :is(.mbox,#dspp,#nf){box-shadow:0 40px 90px -34px rgba(50,50,93,.4),0 20px 40px -28px rgba(0,0,0,.25)}
+html body:not(#_) .mbox .card2,html body:not(#_) .mbox .grp2{background-image:linear-gradient(var(--card2),var(--card2)),var(--gb);background-clip:padding-box,border-box;box-shadow:none}
+/* a luz acende quando o mouse passa (só em aparelho com mouse) */
+@media(hover:hover){
+  html body:not(#_) :is(.gc,.kpi,.lr,.wc,.vcard):hover{--gb:linear-gradient(145deg,color-mix(in srgb,var(--ac) 75%,#fff 8%),rgba(255,255,255,.09) 44%,rgba(255,255,255,.04) 64%,color-mix(in srgb,var(--ac) 45%,transparent))}
+}
+/* hierarquia de texto: números firmes e fluidos, rótulos em cinza médio */
+.kv b{font:800 var(--fs-kpi)/1.08 var(--hd);letter-spacing:-.025em}
+.cm>b{font:800 var(--fs-main)/1.05 var(--hd);letter-spacing:-.03em}
+html body:not(#_) .mbox h2{font:800 var(--fs-dlg)/1.15 var(--hd);letter-spacing:-.02em}
+.lgc h1{font-size:clamp(26px,5.5vw,32px);letter-spacing:-.03em}
+.kpi small,.cm small,.crow small{font-weight:600;letter-spacing:.01em}
+.mt{font-weight:500}
+
+/* cores de TEXTO que passam no contraste (4,5:1) sobre todas as camadas, nos dois temas */
+:root{--ac-t:#52a8ff;--yl-t:#ffd60a}
+:root[data-theme="light"]{--ac-t:#0a5cc0;--yl-t:#7a5200;--ow:#c42217;--pd:#116b32}
+.hl p.hv b,.preview b,.fv,.pix b.pk,html body:not(#_) #nf .ni[data-all] small,.lnk{color:var(--ac-t)}
+.dirty{color:var(--yl-t)}
+html body:not(#_) .hero .hnext .hi span{color:#ffd60a}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -2012,10 +2105,43 @@ $("nf").addEventListener("click",async e=>{
   notifRender();
 });
 function tab(t){$("pgt").textContent={jg:"Jogos",vt:"Votação",wl:"Wishlist",pf:"Perfis"}[t];$("subw").hidden=t!=="jg";document.querySelectorAll(".links button").forEach(x=>x.classList.toggle("on",x.dataset.t===t));["jg","vt","wl","pf"].forEach(k=>{$("t-"+k).hidden=k!==t})}
+/* ---------- foco nas janelas (teclado e leitor de tela) ---------- */
+(function(){
+  const ORD=["#dspp","#nf","#lbx","#pxm","#edm","#md","#gm","#av","#pw","#bq","#emq"];   // do mais baixo ao mais alto
+  const FOC='a[href],button:not([disabled]),input:not([disabled]):not([type=hidden]),select:not([disabled]),textarea:not([disabled]),summary,[tabindex]:not([tabindex="-1"])';
+  const shown=d=>!!d&&!d.hidden&&getComputedStyle(d).display!=="none";
+  const seen=e=>!e.hidden&&e.getClientRects().length>0&&getComputedStyle(e).visibility!=="hidden";
+  const topDlg=()=>{for(let i=ORD.length-1;i>=0;i--){const d=document.querySelector(ORD[i]);if(shown(d))return d}return null};
+  const opener=new Map();
+  ORD.forEach(sel=>{
+    const d=document.querySelector(sel);if(!d)return;
+    if(!d.getAttribute("role"))d.setAttribute("role","dialog");
+    d.setAttribute("aria-modal",sel==="#nf"||sel==="#dspp"?"false":"true");
+    new MutationObserver(()=>{
+      if(shown(d)){
+        opener.set(sel,document.activeElement&&document.activeElement!==document.body?document.activeElement:null);
+        if(!d.getAttribute("aria-label")&&!d.getAttribute("aria-labelledby")){const h=d.querySelector("h1,h2,h3");if(h)d.setAttribute("aria-label",h.textContent.trim().slice(0,60))}
+        const box=d.querySelector(".mbox")||d;box.setAttribute("tabindex","-1");setTimeout(()=>{try{box.focus({preventScroll:true})}catch(_){}},30);
+      }else{
+        const o=opener.get(sel);opener.delete(sel);
+        if(o&&document.contains(o)&&!topDlg()&&seen(o))setTimeout(()=>{try{o.focus({preventScroll:true})}catch(_){}},0);
+      }
+    }).observe(d,{attributes:true,attributeFilter:["hidden"]});
+  });
+  document.addEventListener("keydown",e=>{
+    if(e.key!=="Tab")return;const d=topDlg();if(!d)return;
+    const box=d.querySelector(".mbox")||d,its=[...d.querySelectorAll(FOC)].filter(seen);if(!its.length)return;
+    const first=its[0],last=its[its.length-1],a=document.activeElement;
+    if(!d.contains(a)){e.preventDefault();first.focus();return}
+    if(e.shiftKey&&(a===first||a===box)){e.preventDefault();last.focus()}
+    else if(!e.shiftKey&&a===last){e.preventDefault();first.focus()}
+  });
+})();
+
 /* ---------- opções de exibição (layout, zoom, densidade, efeitos) ---------- */
 const VKEY="fs-view",VOK={lay:["cards","posters","list"],zoom:[85,90,100,110,125],dens:["cmf","cmp"]};
 let view={lay:"cards",zoom:100,dens:"cmf",fx:true};
-try{const v=JSON.parse(localStorage.getItem(VKEY)||"{}");if(VOK.lay.includes(v.lay))view.lay=v.lay;if(VOK.zoom.includes(+v.zoom))view.zoom=+v.zoom;if(VOK.dens.includes(v.dens))view.dens=v.dens;if(v.fx===false)view.fx=false}catch(_){}
+try{const v=JSON.parse(localStorage.getItem(VKEY)||"{}");if(VOK.lay.includes(v.lay))view.lay=v.lay;if(VOK.zoom.includes(+v.zoom))view.zoom=+v.zoom;if(VOK.dens.includes(v.dens))view.dens=v.dens;if(v.fx===false)view.fx=false;else if(v.fx!==true&&((navigator.deviceMemory&&navigator.deviceMemory<=2)||(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<=2)))view.fx=false}catch(_){}
 function applyView(){const r=document.documentElement.dataset;r.lay=view.lay;r.zoom=String(view.zoom);r.dens=view.dens;r.fx=view.fx?"on":"off";try{localStorage.setItem(VKEY,JSON.stringify(view))}catch(_){}}
 function viewRender(){
   const th=document.documentElement.dataset.theme;
