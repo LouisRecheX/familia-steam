@@ -1269,6 +1269,197 @@ html body:not(#_) .mbox h2{font:800 var(--fs-dlg)/1.15 var(--hd);letter-spacing:
 .hl p.hv b,.preview b,.fv,.pix b.pk,html body:not(#_) #nf .ni[data-all] small,.lnk{color:var(--ac-t)}
 .dirty{color:var(--yl-t)}
 html body:not(#_) .hero .hnext .hi span{color:#ffd60a}
+
+/* =====================================================================
+   REFINO v2 — hierarquia, respiro, camadas, dados e microinterações
+   ===================================================================== */
+:root{
+  --ease:cubic-bezier(.16,1,.3,1);
+  /* respiro (confortável) */
+  --p-kpi:22px 24px;--p-duo:26px 28px;--p-mc:22px 22px 20px;--p-gb:22px 22px 24px;--p-pan:26px;
+  --g-kpi:16px;--g-duo:20px;--g-sm:16px;--g-gg:22px;--m-sec:44px;
+  /* alertas: fundo translúcido + borda suave + texto legível (todos com contraste ≥ 5:1) */
+  --red-bg:rgba(255,92,110,.11);--red-bd:rgba(255,92,110,.32);--red-tx:#ff9aa6;
+  --amb-bg:rgba(255,196,46,.11);--amb-bd:rgba(255,196,46,.32);--amb-tx:#ffd36b;
+  --grn-bg:rgba(48,209,88,.11);--grn-bd:rgba(48,209,88,.32);--grn-tx:#6ee59a;
+  /* barras de progresso */
+  --bar-trk:rgba(255,255,255,.08);
+  --bar-fill:linear-gradient(90deg,#2f8cff,#5ad0ff);
+  --bar-ok:linear-gradient(90deg,#1fbf6b,#6ee59a);
+  --bar-bad:linear-gradient(90deg,#ff5c6e,#ff9a6a);
+  --fs-h2:clamp(22px,1vw + 16px,28px);
+}
+:root[data-theme="light"]{
+  --red-bg:rgba(217,45,32,.08);--red-bd:rgba(217,45,32,.28);--red-tx:#b42318;
+  --amb-bg:rgba(180,110,0,.1);--amb-bd:rgba(180,110,0,.32);--amb-tx:#7a5200;
+  --grn-bg:rgba(17,107,50,.09);--grn-bd:rgba(17,107,50,.3);--grn-tx:#0f6a30;
+  --bar-trk:rgba(15,27,51,.09);
+}
+html[data-dens="cmp"]{--p-kpi:14px 16px;--p-duo:16px 18px;--p-mc:12px 14px;--p-gb:12px 14px 14px;--p-pan:16px;--g-kpi:10px;--g-duo:12px;--g-sm:10px;--g-gg:12px;--m-sec:26px}
+@media(max-width:560px){
+  :root{--p-kpi:18px 18px;--p-duo:22px 20px;--p-mc:20px 18px;--p-gb:20px 18px 22px;--p-pan:20px;--g-kpi:12px;--g-sm:12px;--m-sec:34px}
+  html[data-dens="cmp"]{--p-kpi:14px 14px;--p-duo:16px 16px;--p-mc:12px 14px;--p-gb:12px 14px 14px;--p-pan:14px;--m-sec:24px}
+}
+
+/* ---------- 1) RESPIRO ---------- */
+html body:not(#_) .kpis{gap:var(--g-kpi)}
+html body:not(#_) .kpi{padding:var(--p-kpi);gap:8px}
+html body:not(#_) .duo{gap:var(--g-duo)}
+html body:not(#_) .duo>*{padding:var(--p-duo)}
+html body:not(#_) #sm{gap:var(--g-sm)}
+html body:not(#_) .mc{padding:var(--p-mc)}
+html body:not(#_) .gc .gb{padding:var(--p-gb)}
+html body:not(#_) .gg.lay-cards{gap:var(--g-gg)}
+html body:not(#_) :is(#gtw,#addg){padding:var(--p-pan)}
+html body:not(#_) #t-jg>.sec{margin-top:var(--m-sec);margin-bottom:18px}
+html body:not(#_) #hero{margin-bottom:calc(var(--m-sec) - 14px)}
+
+/* ---------- 2) HIERARQUIA TIPOGRÁFICA: dado crítico firme, metadado discreto ---------- */
+html body:not(#_) #t-jg>.sec h2,html body:not(#_) .sec .sech{font:800 var(--fs-h2)/1.15 var(--hd);letter-spacing:-.025em}
+html body:not(#_) .kpi small{font:600 13px/1.35 var(--bd);color:var(--mut)}
+html body:not(#_) .kv b{font:800 var(--fs-kpi)/1.05 var(--hd);letter-spacing:-.03em;font-variant-numeric:tabular-nums lining-nums}
+html body:not(#_) .kpi .mt{font:500 13px/1.4 var(--bd)}
+html body:not(#_) .gc h3{font:750 19px/1.25 var(--hd);letter-spacing:-.015em;margin:0 0 4px}
+html body:not(#_) .cm{gap:5px;margin:8px 0 16px}
+html body:not(#_) .cm small{font:700 11.5px/1.2 var(--bd);letter-spacing:.09em;text-transform:uppercase;color:var(--mut)}
+html body:not(#_) .cm>b{font-variant-numeric:tabular-nums lining-nums;line-height:1.05}
+html body:not(#_) .crow{padding-top:14px;gap:10px}
+html body:not(#_) .crow>div{font-size:15px;line-height:1.4;align-items:baseline}
+html body:not(#_) .crow>div>span:first-child{color:var(--mut);font-weight:500}
+html body:not(#_) .crow b,html body:not(#_) .cr b,html body:not(#_) .cs b,html body:not(#_) .sc b{font-weight:750;font-variant-numeric:tabular-nums lining-nums}
+html body:not(#_) .mc .mh{margin-bottom:14px}
+html body:not(#_) .mc h3{font:750 17px/1.2 var(--hd);letter-spacing:-.01em}
+html body:not(#_) .mc .fl{font:600 12.5px/1.2 var(--bd);color:var(--mut);margin-top:18px}
+html body:not(#_) .mc b.fp{display:block;margin:4px 0 6px;font:800 clamp(22px,1vw + 17px,27px)/1.08 var(--hd);letter-spacing:-.025em;font-variant-numeric:tabular-nums lining-nums}
+html body:not(#_) .mc .mt{font:500 13px/1.4 var(--bd)}
+html body:not(#_) .duo h2{font:800 clamp(19px,.8vw + 15px,23px)/1.2 var(--hd);letter-spacing:-.02em;margin:0 0 6px}
+html body:not(#_) .bn{font:500 13px/1.4 var(--bd);color:var(--mut)}
+html body:not(#_) .cr{margin-top:16px;grid-template-columns:132px 1fr auto;gap:14px}
+html body:not(#_) .cr>span{font-weight:600}
+html body:not(#_) .cs{margin-top:22px;padding-top:16px}
+html body:not(#_) .cs b{font:800 21px var(--hd);letter-spacing:-.02em}
+
+/* ---------- 3) ALERTAS elegantes: fundo translúcido colorido + borda suave ---------- */
+html body:not(#_) .cm>span.ow{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:11px 14px;border-radius:14px;background:var(--red-bg);border:1px solid var(--red-bd);color:var(--red-tx);font:600 13.5px/1.45 var(--bd)}
+html body:not(#_) .cm>span.ow::before{content:"";flex:none;width:8px;height:8px;margin-top:6px;border-radius:50%;background:currentColor;box-shadow:0 0 0 4px color-mix(in srgb,currentColor 18%,transparent)}
+html body:not(#_) .sch.late{padding:10px 14px;border-radius:12px;background:var(--red-bg);border:1px solid var(--red-bd);color:var(--red-tx)}
+html body:not(#_) .sch.late b,html body:not(#_) .sch.late b.nx{color:inherit}
+html body:not(#_) .tag{display:inline-flex;align-items:center;gap:6px;padding:3px 11px;border-radius:99px;font:600 12px/1.4 var(--bd);background:var(--amb-bg);border:1px solid var(--amb-bd);color:var(--amb-tx)}
+html body:not(#_) .tag.ok{background:var(--grn-bg);border-color:var(--grn-bd);color:var(--grn-tx)}
+html body:not(#_) .tag.w{background:var(--red-bg);border-color:var(--red-bd);color:var(--red-tx)}
+html body:not(#_) .pdg{background:var(--amb-bg);border:1px solid var(--amb-bd);color:var(--amb-tx);border-radius:99px}
+html body:not(#_) .okt{color:var(--grn-tx);font-weight:650}
+html body:not(#_) .gtab td.n.ow,html body:not(#_) .gtab td.ow{color:var(--red-tx);font-weight:750}
+
+/* ---------- 4) BARRAS DE PROGRESSO: pontas redondas, degradê suave e brilho discreto ---------- */
+html body:not(#_) :is(.bar,.cb,.mbar){background:var(--bar-trk);border-radius:99px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.28)}
+html[data-theme="light"] body:not(#_) :is(.bar,.cb,.mbar){box-shadow:inset 0 1px 2px rgba(15,27,51,.12)}
+html body:not(#_) :is(.bar,.cb){height:8px}
+html body:not(#_) .bar{margin:14px 0 8px}
+html body:not(#_) .mbar{height:8px}
+html body:not(#_) :is(.bar,.cb,.mbar) i{display:block;height:100%;border-radius:99px;background:var(--bar-fill)!important;box-shadow:0 0 14px -3px rgba(47,140,255,.6);transition:width .6s var(--ease),filter .2s var(--ease)}
+html body:not(#_) .bar i[style*="var(--ow)"]{background:var(--bar-bad)!important;box-shadow:0 0 14px -3px rgba(255,92,110,.55)}
+html body:not(#_) .mbar i{background:linear-gradient(90deg,#2f8cff,#3fd07a)!important;box-shadow:none}
+html body:not(#_) .pt .bar{height:5px;margin:8px 0 0;background:rgba(255,255,255,.22);box-shadow:none}
+html body:not(#_) .pt .bar i{box-shadow:none}
+html[data-theme="light"] body:not(#_) :is(.bar,.cb,.mbar) i{box-shadow:none}
+
+/* ---------- 5) TABELA E NÚMEROS ALINHADOS (computador) ---------- */
+@media(min-width:761px){
+  html body:not(#_) .gtab{min-width:0;width:100%;border-collapse:separate;border-spacing:0;font-size:14px;font-variant-numeric:tabular-nums lining-nums}
+  html body:not(#_) .gtab th{background:color-mix(in srgb,var(--card2) 88%,transparent);border-bottom:1px solid var(--sbd)}
+  html body:not(#_) .gtab th button{padding:14px 12px;font:600 12px/1.25 var(--bd);letter-spacing:.02em;color:var(--mut)}
+  html body:not(#_) .gtab th.n button{text-align:right;margin-left:auto;display:flex;justify-content:flex-end;gap:5px;width:100%}
+  html body:not(#_) .gtab td{padding:14px 12px;border-top:0;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:middle}
+  html[data-theme="light"] body:not(#_) .gtab td{border-bottom-color:rgba(15,27,51,.07)}
+  html body:not(#_) .gtab tbody tr:last-child td{border-bottom:0}
+  html body:not(#_) .gtab td.n{text-align:right;white-space:nowrap}
+  html body:not(#_) .gtab td.cy{color:var(--mut)}
+  html body:not(#_) .gtab td.due{white-space:nowrap}
+  html body:not(#_) .gtab td.due .dd{margin-right:6px;font-weight:600}
+  html body:not(#_) .gtab .c1{min-width:200px;max-width:260px;background:var(--card)}
+  html body:not(#_) .gtab .c1 b{font:700 14.5px/1.3 var(--hd);letter-spacing:-.005em}
+  html body:not(#_) .gtab td.cpg .mbar{width:88px;margin-right:8px}
+  html body:not(#_) .gtab tbody tr{cursor:pointer}
+  html body:not(#_) .gtab tbody tr:hover td{background:rgba(255,255,255,.045)}
+  html[data-theme="light"] body:not(#_) .gtab tbody tr:hover td{background:rgba(15,27,51,.04)}
+  html body:not(#_) .gtab tbody tr:hover td.c1{background:color-mix(in srgb,var(--card) 92%,#fff)}
+  html[data-theme="light"] body:not(#_) .gtab tbody tr:hover td.c1{background:color-mix(in srgb,var(--card) 96%,#0b1220)}
+}
+
+/* ---------- 6) MICROINTERAÇÕES (transição suave igual em tudo) ---------- */
+html body:not(#_) :is(.gc,.kpi,.mc,.lr,.pt,.wc,.vcard,.add,.pillb,.btns button,.btns2 button,.mact button,.dbtn,.cta,.yel,.payc,.ic,.exp,.cpy,.vsw button,.seg button,.fch button,.avt,.sb .links button,.sl,.nfc button,.gtab tbody tr,.gtab td,.tag,.bgp){transition:all .2s var(--ease)}
+@media(hover:hover){
+  html body:not(#_) :is(.gc,.kpi,.mc,.wc,.vcard):hover{transform:translateY(-2px);box-shadow:0 38px 72px -26px rgba(0,0,0,.8),0 22px 40px -22px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)}
+  html[data-theme="light"] body:not(#_) :is(.gc,.kpi,.mc,.wc,.vcard):hover{box-shadow:0 38px 72px -30px rgba(50,50,93,.42),0 22px 40px -26px rgba(0,0,0,.28),inset 0 1px 0 #fff}
+  html body:not(#_) :is(.add,.pillb,.btns button,.btns2 button,.mact button,.dbtn,.cta,.yel,.payc):hover{transform:translateY(-1px)}
+}
+html body:not(#_) :is(.add,.pillb,.btns button,.btns2 button,.mact button,.dbtn,.cta,.yel,.payc,.ic):active{transform:scale(.98);transition-duration:.08s}
+html body:not(#_) :is(a,button,input,select,summary,[tabindex="0"]):focus-visible{outline:2px solid var(--ac-t);outline-offset:2px}
+@media(hover:none){html body:not(#_) :is(.gc,.kpi,.mc,.wc,.vcard):hover{transform:none}}
+
+/* tabela: cabeçalhos podem quebrar em 2 linhas e o "Ano" sai em telas menores, para tudo caber sem rolar para o lado */
+@media(min-width:761px){
+  html body:not(#_) .gtab th,html body:not(#_) .gtab th button{white-space:normal}
+  html body:not(#_) .gtab th button{text-align:left;line-height:1.2}
+  html body:not(#_) .gtab th.n button{text-align:right}
+  html body:not(#_) .gtab td.cpg{white-space:nowrap}
+  html body:not(#_) .gtab td.cpg .mbar{width:64px}
+}
+@media(min-width:761px) and (max-width:1560px){
+  html body:not(#_) .gtab th:nth-child(2),html body:not(#_) .gtab td.cy{display:none}
+  html body:not(#_) .gtab th button{padding:14px 10px}
+  html body:not(#_) .gtab td{padding:14px 10px}
+}
+
+@media(min-width:761px) and (max-width:1440px){
+  html body:not(#_) .gtab .c1{min-width:170px}
+  html body:not(#_) .gtab th button{padding:14px 8px}
+  html body:not(#_) .gtab td{padding:14px 8px}
+}
+@media(min-width:761px) and (max-width:1320px){
+  html body:not(#_) .gtab th:last-child,html body:not(#_) .gtab td.cpg{display:none}   /* o progresso repete "Pagas" e "Falta" */
+}
+
+/* tabela: primeira coluna sem "bloco escuro", nome do jogo mais respirado e cabeçalhos equilibrados */
+@media(min-width:761px){
+  html body:not(#_) .gtab .c1 small{white-space:nowrap}
+  html body:not(#_) .gtab .c1{min-width:204px;max-width:270px}
+  html body:not(#_) .gtab th button{text-wrap:balance}
+}
+@media(min-width:1280px){html body:not(#_) .gtab .c1{position:static;background:transparent}}
+@media(min-width:761px) and (max-width:1500px){
+  html body:not(#_) .gtab th:last-child,html body:not(#_) .gtab td.cpg{display:none}
+  html body:not(#_) .gtab td{padding:14px 10px}
+  html body:not(#_) .gtab th button{padding:14px 10px}
+}
+
+@media(min-width:761px) and (max-width:1320px){
+  html body:not(#_) .gtab .c1{min-width:186px}
+  html body:not(#_) .gtab td,html body:not(#_) .gtab th button{padding-left:8px;padding-right:8px}
+}
+
+/* ajustes finos do respiro */
+:root{--p-mc:22px 18px 20px}
+html[data-dens="cmp"]{--p-mc:12px 14px}
+html body:not(#_) .duo{align-items:start}
+html body:not(#_) .mc b.fp{font-size:clamp(20px,.8vw + 14px,24px)}
+@media(min-width:1340px){html body:not(#_) #sm{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}}
+@media(min-width:761px) and (max-width:1339px){html body:not(#_) #sm{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}}
+@media(min-width:1280px){html body:not(#_) .gtab th.c1{position:static;background:color-mix(in srgb,var(--card2) 88%,transparent)}}
+
+/* card de orçamento: mesma altura do vizinho, conteúdo centralizado e número em destaque */
+@media(min-width:761px){
+  html body:not(#_) .duo{align-items:stretch}
+  html body:not(#_) #bd{display:flex;flex-direction:column;justify-content:center;gap:6px}
+  html body:not(#_) #bd .big{font:800 clamp(30px,1.6vw + 18px,40px)/1.05 var(--hd);letter-spacing:-.03em}
+  html body:not(#_) #bd .rw{gap:22px;margin-bottom:6px}
+}
+
+/* alerta do cartão: texto corrido (não em colunas) com o ponto à esquerda */
+html body:not(#_) .cm>span.ow{display:block;position:relative;padding:11px 14px 11px 34px}
+html body:not(#_) .cm>span.ow::before{position:absolute;left:15px;top:17px;margin:0}
+html body:not(#_) .mc .bgp{min-height:54px;justify-content:center}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -1689,7 +1880,7 @@ function tableRender(){
   $("gt").innerHTML=`<thead><tr>${H("name","Jogo","c1")}${H("year","Ano")}${H("total","Valor total","n")}${H("parc","Parcelas","n")}${H("per",adm?"Parcela p/ pessoa":"Sua parcela","n")}${H("paid",adm?"Pagas":"Suas pagas","n")}${H("rest",adm?"Falta":"Você deve","n")}${H("due","Próx. vencimento")}${H("payer","Pagador")}<th>Progresso</th></tr></thead>
   <tbody>${L.length?L.map(r=>`<tr data-id="${r.g.id}" tabindex="0"><td class="c1"><div class="gtn">${r.g.img?`<img src="${r.g.img}" alt="">`:`<span class="gti">🎮</span>`}<div><b>${esc(r.g.name)}</b><small class="mt">${r.done?"Quitado":"Em aberto"} · ${r.g.members.length} pessoas</small></div></div></td>
   <td data-l="Ano" class="cy">${r.g.year||"—"}</td><td class="n" data-l="Valor total">${brl(r.g.total)}</td><td class="n" data-l="Parcelas">${r.g.parcelas}x</td><td class="n" data-l="${adm?"Parcela p/ pessoa":"Sua parcela"}">${brl(r.p)}</td><td class="n" data-l="${adm?"Pagas":"Suas pagas"}">${r.paid}/${r.tot}</td><td class="n${r.rest>0.004?" ow":""}" data-l="${adm?"Falta":"Você deve"}">${brl(r.rest)}</td>
-  <td class="${r.due&&r.due<today?"ow":""}" data-l="Próx. vencimento">${r.done?"Quitado":r.due?fmt(r.due)+(r.due<today?" · vencida":""):"—"}</td><td data-l="Pagador">${r.g.payer?esc(r.g.payer):"—"}</td>
+  <td class="due${r.due&&r.due<today?" late":""}" data-l="Próx. vencimento">${r.done?`<span class="tag ok">Quitado</span>`:r.due?`<span class="dd">${fmt(r.due)}</span>`+(r.due<today?` <span class="tag w">Vencida</span>`:""):"—"}</td><td data-l="Pagador">${r.g.payer?esc(r.g.payer):"—"}</td>
   <td class="cpg" data-l="Progresso"><span class="mbar" title="${Math.round(r.pct)}% pago"><i style="width:${r.pct}%"></i></span><small class="mt">${Math.round(r.pct)}%</small></td></tr>`).join(""):`<tr><td colspan="10" class="mt" style="padding:18px">Nenhum jogo com esses filtros.</td></tr>`}</tbody>`;
 }
 $("gt").addEventListener("click",e=>{
