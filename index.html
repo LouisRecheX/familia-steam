@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Bebas+Neue&family=Bungee&family=Orbitron:wght@700&family=Pacifico&family=Permanent+Marker&family=Press+Start+2P&family=Righteous&display=swap" rel="stylesheet">
 <meta name="theme-color" content="#0a1220">
 <meta name="mobile-web-app-capable" content="yes">
@@ -17,7 +18,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script>try{document.documentElement.dataset.theme=localStorage.getItem("tema")||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}</script>
-<script>try{const v=JSON.parse(localStorage.getItem("fs-view")||"{}"),r=document.documentElement.dataset;r.sty=v.sty==="classic"?"classic":"glassy";r.lay=["cards","posters","list"].includes(v.lay)?v.lay:"cards";r.zoom=[85,90,100,110,125].includes(+v.zoom)?String(+v.zoom):"100";r.dens=v.dens==="cmp"?"cmp":"cmf";r.fx=v.fx===false?"off":(v.fx===true?"on":((navigator.deviceMemory&&navigator.deviceMemory<=2)||(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<=2)?"off":"on"))}catch(e){}</script>
+<script>try{const v=JSON.parse(localStorage.getItem("fs-view")||"{}"),r=document.documentElement.dataset;r.sty=v.sty==="classic"?"classic":v.sty==="glassy"?"glassy":"leather";r.lay=["cards","posters","list"].includes(v.lay)?v.lay:"cards";r.zoom=[85,90,100,110,125].includes(+v.zoom)?String(+v.zoom):"100";r.dens=v.dens==="cmp"?"cmp":"cmf";r.fx=v.fx===false?"off":(v.fx===true?"on":((navigator.deviceMemory&&navigator.deviceMemory<=2)||(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<=2)?"off":"on"))}catch(e){}</script>
 <style>
 :root{--bg:#0d0e0d;--card:#181918;--card2:#242524;--line:rgba(255,255,255,.09);--tx:#f3f5ef;--mut:#99a094;--ac:#8bd400;--act:#0b1200;--pd:#8bd400;--ow:#ff6b5e;--glow:rgba(139,212,0,.11);--hd:'Space Grotesk','Inter',system-ui,sans-serif;--bd:'Inter',system-ui,sans-serif;--r:8px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
 :root[data-theme="light"]{--bg:#f1f3ee;--card:#fff;--card2:#eceee8;--line:rgba(0,0,0,.09);--tx:#12140f;--mut:#636a5e;--ac:#5f9f00;--act:#fff;--pd:#3f8a00;--ow:#d63a2e;--glow:rgba(95,159,0,.12);color-scheme:light}
@@ -1617,6 +1618,191 @@ html body:not(#_) .subnav button.on{background:transparent;box-shadow:inset 2px 
 html body:not(#_) .subnav button:hover:not(.on){background:rgba(255,255,255,.06);color:var(--tx)}
 html[data-theme="light"] body:not(#_) .subnav button:hover:not(.on){background:rgba(0,0,0,.05)}
 html body:not(#_) .subnav{border-left-color:transparent;margin-left:14px}
+
+/* =====================================================================
+   ESTILO "COURO E FERRO" — interior de carro de luxo antigo:
+   couro escuro com costura, madeira (nogueira), latão e aço escovado.
+   Tudo aqui só vale com  html[data-sty="leather"].
+   ===================================================================== */
+html[data-sty="leather"]{
+  --bg:#12100e;--card:#1c1713;--card2:#251e18;--e3:#2b231c;
+  --line:rgba(214,180,130,.16);--sbd:rgba(214,180,130,.13);
+  --tx:#f1ebe2;--mut:#b3a797;--ac:#c9a56b;--ac-t:#e3c690;--act:#1a1209;
+  --ow:#e9776b;--pd:#8fbf94;--yl:#e3c06a;--yt:#1a1209;--glow:rgba(201,165,107,.09);
+  --btn:rgba(255,235,200,.07);--btnh:rgba(255,235,200,.12);--fld:rgba(255,235,200,.05);--fldb:rgba(214,180,130,.22);
+  --s1:rgba(255,235,200,.045);--s2:rgba(0,0,0,.12);
+  --serif:"Fraunces","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+  --wood:repeating-linear-gradient(91deg,rgba(255,206,140,.05) 0 1px,transparent 1px 5px,rgba(0,0,0,.22) 5px 6px,transparent 6px 11px),repeating-linear-gradient(87deg,rgba(0,0,0,.16) 0 2px,transparent 2px 23px),linear-gradient(180deg,#34241a,#1c130d);
+  --quilt:repeating-linear-gradient(45deg,transparent 0 35px,rgba(0,0,0,.4) 35px 36px,rgba(255,235,200,.07) 36px 37px),repeating-linear-gradient(-45deg,transparent 0 35px,rgba(0,0,0,.4) 35px 36px,rgba(255,235,200,.07) 36px 37px);
+  --gb:linear-gradient(145deg,rgba(227,198,144,.32),rgba(227,198,144,.08) 38%,rgba(227,198,144,.03) 62%,rgba(227,198,144,.16));
+  --gl-bar:var(--wood);--gl-bar-bd:rgba(201,165,107,.4);
+  --gl-btn:linear-gradient(180deg,#434346,#272729);--gl-btn-h:linear-gradient(180deg,#505054,#2f2f32);--gl-btn-bd:rgba(255,255,255,.15);
+  --gl-btn-sh:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -1px 0 rgba(0,0,0,.4),0 2px 6px rgba(0,0,0,.5);
+  --gl-on:linear-gradient(180deg,#d6b985,#a98147);
+  --gl-pri:linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,0) 45%),linear-gradient(180deg,#e4c88f,#b48b49);
+  --gl-pri-sh:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -1px 0 rgba(0,0,0,.25),0 6px 16px rgba(120,86,34,.45);
+  --bar-trk:rgba(0,0,0,.4);--bar-fill:linear-gradient(90deg,#8b6a32,#e3c690);--bar-bad:linear-gradient(90deg,#b5483d,#e9776b);
+  --red-bg:rgba(233,119,107,.12);--red-bd:rgba(233,119,107,.34);--red-tx:#f2a79f;
+  --amb-bg:rgba(227,192,106,.12);--amb-bd:rgba(227,192,106,.34);--amb-tx:#ecc47a;
+  --grn-bg:rgba(143,191,148,.12);--grn-bd:rgba(143,191,148,.34);--grn-tx:#a9d3ad;
+}
+html[data-sty="leather"][data-theme="light"]{
+  --bg:#e7dfd1;--card:#f6efe3;--card2:#eee4d5;--e3:#fbf6ec;
+  --line:rgba(90,60,30,.17);--sbd:rgba(90,60,30,.14);
+  --tx:#241a12;--mut:#6b5b4b;--ac:#8a6a33;--ac-t:#7a5a24;--act:#ffffff;
+  --ow:#b5382c;--pd:#2f6b3f;--yl:#a87a1e;--yt:#ffffff;--glow:rgba(138,106,51,.1);
+  --btn:rgba(90,60,30,.07);--btnh:rgba(90,60,30,.12);--fld:rgba(90,60,30,.05);--fldb:rgba(90,60,30,.22);
+  --s1:rgba(255,255,255,.5);--s2:rgba(255,255,255,.15);
+  --gb:linear-gradient(145deg,rgba(90,60,30,.3),rgba(90,60,30,.08) 38%,rgba(90,60,30,.04) 62%,rgba(90,60,30,.16));
+  --gl-btn:linear-gradient(180deg,#faf5ea,#e6dccb);--gl-btn-h:linear-gradient(180deg,#fffdf7,#efe5d4);--gl-btn-bd:rgba(90,60,30,.25);
+  --gl-btn-sh:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(90,60,30,.12),0 1px 3px rgba(60,40,20,.2);
+  --gl-on:linear-gradient(180deg,#f0dfb8,#d7bb82);
+  --bar-trk:rgba(90,60,30,.14);--bar-fill:linear-gradient(90deg,#7a5a24,#b48b49);
+  --red-bg:rgba(181,56,44,.09);--red-bd:rgba(181,56,44,.3);--red-tx:#a02c21;
+  --amb-bg:rgba(168,122,30,.11);--amb-bd:rgba(168,122,30,.34);--amb-tx:#6e4d08;
+  --grn-bg:rgba(47,107,63,.1);--grn-bd:rgba(47,107,63,.3);--grn-tx:#25593a;
+}
+
+/* fundo: couro escuro com poros, vinheta e um brilho quente no alto */
+html[data-sty="leather"] body{background:radial-gradient(1100px 560px at 50% -12%,var(--glow),transparent 62%),var(--bg)}
+html[data-sty="leather"] #fxbg i{display:none}
+html[data-sty="leather"] #fxbg::before{content:"";position:absolute;inset:0;background:var(--grain);opacity:.5}
+html[data-sty="leather"] #fxbg::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 18%,transparent 42%,rgba(0,0,0,.5))}
+html[data-sty="leather"][data-theme="light"] #fxbg::before{opacity:.22}
+html[data-sty="leather"][data-theme="light"] #fxbg::after{background:radial-gradient(120% 90% at 50% 18%,transparent 50%,rgba(70,45,20,.18))}
+
+/* barra do topo: madeira nogueira com fio de latão (como o painel de um carro) */
+html[data-sty="leather"] body:not(#_) .tb{background:var(--wood);border:0;border-bottom:1px solid var(--gl-bar-bd);box-shadow:0 12px 30px -14px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,225,170,.12);-webkit-backdrop-filter:none;backdrop-filter:none}
+html[data-sty="leather"][data-theme="light"] body:not(#_) .tb{background:repeating-linear-gradient(91deg,rgba(255,206,140,.08) 0 1px,transparent 1px 5px,rgba(70,40,15,.16) 5px 6px,transparent 6px 11px),repeating-linear-gradient(87deg,rgba(70,40,15,.12) 0 2px,transparent 2px 23px),linear-gradient(180deg,#8a6240,#6b4a30)}
+html[data-sty="leather"] .tb h1{font:700 20px var(--serif);color:#f1e4cc;letter-spacing:.01em}
+html[data-sty="leather"] .tbrand{display:none}
+html[data-sty="leather"] .greet{display:block;margin:6px 0 24px}
+html[data-sty="leather"] .greet h2{margin:0;font:800 clamp(28px,1.8vw + 18px,44px)/1.08 var(--serif);letter-spacing:-.01em;color:var(--tx)}
+html[data-sty="leather"] .greet p{margin:10px 0 0;color:var(--mut);font-size:15px;line-height:1.5;max-width:62ch}
+html[data-sty="leather"] #t-jg>.sec h2,html[data-sty="leather"] .sec .sech,html[data-sty="leather"] .duo h2{font-family:var(--serif);font-weight:700;letter-spacing:0}
+
+/* cartões: couro com poros e costura tracejada */
+html[data-sty="leather"] body:not(#_) :is(.gc,.kpi,.panel,.bdg,.mc,.wc,.fc,.vcard,.lr,.card2):not(.mbox .card2){
+  border:1px solid var(--line);border-radius:14px;background-origin:padding-box;background-clip:border-box;
+  background-image:var(--grain),linear-gradient(180deg,rgba(255,235,200,.045),rgba(0,0,0,.16));background-color:var(--card);
+  -webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:inset 0 1px 0 rgba(255,235,200,.07),0 20px 44px -24px rgba(0,0,0,.8);
+  outline:1px dashed rgba(214,180,130,.26);outline-offset:-8px}
+html[data-sty="leather"][data-theme="light"] body:not(#_) :is(.gc,.kpi,.panel,.bdg,.mc,.wc,.fc,.vcard,.lr,.card2):not(.mbox .card2){
+  background-image:var(--grain),linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));box-shadow:inset 0 1px 0 #fff,0 18px 40px -26px rgba(60,40,20,.45);outline-color:rgba(122,90,36,.3)}
+html[data-sty="leather"] body:not(#_) .lr{outline:none}
+html[data-sty="leather"] body:not(#_) .mbox{background-image:var(--grain),linear-gradient(180deg,rgba(255,235,200,.05),rgba(0,0,0,.14));background-color:var(--e3);background-clip:border-box;border:1px solid var(--line);outline:1px dashed rgba(214,180,130,.22);outline-offset:-9px}
+html[data-sty="leather"] .gc .cv,html[data-sty="leather"] .gc img,html[data-sty="leather"] .hcov img{border-radius:8px}
+html[data-sty="leather"] .gc h3{font-family:var(--serif);font-weight:700;letter-spacing:0}
+html[data-sty="leather"] .mc h3{font-family:var(--serif);font-weight:700}
+html[data-sty="leather"] body:not(#_) .mbox h2{font-family:var(--serif);letter-spacing:0}
+html[data-sty="leather"] .lgc h1{font-family:var(--serif)}
+
+/* banner: painel de couro acolchoado (losangos) com costura e moldura de latão */
+html[data-sty="leather"] body:not(#_):not(#_) .hero{border:1px solid rgba(201,165,107,.34);border-radius:16px;background:var(--quilt),linear-gradient(135deg,#221a14,#130e0b);background-color:#140f0c;color:#f4ecde;outline:1px dashed rgba(214,180,130,.32);outline-offset:-10px;box-shadow:0 24px 60px -28px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,235,200,.1)}
+html[data-sty="leather"] body:not(#_):not(#_) .hero::before,html[data-sty="leather"] body:not(#_):not(#_) .hero::after{display:none}
+html[data-sty="leather"] .hero .hb h2{font-family:var(--serif);font-weight:800;letter-spacing:-.01em}
+html[data-sty="leather"] .hero .hcov{outline:1px solid rgba(201,165,107,.55);outline-offset:4px;border-radius:8px}
+html[data-sty="leather"] body:not(#_) .hero .pill{background:transparent!important;border:1px solid rgba(201,165,107,.55)!important;color:var(--ac-t)!important;border-radius:3px;font-size:11px;letter-spacing:.14em;box-shadow:none}
+html[data-sty="leather"] body:not(#_) .hero .pill.late{border-color:rgba(233,119,107,.65)!important;color:#f2a79f!important}
+html[data-sty="leather"] body:not(#_) .hero .pill.alt{border-color:rgba(255,255,255,.22)!important;color:#d9cdbb!important}
+html[data-sty="leather"] body:not(#_) .hero .pill.okp{border-color:rgba(143,191,148,.6)!important;color:#a9d3ad!important}
+html[data-sty="leather"] body:not(#_) .hnext{background:rgba(0,0,0,.24);border:1px solid var(--line);border-radius:12px;padding:18px 20px;box-shadow:none}
+html[data-sty="leather"] .hnext .eb{font:700 11px var(--bd);letter-spacing:.16em;text-transform:uppercase;color:var(--ac-t)}
+html[data-sty="leather"] .hnext .hi{border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;padding:12px 2px}
+html[data-sty="leather"] .hnext .hi:last-child{border-bottom:0}
+html[data-sty="leather"] body:not(#_) .hero .hnext .hi span{color:var(--ac-t)}
+html[data-sty="leather"] body:not(#_) .hero .hdot.on{background:var(--ac)}
+
+/* cartões de estatística: selo de latão com ícone */
+html[data-sty="leather"] .kpi::before{content:"";display:block;flex:none;width:40px;height:40px;margin-bottom:4px;border-radius:50%;border:1px solid rgba(201,165,107,.5);background-color:rgba(201,165,107,.09);background-repeat:no-repeat;background-position:center;background-size:20px}
+html[data-sty="leather"][data-theme="light"] .kpi::before{border-color:rgba(122,90,36,.5);background-color:rgba(122,90,36,.08)}
+html[data-sty="leather"] .kpi:nth-child(1)::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3c690' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 8h12l-1 12H7L6 8z'/%3E%3Cpath d='M9 8V6a3 3 0 0 1 6 0v2'/%3E%3C/svg%3E")}
+html[data-sty="leather"][data-theme="light"] .kpi:nth-child(1)::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a5a24' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 8h12l-1 12H7L6 8z'/%3E%3Cpath d='M9 8V6a3 3 0 0 1 6 0v2'/%3E%3C/svg%3E")}
+html[data-sty="leather"] .kpi:nth-child(2)::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3c690' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M8 12.5l2.7 2.7L16 9.5'/%3E%3C/svg%3E")}
+html[data-sty="leather"][data-theme="light"] .kpi:nth-child(2)::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a5a24' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M8 12.5l2.7 2.7L16 9.5'/%3E%3C/svg%3E")}
+html[data-sty="leather"] .kpi:nth-child(3)::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3c690' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E")}
+html[data-sty="leather"][data-theme="light"] .kpi:nth-child(3)::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a5a24' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E")}
+html[data-sty="leather"] .kpi:nth-child(4)::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3c690' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='5' width='16' height='15' rx='3'/%3E%3Cpath d='M8 3v4M16 3v4M4 10h16'/%3E%3C/svg%3E")}
+html[data-sty="leather"][data-theme="light"] .kpi:nth-child(4)::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a5a24' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='5' width='16' height='15' rx='3'/%3E%3Cpath d='M8 3v4M16 3v4M4 10h16'/%3E%3C/svg%3E")}
+
+/* botões: aço escovado com borda serrilhada (redondos) e latão nos principais */
+html[data-sty="leather"] body:not(#_) :is(.add,.payc,.yel,.pillb.pri,.mact button.pri,.cta,.lra .cta.sm){background:var(--gl-pri);border:1px solid rgba(255,235,190,.5);box-shadow:var(--gl-pri-sh);color:#1a1209;font-weight:700}
+html[data-sty="leather"] body:not(#_) :is(.vsw button.on,.seg button.on,.nfc button.on,.prvt[aria-pressed="true"]){background:var(--gl-pri);border-color:rgba(255,235,190,.5);box-shadow:var(--gl-pri-sh);color:#1a1209}
+html[data-sty="leather"] body:not(#_) .tb .ic{width:40px;height:40px;border:2px solid transparent;background:linear-gradient(#3d3d40,#232325) padding-box,repeating-conic-gradient(#9a9a9e 0 5deg,#4a4a4e 5deg 10deg) border-box;box-shadow:0 3px 8px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.18);color:#efe7d9}
+html[data-sty="leather"] body:not(#_) .tb .ic:hover{background:linear-gradient(#4a4a4e,#2a2a2d) padding-box,repeating-conic-gradient(#b4b4b8 0 5deg,#5a5a5e 5deg 10deg) border-box}
+html[data-sty="leather"] body:not(#_) .tb .pillb{color:#f1e4cc}
+html[data-sty="leather"] body:not(#_) :is(.avtabs,.fch,.vsw,.seg){background:rgba(0,0,0,.3);border:1px solid var(--line);box-shadow:inset 0 1px 3px rgba(0,0,0,.5)}
+html[data-sty="leather"][data-theme="light"] body:not(#_) :is(.avtabs,.fch,.vsw,.seg){background:rgba(90,60,30,.08);box-shadow:inset 0 1px 2px rgba(60,40,20,.2)}
+html[data-sty="leather"] body:not(#_) :is(.fch button.on,.avt.on){background:var(--gl-on);color:#1a1209;border-color:rgba(255,235,190,.45)}
+html[data-sty="leather"] .avt.on svg{color:#1a1209}
+
+/* tabela e dados */
+html[data-sty="leather"] body:not(#_) .gtab th{background:rgba(0,0,0,.22);border-bottom:1px solid var(--line)}
+html[data-sty="leather"][data-theme="light"] body:not(#_) .gtab th{background:rgba(90,60,30,.07)}
+html[data-sty="leather"] body:not(#_) .gtab th button{text-transform:uppercase;letter-spacing:.1em;font-size:11px}
+html[data-sty="leather"] body:not(#_) .gtab td{border-bottom-color:rgba(214,180,130,.11)}
+html[data-sty="leather"] body:not(#_) .gtab .c1{background:transparent}
+html[data-sty="leather"] body:not(#_) .pillnav button svg{display:none}
+html[data-sty="leather"] body:not(#_) .jnav{background:transparent}
+
+/* computador: sem barra lateral; marca à esquerda, navegação em texto no centro, atalhos em faixa abaixo */
+@media(min-width:821px){
+  html[data-sty="leather"] .shell{display:block}
+  html[data-sty="leather"] .sb{display:none}
+  html[data-sty="leather"] .mainc{padding-left:0}
+  html[data-sty="leather"] body:not(#_) .tb{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;height:66px;padding:0 36px}
+  html[data-sty="leather"] .tb h1{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  html[data-sty="leather"] .tbrand{display:flex;align-items:center;gap:11px;grid-column:1;font:700 17px var(--serif);letter-spacing:.01em;color:#f1e4cc;white-space:nowrap}
+  html[data-sty="leather"] .tbrand .logo{width:28px;height:28px;object-fit:contain}
+  html[data-sty="leather"] .tb .nr{grid-column:3;justify-self:end}
+  html[data-sty="leather"] body:not(#_) .pillnav{display:flex;flex-direction:row;grid-column:2;gap:2px;padding:0;margin:0;background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+  html[data-sty="leather"] body:not(#_) .pillnav button{display:inline-flex;align-items:center;width:auto;height:66px;padding:0 20px;border:0;border-bottom:3px solid transparent;border-radius:0;background:transparent;box-shadow:none;color:#cbbba5;font:700 12.5px var(--bd);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+  html[data-sty="leather"] body:not(#_) .pillnav button:hover{color:#fff;background:rgba(255,235,200,.06)}
+  html[data-sty="leather"] body:not(#_) .pillnav button.on{color:#f6e7c8;border-bottom-color:var(--ac);background:linear-gradient(180deg,transparent,rgba(201,165,107,.14))}
+  html[data-sty="leather"] .content{padding-top:8px}
+  html[data-sty="leather"] body:not(#_) .jnav{display:flex;position:sticky;top:66px;z-index:15;gap:2px;margin:0 0 20px;padding:0;overflow-x:auto;border:0;border-bottom:1px solid var(--line);border-radius:0;background:var(--bg);box-shadow:none}
+  html[data-sty="leather"] body:not(#_) .jnav button{padding:13px 16px;border:0;border-bottom:2px solid transparent;border-radius:0;background:transparent;color:var(--mut);font:700 11.5px var(--bd);letter-spacing:.14em;text-transform:uppercase}
+  html[data-sty="leather"] body:not(#_) .jnav button.on{color:var(--ac-t);border-bottom-color:var(--ac);background:transparent}
+  html[data-sty="leather"] body:not(#_) .jnav button:hover:not(.on){color:var(--tx)}
+}
+@media(min-width:821px) and (max-width:1100px){html[data-sty="leather"] .tbrand span{display:none}html[data-sty="leather"] body:not(#_) .pillnav button{padding:0 12px;letter-spacing:.1em}}
+/* celular: barra de baixo em madeira e latão */
+@media(max-width:820px){
+  html[data-sty="leather"] body:not(#_) .sb{background:var(--wood);border:1px solid var(--gl-bar-bd);border-radius:22px}
+  html[data-sty="leather"] body:not(#_) .sb .links button{color:#cbbba5}
+  html[data-sty="leather"] body:not(#_) .sb .links button.on{background:rgba(201,165,107,.22);color:#f6e7c8;border:1px solid rgba(201,165,107,.5)}
+  html[data-sty="leather"] .sb .links button.on svg{color:var(--ac-t)}
+  html[data-sty="leather"] .tb h1{font-size:21px}
+}
+html[data-sty="leather"][data-fx="off"] #fxbg{display:none}
+
+/* conteúdo centralizado, como num site editorial */
+@media(min-width:821px){
+  html[data-sty="leather"] .content{max-width:1260px;margin-left:auto;margin-right:auto;padding-left:36px;padding-right:36px}
+}
+
+/* tema claro: couro creme com poros leves, madeira mais escura e destaques do banner sempre em latão claro */
+html[data-sty="leather"][data-theme="light"]{--grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.25 0 0 0 0 0.16 0 0 0 0 0.08 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+  --wood:repeating-linear-gradient(91deg,rgba(255,206,140,.07) 0 1px,transparent 1px 5px,rgba(0,0,0,.22) 5px 6px,transparent 6px 11px),repeating-linear-gradient(87deg,rgba(0,0,0,.16) 0 2px,transparent 2px 23px),linear-gradient(180deg,#6a4630,#4a301f)}
+html[data-sty="leather"][data-theme="light"] body:not(#_) .tb{background:var(--wood)}
+html[data-sty="leather"] body:not(#_) .tb .pillb,html[data-sty="leather"] .tb h1,html[data-sty="leather"] .tbrand{color:#f3e6cd}
+html[data-sty="leather"][data-theme="light"] body:not(#_) .pillnav button{color:#eadcc3}
+html[data-sty="leather"][data-theme="light"] body:not(#_) .pillnav button.on{color:#fff3d6}
+html[data-sty="leather"] body:not(#_) .hero .hnext .eb,html[data-sty="leather"] body:not(#_) .hero .hnext .hi span,html[data-sty="leather"] body:not(#_) .hero .pill{color:#e3c690!important}
+html[data-sty="leather"] body:not(#_) .hero .pill.late{color:#f2a79f!important}
+html[data-sty="leather"] body:not(#_) .hero .pill.alt{color:#d9cdbb!important}
+html[data-sty="leather"] body:not(#_) .hero .pill.okp{color:#a9d3ad!important}
+html[data-sty="leather"] body:not(#_) .hero .hdot.on{background:#c9a56b}
+html[data-sty="leather"] .kpiw h2{font-family:var(--serif);font-weight:700;letter-spacing:0}
+
+/* a marca do topo só existe no estilo Couro e ferro (no computador) */
+.tbrand{display:none}
+@media(min-width:821px){
+  html[data-sty="leather"] .tbrand{display:flex}
+  /* os atalhos rolam até a seção sem ela ficar escondida atrás da barra de madeira e da faixa de atalhos */
+  html[data-sty="leather"] #t-jg>*{scroll-margin-top:136px}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -1665,7 +1851,7 @@ html body:not(#_) .subnav{border-left-color:transparent;margin-left:14px}
 <div class="spacer"></div>
 </aside>
 <div class="mainc">
-<header class="tb"><h1 id="pgt">Jogos</h1>
+<header class="tb"><div class="tbrand" id="tbrand"><img class="logo" src="img/steam.png" alt="" onerror="this.outerHTML='<i></i>'"><span>Família Steam</span></div><h1 id="pgt">Jogos</h1>
 <nav class="pillnav links" id="pillnav" aria-label="Seções do app"><button class="on" data-t="jg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M8 10v4M6 12h4"/><circle cx="16" cy="11" r="1"/><circle cx="18" cy="13" r="1"/></svg><span>Jogos</span></button><button data-t="vt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/></svg><span>Votação</span></button><button data-t="wl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.600-7 10-7 10z"/></svg><span>Wishlist</span></button><button data-t="pf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.600 3.400-5.500 6.500-5.500s5.700 1.900 6.500 5.500"/><path d="M16 4.500a3.500 3.500 0 0 1 0 7M18 14.800c1.800.8 3 2.600 3.500 5.200"/></svg><span>Perfis</span></button></nav>
 <div class="nr"><button class="pillb" id="inst" hidden>Instalar app</button><button class="ic" id="dsp" aria-label="Opções de exibição" aria-haspopup="dialog" aria-expanded="false" title="Exibição"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button><button class="ic" id="th" aria-label="Alternar tema claro e escuro">◐</button>
 <button class="ic" id="bell" aria-label="Notificações" aria-haspopup="dialog" aria-expanded="false"><img id="bellimg" class="bellimg" src="img/no-notification.png" alt="" onerror="this.replaceWith(document.createTextNode('🔔'))"><span id="bc" hidden></span></button>
@@ -1803,7 +1989,7 @@ html body:not(#_) .subnav{border-left-color:transparent;margin-left:14px}
 <div id="nf" hidden role="dialog" aria-label="Notificações"></div>
 <div id="dspp" hidden role="dialog" aria-label="Opções de exibição">
 <div class="dph"><b>Exibição</b><button type="button" class="dpx" data-dx aria-label="Fechar">×</button></div>
-<div class="dpg"><div class="dpl">Estilo da interface</div><div class="seg" data-vk="sty" role="group"><button type="button" data-v="glassy" aria-pressed="false">Glassy (vidro)</button><button type="button" data-v="classic" aria-pressed="false">Clássico</button></div><small class="mt">Glassy: cartões de vidro sobre um fundo colorido, menu lateral só de ícones e navegação em pílula no topo.</small></div>
+<div class="dpg"><div class="dpl">Estilo da interface</div><div class="seg" data-vk="sty" role="group"><button type="button" data-v="leather" aria-pressed="false">Couro e ferro</button><button type="button" data-v="glassy" aria-pressed="false">Glassy (vidro)</button><button type="button" data-v="classic" aria-pressed="false">Clássico</button></div><small class="mt">Couro e ferro: couro escuro com costura, madeira, latão e aço; navegação em texto no topo. Glassy: cartões de vidro. Clássico: o visual original.</small></div>
 <div class="dpg"><div class="dpl">Jogos em</div><div class="seg" data-vk="lay" role="group"><button type="button" data-v="cards" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="18" rx="2.2"/><rect x="13" y="3" width="8" height="18" rx="2.2"/></svg>Cartões</button><button type="button" data-v="posters" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="5" height="8" rx="1.3"/><rect x="9.5" y="3" width="5" height="8" rx="1.3"/><rect x="16" y="3" width="5" height="8" rx="1.3"/><rect x="3" y="13" width="5" height="8" rx="1.3"/><rect x="9.5" y="13" width="5" height="8" rx="1.3"/><rect x="16" y="13" width="5" height="8" rx="1.3"/></svg>Capas</button><button type="button" data-v="list" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4.5" cy="6" r="1.2"/><circle cx="4.5" cy="12" r="1.2"/><circle cx="4.5" cy="18" r="1.2"/></svg>Lista</button></div></div>
 <div class="dpg"><div class="dpl">Tamanho da tela <small id="dzv">100%</small></div><div class="seg" data-vk="zoom" role="group"><button type="button" data-v="85" aria-pressed="false">85%</button><button type="button" data-v="90" aria-pressed="false">90%</button><button type="button" data-v="100" aria-pressed="false">100%</button><button type="button" data-v="110" aria-pressed="false">110%</button><button type="button" data-v="125" aria-pressed="false">125%</button></div><small class="mt">Menos zoom mostra mais coisas na tela ao mesmo tempo.</small></div>
 <div class="dpg"><div class="dpl">Densidade</div><div class="seg" data-vk="dens" role="group"><button type="button" data-v="cmf" aria-pressed="false">Confortável</button><button type="button" data-v="cmp" aria-pressed="false">Compacta</button></div></div>
@@ -2501,8 +2687,8 @@ function greetRender(){
 })();
 
 /* ---------- opções de exibição (layout, zoom, densidade, efeitos) ---------- */
-const VKEY="fs-view",VOK={sty:["glassy","classic"],lay:["cards","posters","list"],zoom:[85,90,100,110,125],dens:["cmf","cmp"]};
-let view={sty:"glassy",lay:"cards",zoom:100,dens:"cmf",fx:true};
+const VKEY="fs-view",VOK={sty:["leather","glassy","classic"],lay:["cards","posters","list"],zoom:[85,90,100,110,125],dens:["cmf","cmp"]};
+let view={sty:"leather",lay:"cards",zoom:100,dens:"cmf",fx:true};
 try{const v=JSON.parse(localStorage.getItem(VKEY)||"{}");if(VOK.sty.includes(v.sty))view.sty=v.sty;if(VOK.lay.includes(v.lay))view.lay=v.lay;if(VOK.zoom.includes(+v.zoom))view.zoom=+v.zoom;if(VOK.dens.includes(v.dens))view.dens=v.dens;if(v.fx===false)view.fx=false;else if(v.fx!==true&&((navigator.deviceMemory&&navigator.deviceMemory<=2)||(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<=2)))view.fx=false}catch(_){}
 function applyView(){const r=document.documentElement.dataset;r.sty=view.sty;r.lay=view.lay;r.zoom=String(view.zoom);r.dens=view.dens;r.fx=view.fx?"on":"off";try{localStorage.setItem(VKEY,JSON.stringify(view))}catch(_){}}
 function viewRender(){
@@ -2524,7 +2710,7 @@ $("dspp").addEventListener("click",e=>{
   e.stopPropagation();
   if(e.target.closest("[data-dx]"))return dspClose();
   if(e.target.closest("#fxsw")){view.fx=!view.fx;applyView();viewRender();return}
-  if(e.target.closest("#vreset")){view={sty:"glassy",lay:"cards",zoom:100,dens:"cmf",fx:true};applyView();viewRender();gridRender();return}
+  if(e.target.closest("#vreset")){view={sty:"leather",lay:"cards",zoom:100,dens:"cmf",fx:true};applyView();viewRender();gridRender();return}
   const b=e.target.closest("[data-v]");if(!b)return;const k=b.closest("[data-vk]").dataset.vk,v=b.dataset.v;
   if(k==="theme")return setTheme(v);
   if(k==="sty"){view.sty=v}else if(k==="lay"){view.lay=v}else if(k==="zoom"){view.zoom=+v}else if(k==="dens"){view.dens=v}
