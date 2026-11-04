@@ -1803,6 +1803,27 @@ html[data-sty="leather"] .kpiw h2{font-family:var(--serif);font-weight:700;lette
   /* os atalhos rolam até a seção sem ela ficar escondida atrás da barra de madeira e da faixa de atalhos */
   html[data-sty="leather"] #t-jg>*{scroll-margin-top:136px}
 }
+
+/* =====================================================================
+   LISTA SUSPENSA MODERNA (substitui a caixa nativa no computador)
+   ===================================================================== */
+.csel{position:fixed;z-index:300;max-height:min(320px,calc(100vh - 24px));overflow-y:auto;padding:6px;border-radius:16px;background:var(--e3);border:1px solid var(--line);box-shadow:0 28px 60px -18px rgba(0,0,0,.7),0 10px 24px -12px rgba(0,0,0,.5);animation:cselIn .16s var(--ease)}
+@keyframes cselIn{from{opacity:0;transform:translateY(-6px) scale(.98)}to{opacity:1;transform:none}}
+.csel::-webkit-scrollbar{width:8px}.csel::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}
+.cso{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 12px;border-radius:11px;color:var(--tx);font:500 14.5px/1.3 var(--bd);cursor:pointer;white-space:nowrap;transition:background .12s var(--ease)}
+.cso.act{background:var(--btnh)}
+.cso.dis{opacity:.4;cursor:not-allowed}
+.cso[aria-selected="true"]{color:var(--ac-t);font-weight:700}
+.cso[aria-selected="true"]::after{content:"";flex:none;width:16px;height:16px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat}
+select[aria-expanded="true"]{border-color:var(--ac)}
+html[data-theme="light"] .csel{box-shadow:0 26px 56px -20px rgba(40,40,70,.4),0 8px 20px -12px rgba(0,0,0,.25)}
+html[data-sty="glassy"] .csel{background:rgba(14,15,17,.8);border-color:var(--gl-bd);-webkit-backdrop-filter:blur(26px) saturate(165%);backdrop-filter:blur(26px) saturate(165%)}
+html[data-sty="glassy"][data-theme="light"] .csel{background:rgba(255,255,255,.82)}
+html[data-sty="leather"] .csel{background-image:var(--grain),linear-gradient(180deg,rgba(255,235,200,.05),rgba(0,0,0,.14));background-color:var(--e3);border-color:rgba(201,165,107,.4);outline:1px dashed rgba(214,180,130,.22);outline-offset:-5px}
+html[data-sty="leather"] .cso{font-size:14px}
+html[data-sty="leather"] .cso.act{background:rgba(201,165,107,.16)}
+html[data-sty="leather"][data-theme="light"] .csel{outline-color:rgba(122,90,36,.28)}
+html[data-fx="off"] .csel{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -2652,6 +2673,69 @@ function greetRender(){
 }
 /* fundo com foto (opcional): se existir img/fundo-glassy.jpg, ele vira o fundo do estilo Glassy (o antigo img/fundo.jpg não é usado) */
 (function(){const im=new Image();im.onload=()=>document.documentElement.style.setProperty("--fundo-img",'url("img/fundo-glassy.jpg")');im.src="img/fundo-glassy.jpg"})();
+
+/* ---------- listas suspensas modernas (no computador, no lugar da caixa branca nativa do navegador) ---------- */
+(function(){
+  const fine=matchMedia("(pointer:fine)");
+  let pop=null,cur=null,act=-1,its=[];
+  const ok=el=>!!el&&el.tagName==="SELECT"&&!el.multiple&&!(el.size>1)&&!el.disabled&&!el.hidden&&!el.closest("[data-native]")&&fine.matches;
+  function close(refocus){
+    if(!pop)return;pop.remove();pop=null;
+    if(cur){cur.removeAttribute("aria-expanded");if(refocus!==false&&document.contains(cur))try{cur.focus({preventScroll:true})}catch(_){}}
+    cur=null;act=-1;its=[];
+  }
+  function setAct(i,scroll){
+    if(!its.length)return;act=Math.max(0,Math.min(its.length-1,i));
+    its.forEach((d,k)=>d.classList.toggle("act",k===act));
+    if(scroll)its[act].scrollIntoView({block:"nearest"});
+    if(cur)cur.setAttribute("aria-activedescendant",its[act].id);
+  }
+  function place(){
+    if(!pop||!cur)return;const r=cur.getBoundingClientRect();
+    pop.style.minWidth=Math.max(r.width,190)+"px";
+    const w=pop.offsetWidth,h=pop.offsetHeight;
+    let left=r.left;if(left+w>innerWidth-10)left=Math.max(10,innerWidth-10-w);
+    let top=r.bottom+8;if(top+h>innerHeight-10&&r.top-h-8>10)top=r.top-h-8;
+    pop.style.left=left+"px";pop.style.top=Math.max(10,top)+"px";
+  }
+  function open(sel){
+    close(false);cur=sel;sel.setAttribute("aria-expanded","true");
+    pop=document.createElement("div");pop.className="csel";pop.setAttribute("role","listbox");
+    its=[...sel.options].map((o,i)=>{const d=document.createElement("div");d.className="cso"+(o.disabled?" dis":"");d.id="cso-"+i;d.setAttribute("role","option");d.setAttribute("aria-selected",o.selected?"true":"false");d.dataset.i=i;const t=document.createElement("span");t.textContent=o.textContent;d.appendChild(t);pop.appendChild(d);return d});
+    document.body.appendChild(pop);place();setAct(Math.max(0,sel.selectedIndex),true);
+  }
+  function choose(i){
+    const sel=cur;if(!sel)return;const o=sel.options[i];if(!o||o.disabled)return;
+    const mudou=sel.selectedIndex!==i;sel.selectedIndex=i;close();
+    if(mudou){sel.dispatchEvent(new Event("input",{bubbles:true}));sel.dispatchEvent(new Event("change",{bubbles:true}))}
+  }
+  document.addEventListener("mousedown",e=>{
+    if(pop&&pop.contains(e.target)){e.preventDefault();return}
+    const sel=e.target.closest&&e.target.closest("select");
+    if(e.button===0&&ok(sel)){e.preventDefault();try{sel.focus({preventScroll:true})}catch(_){}pop&&cur===sel?close():open(sel);return}
+    if(pop)close(false);
+  },true);
+  document.addEventListener("click",e=>{const d=pop&&e.target.closest&&e.target.closest(".cso");if(d){e.preventDefault();choose(+d.dataset.i)}},true);
+  document.addEventListener("mousemove",e=>{const d=pop&&e.target.closest&&e.target.closest(".cso");if(d&&!d.classList.contains("dis"))setAct(+d.dataset.i,false)});
+  document.addEventListener("keydown",e=>{
+    if(pop){
+      const k=e.key;
+      if(k==="Escape"){e.preventDefault();e.stopPropagation();close();return}
+      if(k==="Tab"){close(false);return}
+      if(k==="ArrowDown"||k==="ArrowUp"||k==="Home"||k==="End"||k==="PageDown"||k==="PageUp"){
+        e.preventDefault();e.stopPropagation();
+        setAct(k==="ArrowDown"?act+1:k==="ArrowUp"?act-1:k==="Home"?0:k==="End"?its.length-1:k==="PageDown"?act+5:act-5,true);return}
+      if(k==="Enter"||k===" "){e.preventDefault();e.stopPropagation();choose(act);return}
+      if(k.length===1){const q=k.toLowerCase(),n=its.length;for(let j=1;j<=n;j++){const i=(act+j)%n;if(its[i].textContent.trim().toLowerCase().startsWith(q)){setAct(i,true);break}}e.preventDefault();return}
+      return;
+    }
+    const sel=e.target;
+    if(ok(sel)&&(e.key===" "||e.key==="Enter"||e.key==="F4"||(e.altKey&&(e.key==="ArrowDown"||e.key==="ArrowUp")))){e.preventDefault();e.stopPropagation();open(sel)}
+  },true);
+  addEventListener("resize",()=>close(false));
+  addEventListener("blur",()=>close(false));
+  document.addEventListener("scroll",e=>{if(pop&&!(e.target&&e.target.nodeType===1&&pop.contains(e.target)))close(false)},true);
+})();
 
 /* ---------- foco nas janelas (teclado e leitor de tela) ---------- */
 (function(){
