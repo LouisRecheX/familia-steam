@@ -1824,6 +1824,23 @@ html[data-sty="leather"] .cso{font-size:14px}
 html[data-sty="leather"] .cso.act{background:rgba(201,165,107,.16)}
 html[data-sty="leather"][data-theme="light"] .csel{outline-color:rgba(122,90,36,.28)}
 html[data-fx="off"] .csel{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+
+/* =====================================================================
+   CAMPOS NATIVOS NO MESMO VISUAL: arquivo, data, caixas de marcar e rolagem
+   ===================================================================== */
+html body:not(#_) input[type=file]{width:100%;box-sizing:border-box;padding:8px;border:1px dashed var(--fldb);border-radius:16px;background:var(--fld);color:var(--mut);font:500 13.5px/1.4 var(--bd);cursor:pointer;transition:all .2s var(--ease)}
+html body:not(#_) input[type=file]:hover{border-color:var(--ac);background:var(--btn);color:var(--tx)}
+html body:not(#_) input[type=file]:focus-visible{outline:2px solid var(--ac-t);outline-offset:2px}
+html body:not(#_) input[type=file]::file-selector-button{margin-right:14px;padding:10px 18px;border:1px solid var(--gl-btn-bd);border-radius:999px;background:var(--gl-btn);box-shadow:var(--gl-btn-sh);color:var(--tx);font:700 13px var(--bd);cursor:pointer;transition:all .2s var(--ease)}
+html body:not(#_) input[type=file]:hover::file-selector-button{background:var(--gl-btn-h);transform:translateY(-1px)}
+html body:not(#_) input[type=file]:active::file-selector-button{transform:scale(.97)}
+html[data-sty="leather"] body:not(#_) input[type=file]{border-color:rgba(214,180,130,.35)}
+html[data-sty="leather"][data-theme="light"] body:not(#_) input[type=file]{border-color:rgba(122,90,36,.4)}
+/* o calendário de datas, a barra de rolagem e as caixas de marcar seguem o tema */
+:root{color-scheme:dark}
+:root[data-theme="light"]{color-scheme:light}
+input[type=checkbox],input[type=radio],input[type=range],progress{accent-color:var(--ac)}
+*{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--mut) 40%,transparent) transparent}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
